@@ -13,7 +13,6 @@
 void clock_init();
 
 uint16_t clock_get_time(uint8_t what);
-void clock_print_datetime();
 
 void clock_delay(uint32_t mils);
 

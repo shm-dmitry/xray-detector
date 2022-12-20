@@ -3,19 +3,27 @@
 #include "rad_control.h"
 #include "display.h"
 
-void RadPage::refresh() {
-  uint32_t rad = rad_control_dose();
+uint32_t page_rad_last;
 
-  Adafruit_ST7735 * tft = display_get_object();
+bool page_rad_refresh() {
+  page_rad_last = rad_control_dose();
+
+  Adafruit_SPITFT * tft = display_get_object();
   tft->setCursor(0, 0);
-  tft->fillScreen(ST77XX_BLACK);
-  tft->setTextColor(ST77XX_WHITE);
-  tft->setTextSize(10);
+  tft->fillScreen(DISPLAY_BLACK);
+  tft->setTextColor(DISPLAY_WHITE);
+  tft->setTextSize(3);
 
-  if (rad == 0) {
+  if (page_rad_last == 0) {
     tft->print("NO DATA");
   } else {
-    tft->print(rad);
+    tft->print(page_rad_last);
     tft->print(" mkR/hour");
   }
+
+  return true;
+}
+
+bool page_rad_need_refresh() {
+  return page_rad_last != rad_control_dose();
 }

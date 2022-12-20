@@ -1,19 +1,11 @@
 #ifndef PAGE_FLASH_H_
 #define PAGE_FLASH_H_
 
-#include "page.h"
-#include "stdint.h"
+#include "stdbool.h"
 
-class FlashPage : public IPage {
-  public:
-    void refresh();
-    bool on_left();
-    bool on_right();
-    void on_click();
-
-  private:
-    uint8_t percent = 0;
-    bool changing = false;
-};
+bool flash_page_refresh();
+bool flash_page_on_left();
+bool flash_page_on_right();
+bool flash_page_on_click();
 
 #endif /* PAGE_FLASH_H_ */

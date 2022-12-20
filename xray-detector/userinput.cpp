@@ -5,9 +5,9 @@
 // PCINT20
 #define USERINPUT_PIN_A       PD4
 // PCINT8
-#define USERINPUT_PIN_B       PC0
+#define USERINPUT_PIN_B       A0
 // PCINT0
-#define USERINPUT_PIN_CLICK   9
+#define USERINPUT_PIN_CLICK   8
 
 #define USERINPUT_BIT_LEFT    0
 #define USERINPUT_BIT_RIGHT   1

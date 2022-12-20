@@ -59,8 +59,6 @@ void uv_control_manualpwm_correct() {
   }
 
   if (nextOCR2B != OCR2B) {
-    Serial.print("Change PWM duty to ");
-    Serial.println(value);
     OCR2B = nextOCR2B;
   }
 }
@@ -77,11 +75,6 @@ inline void uv_control_disable_pwm() {
 }
 
 bool uv_control_update_pwm(uint32_t freq, uint8_t duty) {
-  Serial.print("uv_control_update_pwm : ");
-  Serial.print(freq);
-  Serial.print(" / ");
-  Serial.println(duty);
-  
   OCR2A  = F_CPU / 2 / freq;
 
   uint8_t prev = OCR2B;

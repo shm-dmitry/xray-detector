@@ -6,7 +6,6 @@
 #include "userinput.h"
 #include "pages_control.h"
 
-
 void setup() {
   Serial.begin(9600);
 
@@ -15,10 +14,9 @@ void setup() {
   uv_control_init();
   svf_control_init();
   userinput_init();
-  display_init();
+  display_init(); 
   pages_control_init();
-
-  Serial.println("Setup done");
+  Serial.println("Init done");
 }
 
 void loop() {
@@ -26,4 +24,6 @@ void loop() {
   svf_control_on_main_loop();
   rad_control_on_main_loop();
   pages_on_main_loop();
+
+  clock_delay(5);
 }

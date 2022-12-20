@@ -61,7 +61,7 @@ void clock_on_one_millis() {
   CLOCK_ON_ONE_MILLISECOND_CALLBACKS;
 }
 
-void clock_on_one_second() {
+void clock_on_one_second() {  
   clock_seconds++;
   
   if (clock_seconds >= 60) {
@@ -93,12 +93,12 @@ void clock_on_one_second() {
 }
 
 void clock_init() {
-  TCCR0A = _BV(WGM00);
-  TCCR0B = _BV(WGM02) | _BV(CS00);
+  TCCR0A  = _BV(WGM01);
+  TCCR0B  = _BV(CS00) | _BV(CS01);
 
-  OCR0A  = F_CPU / 2 / 1000;
-
-  TIMSK0 |= (1 << OCIE0A);
+  OCR0A = F_CPU / 64 / 1000 - 1;
+  
+  TIMSK0 |= _BV(OCIE0A);   
 }
 
 uint16_t clock_get_time(uint8_t what) {
@@ -111,20 +111,6 @@ uint16_t clock_get_time(uint8_t what) {
     case CLOCK_TIME_YEAR:   return clock_year + 2000;
     default:                return 0;
   }
-}
-
-void clock_print_datetime() {
-  Serial.print(clock_get_time(CLOCK_TIME_YEAR));
-  Serial.print("-");
-  Serial.print(clock_get_time(CLOCK_TIME_MONTH));
-  Serial.print("-");
-  Serial.print(clock_get_time(CLOCK_TIME_DAY));
-  Serial.print(" ");
-  Serial.print(clock_get_time(CLOCK_TIME_HOUR));
-  Serial.print(":");
-  Serial.print(clock_get_time(CLOCK_TIME_MINUTE));
-  Serial.print(":");
-  Serial.print(clock_get_time(CLOCK_TIME_SECOND));
 }
 
 uint32_t clock_millis() {
