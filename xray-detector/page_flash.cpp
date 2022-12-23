@@ -6,6 +6,11 @@
 uint8_t flash_page_percent = 0;
 bool flash_page_changing = false;
 
+bool flash_page_init() {
+  flash_page_percent = 0;
+  flash_page_changing = false;
+}
+
 bool flash_page_refresh() {
   Adafruit_SPITFT * tft = display_get_object();
   tft->setCursor(0, 0);

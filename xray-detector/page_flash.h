@@ -3,6 +3,7 @@
 
 #include "stdbool.h"
 
+bool flash_page_init();
 bool flash_page_refresh();
 bool flash_page_on_left();
 bool flash_page_on_right();

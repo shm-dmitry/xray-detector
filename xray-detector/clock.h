@@ -16,4 +16,7 @@ uint16_t clock_get_time(uint8_t what);
 
 void clock_delay(uint32_t mils);
 
+uint32_t clock_millis(bool inisr = false);
+uint32_t clock_calc_delay(uint32_t base, uint32_t delta, bool & ovf);
+
 #endif /* CLOCK_H_ */

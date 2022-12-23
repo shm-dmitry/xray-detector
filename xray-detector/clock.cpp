@@ -4,6 +4,7 @@
 #include "uv_control.h"
 #include "rad_control.h"
 #include "svf_control.h"
+#include "alarm_manager.h"
 
 #define CLOCK_MAX_UINT32_T    4294967295
 #define CLOCK_OVF_MILLIS_FIX         296
@@ -15,6 +16,9 @@
 #define CLOCK_ON_ONE_MILLISECOND_CALLBACKS \
   isrcall_svf_control_on_millis();
 
+#define CLOCK_ON_RESET_MILLISECOND_CALLBACKS \
+  isrcall_alarm_manager_onresetmillis();
+
 volatile uint32_t clock_millis_value = 0;
 volatile uint8_t clock_year    = 22;
 volatile uint8_t clock_month   = 12;
@@ -25,11 +29,13 @@ volatile uint8_t clock_seconds = 0;
 
 void clock_on_one_second();
 void clock_on_one_millis();
+void clock_on_reset_millis();
 
 ISR(TIMER0_COMPA_vect) {
   clock_millis_value++; 
   if (clock_millis_value == 0) {
     clock_millis_value = CLOCK_OVF_MILLIS_FIX; 
+    clock_on_reset_millis();
   }
   
   if (clock_millis_value % 1000 == 0) {
@@ -55,6 +61,10 @@ uint8_t clock_days_in_month()
   } else {
     return ds_in_month[(clock_month - 1)];
   }
+}
+
+void clock_on_reset_millis() {
+  CLOCK_ON_RESET_MILLISECOND_CALLBACKS;
 }
 
 void clock_on_one_millis() {
@@ -113,7 +123,11 @@ uint16_t clock_get_time(uint8_t what) {
   }
 }
 
-uint32_t clock_millis() {
+uint32_t clock_millis(bool inisr = false) {
+  if (inisr) {
+    return clock_millis_value;
+  }
+  
   uint8_t oldSREG = SREG;
   cli();
   uint32_t val = clock_millis_value;
@@ -132,4 +146,14 @@ void clock_delay(uint32_t mils) {
   }
 
   while (clock_millis() < next);
+}
+
+uint32_t clock_calc_delay(uint32_t base, uint32_t delta, bool & ovf) {
+  if (base + delta < base) {
+    ovf = true;
+    return (base + delta) + CLOCK_OVF_MILLIS_FIX;
+  } else {
+    ovf = false;
+    return base + delta;
+  }
 }

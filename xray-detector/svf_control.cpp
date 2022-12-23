@@ -13,11 +13,11 @@
 #define SVF_CONTROL_SPEAKER_VOLUME 30
 
 #define SVF_SPEAKER_SINGLE_IMPL   1
-#define SVF_SPEAKER_ALARM         2
+#define SVF_SPEAKER_ALARM1        2
+#define SVF_SPEAKER_ALARM2        3
 #define SVF_VIBRO_SINGLE_IMPL     1
-#define SVF_VIBRO_ALARM           2
-
-inline void svf_control_timer_stop();
+#define SVF_VIBRO_ALARM1          2
+#define SVF_VIBRO_ALARM2          3
 
 typedef struct {
   uint16_t samples_count;
@@ -25,6 +25,9 @@ typedef struct {
   uint16_t play_time_millis;
   uint8_t  id;
 } t_data_sample;
+
+inline void svf_control_timer_stop();
+void svf_control_mute(volatile t_data_sample & obj);
 
 volatile t_data_sample svf_speaker = { 
   .samples_count = 0,
@@ -126,15 +129,7 @@ void isrcall_svf_control_on_millis() {
 bool svf_control_play(volatile t_data_sample & obj, uint8_t id, const uint16_t ** progmem_data) {
   // priority
   if (obj.id < id) {
-    if (obj.id > 0) {
-      Serial.print("Awaiting for a done of ");
-      Serial.print(obj.id);
-      // request for a stop!
-      obj.current_sample   = obj.samples_count;
-      obj.play_time_millis = 1;
-      while (obj.id != 0);
-      Serial.println(" finished!");
-    }
+    svf_control_mute(obj);
 
     obj.current_sample   = 0;
     obj.samples_count    = pgm_read_word(&progmem_data[id - 1][0]);
@@ -155,6 +150,8 @@ void svf_control_play_sound(uint8_t id) {
 
 void svf_control_play_vibro(uint8_t id) {
   if (svf_control_play(svf_vibro, id, SVF_CONTROL_MODELS_VIBRO)) {
+    Serial.print("start vibro#");
+    Serial.println(id);
     svf_control_vibro_next_frame();
   }
 }
@@ -163,16 +160,40 @@ void svf_control_play_sound__impuls() {
   svf_control_play_sound(SVF_SPEAKER_SINGLE_IMPL);
 }
 
-void svf_control_play_sound__alarm() {
-  svf_control_play_sound(SVF_SPEAKER_ALARM);
+void svf_control_play_sound__alarm1() {
+  svf_control_play_sound(SVF_SPEAKER_ALARM1);
+}
+
+void svf_control_play_sound__alarm2() {
+  svf_control_play_sound(SVF_SPEAKER_ALARM2);
 }
 
 void svf_control_play_vibro__impuls() {
   svf_control_play_vibro(SVF_VIBRO_SINGLE_IMPL);
 }
 
-void svf_control_play_vibro__alarm() {
-  svf_control_play_vibro(SVF_VIBRO_ALARM);
+void svf_control_play_vibro__alarm1() {
+  svf_control_play_vibro(SVF_VIBRO_ALARM1);
+}
+
+void svf_control_play_vibro__alarm2() {
+  svf_control_play_vibro(SVF_VIBRO_ALARM2);
+}
+
+void svf_control_mute(volatile t_data_sample & obj) {
+  if (obj.id > 0) {
+    obj.current_sample   = obj.samples_count;
+    obj.play_time_millis = 1;
+    while (obj.play_time_millis != 0);
+  }
+}
+
+void svf_control_sound_mute() {
+  svf_control_mute(svf_speaker);
+}
+
+void svf_control_vibro_mute() {
+  svf_control_mute(svf_vibro);
 }
 
 uint16_t svf_control_read_play_time(volatile t_data_sample & obj) {

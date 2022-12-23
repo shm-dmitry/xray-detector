@@ -4,8 +4,6 @@
 #include "stddef.h"
 #include "stdint.h"
 
-#define UV_CONTROL_TEST_MANUAL  true
-
 void uv_control_init();
 
 // commands
@@ -13,9 +11,7 @@ void uv_control_init();
 inline void uv_control_enable_pwm();
 inline void uv_control_disable_pwm();
 
-#if UV_CONTROL_TEST_MANUAL
-void uv_control_manualpwm_correct();
-#endif
+void uv_control_change_pwm_with_testrun(uint32_t freq, uint8_t duty);
 
 // callbacks
 

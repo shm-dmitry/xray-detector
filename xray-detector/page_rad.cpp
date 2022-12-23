@@ -2,8 +2,9 @@
 
 #include "rad_control.h"
 #include "display.h"
+#include "alarm_manager.h"
 
-uint32_t page_rad_last;
+uint32_t page_rad_last = 0;
 
 bool page_rad_refresh() {
   page_rad_last = rad_control_dose();
@@ -22,6 +23,10 @@ bool page_rad_refresh() {
   }
 
   return true;
+}
+
+bool page_rad_onclick() {
+  alarm_manager_mute_alarm();
 }
 
 bool page_rad_need_refresh() {

@@ -3,19 +3,19 @@
 #include "uv_control.h"
 #include "clock.h"
 #include "svf_control.h"
+#include "alarm_manager.h"
 
 #define RAD_CONTROL_PIN           2
 #define RAD_CONTROL_STORE_POINTS  10
 #define RAD_CONTROL_DOSE_ALARM    20
 
 volatile uint32_t rad_control_counters[RAD_CONTROL_STORE_POINTS] = { 0 };
-volatile bool rad_control_wasimpulse = false;
 
 void isr_rad_control_one_event() {
   rad_control_counters[0]++;
-  rad_control_wasimpulse = true;
 
   isrcall_uv_control_on_impulse();
+  isrcall_alarm_manager_onimpulse();
 }
 
 void rad_control_init() {
@@ -32,7 +32,11 @@ void isrcall_rad_control_on_timer(uint8_t seconds) {
   }
 }
 
-uint32_t rad_control_impulses_last_minute(uint8_t minute) {
+uint32_t rad_control_impulses_last_minute(uint8_t minute, bool isrcall = false) {
+  if (isrcall) {
+    return rad_control_counters[minute];
+  }
+  
   uint8_t oldSREG = SREG;
   cli();
   uint32_t val = rad_control_counters[minute];
@@ -40,10 +44,10 @@ uint32_t rad_control_impulses_last_minute(uint8_t minute) {
   return val;
 }
 
-uint32_t rad_control_dose() {
-  uint32_t checkmin = rad_control_impulses_last_minute(2);
-  uint32_t prevmin  = rad_control_impulses_last_minute(1);
-  uint32_t curmin   = rad_control_impulses_last_minute(0);
+uint32_t rad_control_dose(bool isrcall = false) {
+  uint32_t checkmin = rad_control_impulses_last_minute(2, isrcall);
+  uint32_t prevmin  = rad_control_impulses_last_minute(1, isrcall);
+  uint32_t curmin   = rad_control_impulses_last_minute(0, isrcall);
   uint8_t seconds_passed = clock_get_time(CLOCK_TIME_SECOND);
 
   uint32_t total   = 0;
@@ -64,18 +68,4 @@ uint32_t rad_control_dose() {
   }
 
   return ((total * 60 * 60) / (uint32_t) seconds) / 50;
-}
-
-void rad_control_on_main_loop() {
-  if (rad_control_wasimpulse) {
-    rad_control_wasimpulse = false;
-
-    if (rad_control_dose() > RAD_CONTROL_DOSE_ALARM) {
-      svf_control_play_sound__alarm();
-      svf_control_play_vibro__alarm();
-    } else {
-      svf_control_play_sound__impuls();
-      svf_control_play_vibro__impuls();
-    }
-  }
 }
