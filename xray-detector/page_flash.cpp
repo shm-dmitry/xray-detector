@@ -16,7 +16,7 @@ bool flash_page_refresh() {
   tft->setCursor(0, 0);
   tft->fillScreen(DISPLAY_BLACK);
   tft->setTextColor(DISPLAY_WHITE);
-  tft->setTextSize(10);
+  tft->setTextSize(2);
   if (flash_page_percent == 0) {
     tft->print("OFF");
   } else {

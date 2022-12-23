@@ -35,7 +35,7 @@ bool settings_page_refresh() {
   tft->setCursor(0, 0);
   tft->fillScreen(DISPLAY_BLACK);
   tft->setTextColor(DISPLAY_WHITE);
-  tft->setTextSize(2);
+  tft->setTextSize(1);
 
   if (menu_actual == SETTINGS_PAGE_BACK) {
     tft->print("*");

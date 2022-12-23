@@ -226,6 +226,10 @@ void svf_control_flash(uint8_t percent) {
     TCCR0A &= ~(_BV(COM0B1));
     
     OCR0B = (OCR0A * percent) / 100;
+    Serial.print("OCR0A == ");
+    Serial.print(OCR0A);
+    Serial.print("; OCR0B == ");
+    Serial.println(OCR0B);
 
     if (OCR0B == 0) {
       // nothing to do

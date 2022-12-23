@@ -24,7 +24,7 @@ void setup() {
   powersave_init();
   alarm_manager_init();
   charger_control_init();
-  
+
   Serial.println("Init done");
 }
 

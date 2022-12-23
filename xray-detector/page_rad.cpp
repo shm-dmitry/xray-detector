@@ -13,7 +13,7 @@ bool page_rad_refresh() {
   tft->setCursor(0, 0);
   tft->fillScreen(DISPLAY_BLACK);
   tft->setTextColor(DISPLAY_WHITE);
-  tft->setTextSize(3);
+  tft->setTextSize(2);
 
   if (page_rad_last == 0) {
     tft->print("NO DATA");

@@ -8,7 +8,7 @@ bool page_bat_refresh() {
   tft->setCursor(0, 0);
   tft->fillScreen(DISPLAY_BLACK);
   tft->setTextColor(DISPLAY_WHITE);
-  tft->setTextSize(3);
+  tft->setTextSize(1);
 
   t_charger_data data = { 0 };
   if (charger_control_get_data(data)) {
