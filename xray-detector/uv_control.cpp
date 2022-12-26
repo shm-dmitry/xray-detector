@@ -1,5 +1,6 @@
 #include "uv_control.h"
 #include "eeprom_control.h"
+#include "rad_control.h"
 
 #include "Arduino.h"
 
@@ -7,13 +8,14 @@
 
 #define UV_CONTROL_REFILL_EVERY 50
 #define UV_CONTROL_REFILL_REQ   250
+#define UV_CONTROL_REFILL_REQRS 251
 #define UV_CONTROL_REFILL_DUR   1
 #define UV_CONTROL_REFILL_INIT  10
 
 #define UV_CONTROL_TESTRUN_DUR  5
 
 static volatile uint8_t uv_control_refill_sec = UV_CONTROL_REFILL_INIT;
-static volatile uint8_t uv_control_impulses   = UV_CONTROL_REFILL_REQ;
+static volatile uint8_t uv_control_impulses   = UV_CONTROL_REFILL_REQRS;
 
 bool uv_control_update_pwm(uint32_t freq, uint8_t duty);
 inline void uv_control_enable_pwm();
@@ -64,6 +66,10 @@ bool uv_control_update_pwm(uint32_t freq, uint8_t duty) {
   uint8_t prev = OCR2B;
   OCR2B = (OCR2A * duty) / 100;
   return prev != OCR2B;
+}
+
+bool isrcall_uv_control_is_initialized() {
+  return uv_control_impulses != UV_CONTROL_REFILL_REQRS;
 }
 
 void isrcall_uv_control_on_impulse() {

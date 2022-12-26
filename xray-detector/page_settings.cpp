@@ -114,8 +114,8 @@ bool settings_page_on_left() {
   
   if (menu_actual == SETTINGS_PAGE_UV_FREQ && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     menu_change_value -= 500;
-    if (menu_change_value < 80000) {
-      menu_change_value = 80000;
+    if (menu_change_value < 60000) {
+      menu_change_value = 60000;
     }
 
     eeprom_control_uv uv = { 0 };

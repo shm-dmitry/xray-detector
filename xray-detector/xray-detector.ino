@@ -12,7 +12,9 @@
 
 void setup() {
   Serial.begin(9600);
-
+  
+  clock_init();
+  svf_control_init();
   eeprom_control_init();
   clock_init();
   rad_control_init();

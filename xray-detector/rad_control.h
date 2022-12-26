@@ -5,10 +5,8 @@
 
 void rad_control_init();
 
-void isrcall_rad_control_on_timer(uint8_t seconds);
-
-uint32_t rad_control_impulses_last_minute(uint8_t minute, bool isrcall = false);
-
 uint32_t rad_control_dose(bool isrcall = false);
+
+void isrcall_rad_control_on_timer(uint8_t seconds);
 
 #endif /* RAD_CONTROL_H_ */

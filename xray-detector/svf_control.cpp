@@ -7,8 +7,8 @@
 
 // 10 == PB2
 #define PIN_SPEAKER   10
-#define PIN_VIBRO     PD6
-#define PIN_FLASH     PD5
+#define PIN_VIBRO     6
+#define PIN_FLASH     5
 
 #define SVF_CONTROL_SPEAKER_VOLUME 30
 
@@ -63,7 +63,7 @@ inline void svf_control_timer_stop() {
 }
 
 inline void svf_control_timer_start() {
-  TCCR1B = _BV(WGM13) | _BV(CS10); // F_CPU / 256
+  TCCR1B = _BV(WGM13) | _BV(CS12);
 }
 
 inline void svf_control_vibro_stop() {
@@ -83,8 +83,9 @@ inline void svf_control_speaker_stop() {
 inline void svf_control_speaker_freq(uint16_t freq) {
   svf_control_speaker_stop();
   if (freq > 0) {
-    OCR1A = F_CPU / 2 / freq;
+    OCR1A = F_CPU / 2 / 256 / freq;
     OCR1B = ((uint32_t)OCR1A * (uint32_t)SVF_CONTROL_SPEAKER_VOLUME) / 100;
+    
     TCCR1A |= _BV(COM1B1);
     svf_control_timer_start();
   }
@@ -150,8 +151,6 @@ void svf_control_play_sound(uint8_t id) {
 
 void svf_control_play_vibro(uint8_t id) {
   if (svf_control_play(svf_vibro, id, SVF_CONTROL_MODELS_VIBRO)) {
-    Serial.print("start vibro#");
-    Serial.println(id);
     svf_control_vibro_next_frame();
   }
 }
@@ -226,10 +225,6 @@ void svf_control_flash(uint8_t percent) {
     TCCR0A &= ~(_BV(COM0B1));
     
     OCR0B = (OCR0A * percent) / 100;
-    Serial.print("OCR0A == ");
-    Serial.print(OCR0A);
-    Serial.print("; OCR0B == ");
-    Serial.println(OCR0B);
 
     if (OCR0B == 0) {
       // nothing to do

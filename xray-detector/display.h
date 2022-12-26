@@ -1,7 +1,7 @@
 #ifndef DISPLAY_H_
 #define DISPLAY_H_
 
-#define DISPLAY_SIMUL true
+#define DISPLAY_SIMUL false
 
 #if DISPLAY_SIMUL
 #include <Adafruit_ILI9341.h>

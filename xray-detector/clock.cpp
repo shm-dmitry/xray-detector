@@ -103,8 +103,8 @@ void clock_on_one_second() {
 }
 
 void clock_init() {
-  TCCR0A  = _BV(WGM01);
-  TCCR0B  = _BV(CS00) | _BV(CS01);
+  TCCR0A  = _BV(WGM01) | _BV(WGM00);
+  TCCR0B  = _BV(WGM02) | _BV(CS00) | _BV(CS01);
 
   OCR0A = F_CPU / 64 / 1000 - 1;
   
