@@ -33,9 +33,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.3,
-          "height": 0.5,
-          "width": 0.5
+          "drill": 0.0,
+          "height": 4.7,
+          "width": 4.7
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
@@ -44,7 +44,7 @@
         "silk_text_thickness": 0.15,
         "silk_text_upright": false,
         "zones": {
-          "45_degree_only": false,
+          "45_degree_only": true,
           "min_clearance": 0.508
         }
       },
@@ -56,32 +56,34 @@
         }
       ],
       "drc_exclusions": [
-        "silk_over_copper|102630000|140035000|fceb0003-750a-43a7-bdd3-83e887bd5041|13e6a49c-d576-48eb-8a42-627b8ab31cfc",
-        "silk_over_copper|185510000|122180000|d6e7e083-96c7-4603-8796-aad78d5f6039|c87a4906-157c-4942-ad77-d5f98cfafbce",
-        "silk_over_copper|185510000|136900000|d6e7e083-96c7-4603-8796-aad78d5f6039|0f129667-0ee3-4195-8d89-4b8388fa8c47",
-        "silk_over_copper|55510000|135290000|a8195efb-bf15-4d57-9224-8c338162fa89|080dffa0-9f3b-439f-bc7b-fbbcd932e6b0",
-        "silk_over_copper|55510000|138780000|a8195efb-bf15-4d57-9224-8c338162fa89|1d01916d-4101-4836-8a53-9b3fe425cf43",
-        "silk_over_copper|55510000|138780000|a8195efb-bf15-4d57-9224-8c338162fa89|2f170b2e-85d9-45a8-a222-06758feef180",
-        "silk_over_copper|55510000|138780000|a8195efb-bf15-4d57-9224-8c338162fa89|4e9ed693-eacf-47d0-ac1d-536a9f5dc27f",
-        "silk_over_copper|55510000|138780000|a8195efb-bf15-4d57-9224-8c338162fa89|f12c439d-6130-46bc-a2d5-a7ac91ba2ec5",
-        "silk_over_copper|55510000|76300000|a8195efb-bf15-4d57-9224-8c338162fa89|7e86a3ca-4e2c-42eb-824a-87f853bbd8aa",
-        "silk_over_copper|55510000|76300000|a8195efb-bf15-4d57-9224-8c338162fa89|8a2ab0ec-4de9-4e6b-90b0-4ad0799d18ad",
-        "silk_over_copper|55510000|79790000|a8195efb-bf15-4d57-9224-8c338162fa89|24053006-9fea-45b2-a618-7fc9fd306ffa",
-        "silk_over_copper|55510000|79790000|a8195efb-bf15-4d57-9224-8c338162fa89|eb864d55-9aae-4372-bb6d-99c259b06905",
-        "silk_over_copper|58010000|135290000|080dffa0-9f3b-439f-bc7b-fbbcd932e6b0|2699d312-d1c6-49fd-a533-b9bf17d151ab",
-        "silk_over_copper|58010000|135290000|080dffa0-9f3b-439f-bc7b-fbbcd932e6b0|afb5aa91-eb26-4326-8f97-8c27c30fcc8d",
-        "silk_over_copper|58010000|79790000|eb864d55-9aae-4372-bb6d-99c259b06905|3aeb3cf0-4260-46ad-9231-7a7881738a94",
-        "silk_over_copper|58010000|79790000|eb864d55-9aae-4372-bb6d-99c259b06905|c745c414-6cd2-4558-b17c-e13ad928c6d7",
-        "silk_over_copper|58910000|101240000|9284a36a-17f3-4cfd-be2a-962fc590d1a4|c8a970f3-88b1-46f6-aeb3-74ff5ea69679",
-        "silk_over_copper|58910000|105040001|9284a36a-17f3-4cfd-be2a-962fc590d1a4|06bed2ba-519e-46c0-8041-255abd8585bd",
-        "silk_over_copper|58910000|106639999|9284a36a-17f3-4cfd-be2a-962fc590d1a4|06bed2ba-519e-46c0-8041-255abd8585bd",
-        "silk_over_copper|58910000|109440001|9284a36a-17f3-4cfd-be2a-962fc590d1a4|307e2af3-3718-41c0-b2b1-c826b88cfe8a",
-        "silk_over_copper|58910000|111039999|9284a36a-17f3-4cfd-be2a-962fc590d1a4|307e2af3-3718-41c0-b2b1-c826b88cfe8a",
-        "silk_over_copper|58910000|114840000|9284a36a-17f3-4cfd-be2a-962fc590d1a4|13596f82-8b4c-415f-8d28-b8b80c73bd1e",
-        "silk_over_copper|58910000|117940000|7e210cf7-b500-49d3-ba6b-5755ff336d8b|9284a36a-17f3-4cfd-be2a-962fc590d1a4",
-        "silk_over_copper|81110000|117940000|7e210cf7-b500-49d3-ba6b-5755ff336d8b|72470241-e87e-4d60-a026-e24026519a42",
-        "silk_over_copper|94890000|140035000|fceb0003-750a-43a7-bdd3-83e887bd5041|38688fc8-eb1f-4a3f-b67a-fe92bfd12242",
-        "silk_over_copper|94890000|140035000|fceb0003-750a-43a7-bdd3-83e887bd5041|dc43c164-043b-4030-999b-3107583bf306"
+        "silk_over_copper|102630000|140035000|fceb0003-750a-43a7-bdd3-83e887bd5041|d4b75723-16ab-41a0-b33d-367a4e42b80f",
+        "silk_over_copper|185510000|122180000|d6e7e083-96c7-4603-8796-aad78d5f6039|9533879f-2344-4c8a-812f-1d40da73b3a6",
+        "silk_over_copper|185510000|136900000|d6e7e083-96c7-4603-8796-aad78d5f6039|616d7d62-f0ac-4073-b10f-741c83c796f9",
+        "silk_over_copper|55510000|135290000|a8195efb-bf15-4d57-9224-8c338162fa89|4079293b-f489-44b4-a7d1-052329b23062",
+        "silk_over_copper|55510000|138780000|a8195efb-bf15-4d57-9224-8c338162fa89|652d5deb-4813-4396-82f3-4e5fc5994ea7",
+        "silk_over_copper|55510000|138780000|a8195efb-bf15-4d57-9224-8c338162fa89|6845f443-520e-4421-ba8b-f2ca9ac9cb6b",
+        "silk_over_copper|55510000|76300000|a8195efb-bf15-4d57-9224-8c338162fa89|c4c198ae-db68-4561-8219-d08374074d6b",
+        "silk_over_copper|55510000|79790000|a8195efb-bf15-4d57-9224-8c338162fa89|4fa6428e-6f36-42b2-842e-f4608a957cfe",
+        "silk_over_copper|55510000|79790000|a8195efb-bf15-4d57-9224-8c338162fa89|50b9453f-2503-46f5-8546-bd27bd389854",
+        "silk_over_copper|58010000|135290000|4079293b-f489-44b4-a7d1-052329b23062|27c0d424-c154-466b-a9aa-e087df050d7f",
+        "silk_over_copper|58010000|79790000|50b9453f-2503-46f5-8546-bd27bd389854|5d8b696a-8a15-4038-8e4b-90674c13790e",
+        "silk_over_copper|58910000|101240000|eb3450bc-55f8-496c-8921-73111b02846d|05346467-8c04-49c3-baf2-d8096a1b739f",
+        "silk_over_copper|58910000|106639999|eb3450bc-55f8-496c-8921-73111b02846d|221ad2db-8edf-4983-8974-432a295db2d8",
+        "silk_over_copper|58910000|111039999|eb3450bc-55f8-496c-8921-73111b02846d|96a71c1a-638b-45ac-9c0a-43f7d9014ce6",
+        "silk_over_copper|58910000|114840000|eb3450bc-55f8-496c-8921-73111b02846d|9b19e15c-96ff-4582-9e82-2b71907140b6",
+        "silk_over_copper|58910000|117940000|7e210cf7-b500-49d3-ba6b-5755ff336d8b|eb3450bc-55f8-496c-8921-73111b02846d",
+        "silk_over_copper|61810000|135290000|4079293b-f489-44b4-a7d1-052329b23062|534b9c5e-f84c-45ba-a3e8-c99e20d35c16",
+        "silk_over_copper|64350000|135290000|4079293b-f489-44b4-a7d1-052329b23062|bab17584-1adc-4725-b6ff-3b5dd250797f",
+        "silk_over_copper|66890000|135290000|4079293b-f489-44b4-a7d1-052329b23062|de9a6e7f-db07-40cc-ba3a-c1fd6193ca29",
+        "silk_over_copper|69430000|135290000|4079293b-f489-44b4-a7d1-052329b23062|540ce61c-e5ca-4acf-8a97-50849f061a35",
+        "silk_over_copper|71970000|135290000|4079293b-f489-44b4-a7d1-052329b23062|4cde341e-cda5-4f22-aad9-0ae3b94f9ab5",
+        "silk_over_copper|74510000|135290000|4079293b-f489-44b4-a7d1-052329b23062|23973328-9a09-4957-8547-32082727ac54",
+        "silk_over_copper|77050000|135290000|4079293b-f489-44b4-a7d1-052329b23062|14e70f4d-a444-499e-b59d-43b9f9bbfd4d",
+        "silk_over_copper|79590000|135290000|4079293b-f489-44b4-a7d1-052329b23062|8b07e2d1-0900-4378-a7f4-6f92ff999e8f",
+        "silk_over_copper|81110000|117940000|7e210cf7-b500-49d3-ba6b-5755ff336d8b|14054535-1341-4c2e-be16-caa6375fddbd",
+        "silk_over_copper|82130000|135290000|4079293b-f489-44b4-a7d1-052329b23062|61518f9d-8f0e-4e83-890c-4ddf54a9c9a7",
+        "silk_over_copper|94890000|140035000|fceb0003-750a-43a7-bdd3-83e887bd5041|23219de8-f3f5-4ecc-a4ba-92e064854aca",
+        "silk_over_copper|94890000|140035000|fceb0003-750a-43a7-bdd3-83e887bd5041|2d54d5a9-37b2-43b4-8df9-3ab4af8979d0"
       ],
       "meta": {
         "version": 2
@@ -137,7 +139,7 @@
         "min_microvia_diameter": 0.19999999999999998,
         "min_microvia_drill": 0.09999999999999999,
         "min_silk_clearance": 0.0,
-        "min_through_hole_diameter": 0.3,
+        "min_through_hole_diameter": 0.19999999999999998,
         "min_track_width": 0.19999999999999998,
         "min_via_annular_width": 0.049999999999999996,
         "min_via_diameter": 0.39999999999999997,
@@ -157,10 +159,6 @@
         {
           "diameter": 0.0,
           "drill": 0.0
-        },
-        {
-          "diameter": 0.5,
-          "drill": 0.4
         },
         {
           "diameter": 0.6,
