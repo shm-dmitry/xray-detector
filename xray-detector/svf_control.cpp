@@ -15,9 +15,11 @@
 #define SVF_SPEAKER_SINGLE_IMPL   1
 #define SVF_SPEAKER_ALARM1        2
 #define SVF_SPEAKER_ALARM2        3
+#define SVF_SPEAKER_ALARM3        4
 #define SVF_VIBRO_SINGLE_IMPL     1
 #define SVF_VIBRO_ALARM1          2
 #define SVF_VIBRO_ALARM2          3
+#define SVF_VIBRO_ALARM3          4
 
 typedef struct {
   uint16_t samples_count;
@@ -167,6 +169,10 @@ void svf_control_play_sound__alarm2() {
   svf_control_play_sound(SVF_SPEAKER_ALARM2);
 }
 
+void svf_control_play_sound__alarm3() {
+  svf_control_play_sound(SVF_SPEAKER_ALARM3);
+}
+
 void svf_control_play_vibro__impuls() {
   svf_control_play_vibro(SVF_VIBRO_SINGLE_IMPL);
 }
@@ -177,6 +183,10 @@ void svf_control_play_vibro__alarm1() {
 
 void svf_control_play_vibro__alarm2() {
   svf_control_play_vibro(SVF_VIBRO_ALARM2);
+}
+
+void svf_control_play_vibro__alarm3() {
+  svf_control_play_vibro(SVF_VIBRO_ALARM3);
 }
 
 void svf_control_mute(volatile t_data_sample & obj) {

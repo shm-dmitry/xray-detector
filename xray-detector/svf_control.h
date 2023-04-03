@@ -10,10 +10,12 @@ void svf_control_init();
 void svf_control_play_sound__impuls();
 void svf_control_play_sound__alarm1();
 void svf_control_play_sound__alarm2();
+void svf_control_play_sound__alarm3();
 
 void svf_control_play_vibro__impuls();
 void svf_control_play_vibro__alarm1();
 void svf_control_play_vibro__alarm2();
+void svf_control_play_vibro__alarm3();
 
 void svf_control_flash(uint8_t percent);
 

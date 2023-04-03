@@ -34,6 +34,7 @@ void display_on() {
   display_tft->begin();
 #else
   display_tft = new Adafruit_ST7735(-1, DISPLAY_DC_PIN, -1);
+  display_tft->setSPISpeed(1000000);
   display_tft->initR(INITR_BLACKTAB);
   display_tft->setRotation(3);
 #endif

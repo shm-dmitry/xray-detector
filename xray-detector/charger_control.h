@@ -8,6 +8,8 @@
 
 typedef struct {
   uint8_t bat_voltage_x10;
+  uint8_t bat_current_x10;
+
   // ?..
 } t_charger_data;
 

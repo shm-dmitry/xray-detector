@@ -16,5 +16,7 @@ void eeprom_control_save_uv_freq(const eeprom_control_uv & data);
 
 void eeprom_control_get_alarm_levels(uint16_t & level1, uint16_t & level2);
 void eeprom_control_save_alarm_levels(uint16_t level1, uint16_t level2);
+uint16_t eeprom_control_get_noimpulse_seconds();
+void eeprom_control_set_noimpulse_seconds(uint16_t value);
 
 #endif /* EEPROM_CONTROL_H_ */

@@ -4,6 +4,10 @@
 #include "charger_control.h"
 #include "powersave.h"
 
+// This code based on Alex Gyver samples.
+// Thanks to him for the code.
+// ref: https://alexgyver.ru/encoder
+
 // PCINT20
 #define USERINPUT_PIN_A       PD4
 // PCINT8
@@ -20,11 +24,22 @@
 #define USERINPUT_BIT_USBINT  4
 
 volatile uint8_t userinput_flags = 0;
+volatile uint8_t userinput_lastStateA = LOW;
+volatile bool userinput_turnFlag = false;
 
 // A & wakeup
 ISR(PCINT2_vect) {
-  if (digitalRead(USERINPUT_PIN_A)      == LOW) {
-    userinput_flags |= _BV(USERINPUT_BIT_LEFT);
+  uint8_t stateA = digitalRead(USERINPUT_PIN_A);
+  if (stateA != userinput_lastStateA) {
+    userinput_lastStateA = stateA;
+    userinput_turnFlag   = !userinput_turnFlag;
+    if (userinput_turnFlag) {
+      if (digitalRead(USERINPUT_PIN_B) != stateA) {
+        userinput_flags |= _BV(USERINPUT_BIT_LEFT);
+      } else {
+        userinput_flags |= _BV(USERINPUT_BIT_RIGHT);
+      }
+    }
   }
   if (digitalRead(USERINPUT_PIN_WAKEUP) == LOW) {
     userinput_flags |= _BV(USERINPUT_BIT_WAKEUP);
@@ -32,14 +47,7 @@ ISR(PCINT2_vect) {
   }
 }
 
-// B
-ISR(PCINT1_vect) {
-  if (digitalRead(USERINPUT_PIN_B) == LOW) {
-    userinput_flags |= _BV(USERINPUT_BIT_RIGHT);
-  }
-}
-
-// CLK
+// CLK & usbint
 ISR(PCINT0_vect) {
   if (digitalRead(USERINPUT_PIN_CLICK) == LOW) {
     userinput_flags |= _BV(USERINPUT_BIT_CLICK);
@@ -56,10 +64,9 @@ void userinput_init() {
   pinMode(USERINPUT_PIN_CLICK,  INPUT_PULLUP);
   pinMode(USERINPUT_PIN_WAKEUP, INPUT_PULLUP);
 
-  PCICR = _BV(PCIE0) | _BV(PCIE1) | _BV(PCIE2);
+  PCICR   = _BV(PCIE0)   | _BV(PCIE2);
   PCMSK2 |= _BV(PCINT20) | _BV(PCINT23);
-  PCMSK1 |= _BV(PCINT8);
-  PCMSK0 |= _BV(PCINT0) | _BV(PCINT1);
+  PCMSK0 |= _BV(PCINT0)  | _BV(PCINT1);
 }
 
 bool userinput_is_move_left() {

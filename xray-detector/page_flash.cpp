@@ -18,8 +18,9 @@ bool flash_page_refresh() {
   tft->setTextColor(DISPLAY_WHITE);
   tft->setTextSize(2);
   if (flash_page_percent == 0) {
-    tft->print("OFF");
+    tft->print("Flash: OFF");
   } else {
+    tft->print("Flash: ");
     tft->print(flash_page_percent);
     tft->print(" %");
   }
@@ -67,5 +68,9 @@ bool flash_page_on_right() {
 
 bool flash_page_on_click() {
   flash_page_changing = !flash_page_changing;
+  if (flash_page_changing && flash_page_percent == 0) {
+    flash_page_percent = 50;
+    svf_control_flash(flash_page_percent);
+  }
   return true;
 }

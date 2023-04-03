@@ -8,11 +8,13 @@
 #define SETTINGS_PAGE_BACK    0
 #define SETTINGS_PAGE_UV_FREQ 1
 #define SETTINGS_PAGE_UV_DUTY 2
-#define SETTINGS_PAGE_ALRM_L1 3
-#define SETTINGS_PAGE_ALRM_L2 4
+#define SETTINGS_PAGE_UV_ON   3
+#define SETTINGS_PAGE_ALRM_L1 10
+#define SETTINGS_PAGE_ALRM_L2 11
+#define SETTINGS_PAGE_ALRM_NI 12
 
 #define SETTINGS_PAGE_MINVAL  SETTINGS_PAGE_BACK
-#define SETTINGS_PAGE_MAXVAL  SETTINGS_PAGE_ALRM_L2
+#define SETTINGS_PAGE_MAXVAL  SETTINGS_PAGE_ALRM_NI
 
 #define SETTINGS_PAGE_UNCHANGED 0xFFFFFFFF
 
@@ -55,11 +57,12 @@ bool settings_page_refresh() {
   }
   tft->print("UV freq: ");
   if (menu_actual == SETTINGS_PAGE_UV_FREQ && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    tft->print("  <  ");
+    tft->print(" < ");
     tft->print(menu_change_value);
-    tft->println("  >");
+    tft->println(" MHz >");
   } else {
-    tft->println(uv.freq);
+    tft->print(uv.freq);
+    tft->println(" MHz");
   }
 
   if (menu_actual == SETTINGS_PAGE_UV_DUTY) {
@@ -67,13 +70,28 @@ bool settings_page_refresh() {
   } else {
     tft->print(" ");
   }
-  tft->print("UV freq: ");
+  tft->print("UV duty: ");
   if (menu_actual == SETTINGS_PAGE_UV_DUTY && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    tft->print("  <  ");
+    tft->print(" < ");
     tft->print(menu_change_value);
-    tft->println("  >");
+    tft->println(" % >");
   } else {
-    tft->println(uv.duty);
+    tft->print(uv.duty);
+    tft->println(" %");
+  }
+
+  if (menu_actual == SETTINGS_PAGE_UV_ON) {
+    tft->print("*");
+  } else {
+    tft->print(" ");
+  }
+  tft->print("UV: ");
+  if (menu_actual == SETTINGS_PAGE_UV_ON && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
+    tft->print(" < ");
+    tft->print(uv_control_is_on() ? "ON" : "OFF");
+    tft->println(" >");
+  } else {
+    tft->println(uv_control_is_on() ? "ON" : "OFF");
   }
 
   if (menu_actual == SETTINGS_PAGE_ALRM_L1) {
@@ -83,11 +101,12 @@ bool settings_page_refresh() {
   }
   tft->print("Alarm Level1: ");
   if (menu_actual == SETTINGS_PAGE_ALRM_L1 && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    tft->print("  <  ");
+    tft->print(" < ");
     tft->print(menu_change_value);
-    tft->println("  >");
+    tft->println(" uR >");
   } else {
-    tft->println(alarm_manager_getlevel(1));
+    tft->print(alarm_manager_getlevel(1));
+    tft->println(" uR");
   }
 
   if (menu_actual == SETTINGS_PAGE_ALRM_L2) {
@@ -97,13 +116,28 @@ bool settings_page_refresh() {
   }
   tft->print("Alarm Level2: ");
   if (menu_actual == SETTINGS_PAGE_ALRM_L2 && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    tft->print("  <  ");
+    tft->print(" < ");
     tft->print(menu_change_value);
-    tft->println("  >");
+    tft->println(" uR >");
   } else {
-    tft->println(alarm_manager_getlevel(2));
+    tft->print(alarm_manager_getlevel(2));
+    tft->println(" uR");
   }
 
+  if (menu_actual == SETTINGS_PAGE_ALRM_NI) {
+    tft->print("*");
+  } else {
+    tft->print(" ");
+  }
+  tft->print("Alarm NoImpl: ");
+  if (menu_actual == SETTINGS_PAGE_ALRM_NI && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
+    tft->print(" < ");
+    tft->print(menu_change_value);
+    tft->println(" sec >");
+  } else {
+    tft->print(alarm_manager_getlevel(ALARM_MANAGER_NI_LEVEL));
+    tft->println(" sec");
+  }
   return true;
 }
 
@@ -130,7 +164,13 @@ bool settings_page_on_left() {
     eeprom_control_uv uv = { 0 };
     eeprom_control_get_uv(uv);
     uv_control_change_pwm_with_testrun(uv.freq, menu_change_value);
-  } else if ((menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2) && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
+  } else if (menu_actual == SETTINGS_PAGE_UV_ON && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
+    if (uv_control_is_on()) {
+      uv_control_disable_pwm();
+    } else {
+      uv_control_enable_pwm();
+    }
+  } else if ((menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2 || menu_actual == SETTINGS_PAGE_ALRM_NI) && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     menu_change_value--;
     if (menu_change_value < 1) {
       menu_change_value = 1;
@@ -169,7 +209,13 @@ bool settings_page_on_right() {
     eeprom_control_uv uv = { 0 };
     eeprom_control_get_uv(uv);
     uv_control_change_pwm_with_testrun(uv.freq, menu_change_value);
-  } else if ((menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2) && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
+  } else if (menu_actual == SETTINGS_PAGE_UV_ON && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
+    if (uv_control_is_on()) {
+      uv_control_disable_pwm();
+    } else {
+      uv_control_enable_pwm();
+    }
+  } else if ((menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2 || menu_actual == SETTINGS_PAGE_ALRM_NI) && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     menu_change_value++;
     if (menu_change_value == 0xFFFF) {
       menu_change_value = 0xFFFF;
@@ -205,6 +251,8 @@ bool settings_page_on_click() {
       eeprom_control_save_uv_freq(uv);
       menu_change_value = SETTINGS_PAGE_UNCHANGED;
     }
+  } else if (menu_actual == SETTINGS_PAGE_UV_ON) {
+    menu_change_value = menu_change_value == SETTINGS_PAGE_UNCHANGED ? 1 : SETTINGS_PAGE_UNCHANGED;
   } else if (menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2) {
     if (menu_change_value == SETTINGS_PAGE_UNCHANGED) {
       menu_change_value = alarm_manager_getlevel(menu_actual == SETTINGS_PAGE_ALRM_L1 ? 1 : 2);
@@ -214,6 +262,14 @@ bool settings_page_on_click() {
       } else {
         eeprom_control_save_alarm_levels(alarm_manager_getlevel(1), menu_change_value);
       }
+      alarm_manager_refresh_levels();
+      menu_change_value = SETTINGS_PAGE_UNCHANGED;
+    }
+  } else if (menu_actual == SETTINGS_PAGE_ALRM_NI) {
+    if (menu_change_value == SETTINGS_PAGE_UNCHANGED) {
+      menu_change_value = alarm_manager_getlevel(ALARM_MANAGER_NI_LEVEL);
+    } else {
+      eeprom_control_set_noimpulse_seconds(menu_change_value);
       alarm_manager_refresh_levels();
       menu_change_value = SETTINGS_PAGE_UNCHANGED;
     }

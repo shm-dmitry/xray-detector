@@ -12,10 +12,17 @@ bool page_bat_refresh() {
 
   t_charger_data data = { 0 };
   if (charger_control_get_data(data)) {
+    tft->print("Voltage: ");
     tft->print(data.bat_voltage_x10 / 10);
     tft->print(".");
     tft->print(data.bat_voltage_x10 % 10);
-    tft->print("V");
+    tft->println("V");
+
+    tft->print("Current: ");
+    tft->print(data.bat_current_x10 / 10);
+    tft->print(".");
+    tft->print(data.bat_current_x10 % 10);
+    tft->println("A");
   } else {
     tft->print("....");
   }

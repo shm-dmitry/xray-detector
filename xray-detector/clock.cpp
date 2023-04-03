@@ -11,7 +11,10 @@
 
 #define CLOCK_ON_ONE_SECOND_CALLBACKS \
   isrcall_rad_control_on_timer(clock_seconds); \
-  isrcall_uv_control_on_timer();
+  isrcall_uv_control_on_timer(); \
+  if (clock_seconds == 0) { \
+    isrcall_alarm_manager_onminute(); \
+  }
 
 #define CLOCK_ON_ONE_MILLISECOND_CALLBACKS \
   isrcall_svf_control_on_millis();

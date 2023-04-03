@@ -4,6 +4,8 @@
 
 #include "Arduino.h"
 
+#define UV_HIGH_VOLTAGE_OUTPUT_ENABLED false
+
 #define UV_CONTROL_PIN_PWM    PD3
 
 #define UV_CONTROL_REFILL_EVERY 50
@@ -17,9 +19,9 @@
 static volatile uint8_t uv_control_refill_sec = UV_CONTROL_REFILL_INIT;
 static volatile uint8_t uv_control_impulses   = UV_CONTROL_REFILL_REQRS;
 
-bool uv_control_update_pwm(uint32_t freq, uint8_t duty);
-inline void uv_control_enable_pwm();
-inline void uv_control_disable_pwm();
+
+void uv_control_enable_pwm();
+void uv_control_disable_pwm();
 
 void uv_control_init() {
   pinMode(UV_CONTROL_PIN_PWM,      OUTPUT);
@@ -36,15 +38,21 @@ void uv_control_init() {
   uv_control_enable_pwm();
 }
 
-inline void uv_control_enable_pwm() {
+void uv_control_enable_pwm() {
+  #if UV_HIGH_VOLTAGE_OUTPUT_ENABLED
   TCCR2A |= _BV(COM2B1);
   TCCR2B = _BV(WGM22) | _BV(CS20);
+  #endif
 }
 
-inline void uv_control_disable_pwm() {
+void uv_control_disable_pwm() {
   TCCR2A &= ~(_BV(COM2B1));
   TCCR2B = 0;
   digitalWrite(UV_CONTROL_PIN_PWM, LOW);
+}
+
+bool uv_control_is_on() {
+  return TCCR2B != 0;
 }
 
 void uv_control_change_pwm_with_testrun(uint32_t freq, uint8_t duty) {
@@ -61,6 +69,10 @@ void uv_control_change_pwm_with_testrun(uint32_t freq, uint8_t duty) {
 
 
 bool uv_control_update_pwm(uint32_t freq, uint8_t duty) {
+  Serial.print("Set FREQ = ");
+  Serial.print(freq);
+  Serial.print("; DUTY = ");
+  Serial.println(duty);
   OCR2A  = F_CPU / 2 / freq;
 
   uint8_t prev = OCR2B;

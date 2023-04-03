@@ -9,10 +9,22 @@
 #include "eeprom_control.h"
 #include "alarm_manager.h"
 #include "charger_control.h"
+//#include "ip5328p_dump.h"
+
+#define UV_DEBUG_MODE false
 
 void setup() {
-  Serial.begin(9600);
+//  ip5328_dump();
   
+  Serial.begin(9600);
+
+#if UV_DEBUG_MODE
+  uv_control_init();
+  uv_control_update_pwm(105000, 7);
+  uv_control_enable_pwm();
+  while(true);
+#endif
+
   clock_init();
   svf_control_init();
   eeprom_control_init();
