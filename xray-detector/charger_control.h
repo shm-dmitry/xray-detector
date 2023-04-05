@@ -7,8 +7,9 @@
 #define CHARGER_INT_PIN    9
 
 typedef struct {
-  uint8_t bat_voltage_x10;
+  uint16_t bat_voltage_x100;
   uint8_t bat_current_x10;
+  bool i2c_in_use;
 
   // ?..
 } t_charger_data;

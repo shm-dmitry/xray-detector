@@ -15,7 +15,6 @@ void display_init() {
   pinMode(DISPLAY_ENABLE_PIN, OUTPUT);
   digitalWrite(DISPLAY_ENABLE_PIN, HIGH);
   clock_delay(1000);
-  Serial.println("display power down");
 
   display_on();
 }
@@ -27,7 +26,6 @@ void display_on() {
 
   digitalWrite(DISPLAY_ENABLE_PIN, LOW);
   clock_delay(100); // await for a power up
-  Serial.println("display power up");
 
 #if DISPLAY_SIMUL
   display_tft = new Adafruit_ILI9341(-1, DISPLAY_DC_PIN, -1);
@@ -42,6 +40,8 @@ void display_on() {
 
 void display_off() {
   digitalWrite(DISPLAY_ENABLE_PIN, HIGH);
+  digitalWrite(DISPLAY_DC_PIN, LOW);
+  clock_delay(100);
   delete display_tft;
   display_tft = NULL;
 }

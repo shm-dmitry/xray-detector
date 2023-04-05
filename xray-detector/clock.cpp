@@ -6,7 +6,7 @@
 #include "svf_control.h"
 #include "alarm_manager.h"
 
-#define CLOCK_MAX_UINT32_T    4294967295
+#define CLOCK_MAX_UINT32_T    0xFFFFFFFF
 #define CLOCK_OVF_MILLIS_FIX         296
 
 #define CLOCK_ON_ONE_SECOND_CALLBACKS \
@@ -158,5 +158,17 @@ uint32_t clock_calc_delay(uint32_t base, uint32_t delta, bool & ovf) {
   } else {
     ovf = false;
     return base + delta;
+  }
+}
+
+bool clock_is_elapsed(uint32_t base, uint32_t delta) {
+  uint32_t now = clock_millis();
+  bool ovf = false;
+  uint32_t untill = clock_calc_delay(base, delta, ovf);
+
+  if (ovf) {
+    return now < base && now >= untill;
+  } else {
+    return now >= untill;
   }
 }

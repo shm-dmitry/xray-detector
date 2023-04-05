@@ -52,10 +52,8 @@ ISR(PCINT0_vect) {
   if (digitalRead(USERINPUT_PIN_CLICK) == LOW) {
     userinput_flags |= _BV(USERINPUT_BIT_CLICK);
   }
-  if (digitalRead(CHARGER_INT_PIN) == HIGH) {
-    userinput_flags |= _BV(CHARGER_INT_PIN);
-    isrcall_charger_control_onusbint();
-  }
+
+  isrcall_charger_control_onusbint();
 }
 
 void userinput_init() {

@@ -18,7 +18,7 @@ uint8_t pages_current = 0;
 const t_page_action pages_vtable[PAGES_COUNT][PAGE_ACTION_FLAG__MAXVAL] = {
   {NULL, NULL, &page_rad_onclick, &page_rad_refresh, NULL, &page_rad_need_refresh},
   {&flash_page_on_left, &flash_page_on_right, &flash_page_on_click, &flash_page_refresh, &flash_page_init, NULL},
-  {NULL, NULL, NULL, &page_bat_refresh, NULL, NULL},
+  {NULL, NULL, NULL, &page_bat_refresh, NULL, &page_bat_need_refresh},
   {&settings_page_on_left, &settings_page_on_right, &settings_page_on_click, &settings_page_refresh, &settings_page_init, NULL},
 };
 
