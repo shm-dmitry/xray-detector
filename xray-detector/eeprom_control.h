@@ -19,4 +19,7 @@ void eeprom_control_save_alarm_levels(uint16_t level1, uint16_t level2);
 uint16_t eeprom_control_get_noimpulse_seconds();
 void eeprom_control_set_noimpulse_seconds(uint16_t value);
 
+void eeprom_control_get_date_time(volatile uint8_t & year, volatile uint8_t & month, volatile uint8_t & day, volatile uint8_t & hour, volatile uint8_t & minute);
+void eeprom_control_save_date_time(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute);
+
 #endif /* EEPROM_CONTROL_H_ */

@@ -26,6 +26,9 @@
 #define CHARGER_ADC_ION             (11 * 50 / 10)
 #define CHARGER_CONTROL_ADC_TIMEOUT 10
 
+#define CHARGER_CONTROL_MAXV_X100   420
+#define CHARGER_CONTROL_MINV_X100   310
+
 volatile uint32_t charger_control_enable_i2c_time = 0;
 volatile uint8_t charger_adc_voltage_x50 = 0;
 uint32_t charger_control_last_wake_up = 0;
@@ -200,3 +203,19 @@ bool charger_control_read_adc(t_charger_data & data) {
 void charger_control_enter_sleep_mode() {
   charger_control_enable_i2c_time = 0;
 }
+
+uint8_t charger_control_get_voltage_pc() {
+  t_charger_data data = { 0 };
+  if (charger_control_read_adc(data)) {
+    if (data.bat_voltage_x100 >= CHARGER_CONTROL_MAXV_X100) {
+      return 100;
+    } else if (data.bat_voltage_x100 <= CHARGER_CONTROL_MINV_X100) {
+      return 0;
+    }
+
+    return ((data.bat_voltage_x100 - (uint16_t)CHARGER_CONTROL_MINV_X100) * 100) / ((uint16_t)CHARGER_CONTROL_MAXV_X100 - (uint16_t)CHARGER_CONTROL_MINV_X100);
+  } else {
+    return 0x00;
+  }
+}
+

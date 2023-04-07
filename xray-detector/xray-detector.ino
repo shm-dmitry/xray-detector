@@ -4,7 +4,7 @@
 #include "svf_control.h"
 #include "display.h"
 #include "userinput.h"
-#include "pages_control.h"
+#include "gui_manager.h"
 #include "powersave.h"
 #include "eeprom_control.h"
 #include "alarm_manager.h"
@@ -34,7 +34,7 @@ void setup() {
   svf_control_init();
   userinput_init();
   display_init(); 
-  pages_control_init();
+  gui_manager_init();
   powersave_init();
   alarm_manager_init();
   charger_control_init();
@@ -51,7 +51,7 @@ void loop() {
   
   charger_control_on_main_loop();
   svf_control_on_main_loop();
-  pages_on_main_loop();
+  gui_manager_on_main_loop();
 
   clock_delay(5);
 }

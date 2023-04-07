@@ -36,6 +36,8 @@ void display_on() {
   display_tft->initR(INITR_BLACKTAB);
   display_tft->setRotation(3);
 #endif
+
+  display_tft->fillRect(0, 0, 160, 128, DISPLAY_BLACK);
 }
 
 void display_off() {
@@ -47,7 +49,7 @@ void display_off() {
 }
 
 bool display_is_on() {
-  return digitalRead(DISPLAY_ENABLE_PIN) == LOW && display_tft;
+  return digitalRead(DISPLAY_ENABLE_PIN) == LOW && display_tft != NULL;
 }
 
 Adafruit_SPITFT * display_get_object() {

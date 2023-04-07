@@ -5,6 +5,7 @@
 #include "rad_control.h"
 #include "svf_control.h"
 #include "alarm_manager.h"
+#include "eeprom_control.h"
 
 #define CLOCK_MAX_UINT32_T    0xFFFFFFFF
 #define CLOCK_OVF_MILLIS_FIX         296
@@ -102,10 +103,16 @@ void clock_on_one_second() {
     clock_year++;
   }
 
+  if (clock_seconds == 0 && clock_minutes == 0) { // save date-time hourly
+    eeprom_control_save_date_time(clock_year, clock_month, clock_day, clock_hour, clock_minutes);
+  }
+
   CLOCK_ON_ONE_SECOND_CALLBACKS;
 }
 
 void clock_init() {
+  eeprom_control_get_date_time(clock_year, clock_month, clock_day, clock_hour, clock_minutes);
+
   TCCR0A  = _BV(WGM01) | _BV(WGM00);
   TCCR0B  = _BV(WGM02) | _BV(CS00) | _BV(CS01);
 
@@ -114,16 +121,92 @@ void clock_init() {
   TIMSK0 |= _BV(OCIE0A);   
 }
 
-uint16_t clock_get_time(uint8_t what) {
-  switch (what) {
-    case CLOCK_TIME_SECOND: return clock_seconds;
-    case CLOCK_TIME_MINUTE: return clock_minutes;
-    case CLOCK_TIME_HOUR:   return clock_hour;
-    case CLOCK_TIME_DAY:    return clock_day;
-    case CLOCK_TIME_MONTH:  return clock_month;
-    case CLOCK_TIME_YEAR:   return clock_year + 2000;
-    default:                return 0;
+uint16_t clock_get_component(uint8_t component) {
+  uint16_t year;
+  uint8_t month;
+  uint8_t day;
+  uint8_t hour;
+  uint8_t minute;
+
+  clock_get_time(year, month, day, hour, minute);
+
+  switch (component) {
+  case CLOCK_COMPONENT_YEAR:
+  return year;
+  case CLOCK_COMPONENT_MONTH:
+  return month;
+  case CLOCK_COMPONENT_DAY:
+  return day;
+  case CLOCK_COMPONENT_HOUR:
+  return hour;
+  case CLOCK_COMPONENT_MINUTE:
+  return minute;
+  default: 
+  return 0;
   }
+}
+
+void clock_set_component(uint8_t component, uint16_t value) {
+  uint8_t oldSREG = SREG;
+  cli();
+
+  switch (component) {
+  case CLOCK_COMPONENT_YEAR:
+  clock_year = value - 2000; 
+  break;
+  
+  case CLOCK_COMPONENT_MONTH:
+  clock_month = value;
+  if (clock_month > 12) {
+    clock_month = 12;
+  } else if (clock_month == 0) {
+    clock_month = 1;
+  }
+  if (clock_day > clock_days_in_month()) {
+    clock_day = clock_days_in_month();
+  }
+  break;
+  
+  case CLOCK_COMPONENT_DAY:
+  clock_day = value;
+  if (clock_day > clock_days_in_month()) {
+    clock_day = clock_days_in_month();
+  } else if (clock_day == 0) {
+    clock_day = 1;
+  }
+  break;
+
+  case CLOCK_COMPONENT_HOUR:
+  clock_hour = value;
+  if (clock_hour > 23) {
+    clock_hour = 23;
+  }
+  break;
+  
+  case CLOCK_COMPONENT_MINUTE:
+  clock_minutes = value;
+  if (clock_minutes > 59) {
+    clock_minutes = 59;
+  }
+  break;
+ }
+
+  SREG = oldSREG;
+
+  eeprom_control_save_date_time(clock_year, clock_month, clock_day, clock_hour, clock_minutes);
+}
+
+void clock_get_time(uint16_t & year, uint8_t & month, uint8_t & day, uint8_t & hour, uint8_t & minute) {
+  uint8_t oldSREG = SREG;
+  cli();
+
+  year = 2000 + clock_year;
+  month = clock_month;
+  day = clock_day;
+  hour = clock_hour;
+  minute = clock_minutes;
+
+  SREG = oldSREG;
 }
 
 uint32_t clock_millis(bool inisr = false) {
@@ -161,8 +244,8 @@ uint32_t clock_calc_delay(uint32_t base, uint32_t delta, bool & ovf) {
   }
 }
 
-bool clock_is_elapsed(uint32_t base, uint32_t delta) {
-  uint32_t now = clock_millis();
+bool clock_is_elapsed(uint32_t base, uint32_t delta, bool inisr = false) {
+  uint32_t now = clock_millis(inisr);
   bool ovf = false;
   uint32_t untill = clock_calc_delay(base, delta, ovf);
 

@@ -3,21 +3,23 @@
 
 #include "stdint.h"
 
-#define CLOCK_TIME_SECOND 1
-#define CLOCK_TIME_MINUTE 2
-#define CLOCK_TIME_HOUR   3
-#define CLOCK_TIME_DAY    4
-#define CLOCK_TIME_MONTH  5
-#define CLOCK_TIME_YEAR   6
+#define CLOCK_COMPONENT_YEAR   0
+#define CLOCK_COMPONENT_MONTH  1
+#define CLOCK_COMPONENT_DAY    2
+#define CLOCK_COMPONENT_HOUR   3
+#define CLOCK_COMPONENT_MINUTE 4
 
 void clock_init();
 
-uint16_t clock_get_time(uint8_t what);
+void clock_get_time(uint16_t & year, uint8_t & month, uint8_t & day, uint8_t & hour, uint8_t & minute);
+uint16_t clock_get_component(uint8_t component);
+uint8_t clock_days_in_month();
+void clock_set_component(uint8_t component, uint16_t value);
 
 void clock_delay(uint32_t mils);
 
 uint32_t clock_millis(bool inisr = false);
 uint32_t clock_calc_delay(uint32_t base, uint32_t delta, bool & ovf);
-bool clock_is_elapsed(uint32_t base, uint32_t delta);
+bool clock_is_elapsed(uint32_t base, uint32_t delta, bool inisr = false);
 
 #endif /* CLOCK_H_ */

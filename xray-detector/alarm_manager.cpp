@@ -6,10 +6,11 @@
 #include "powersave.h"
 #include "rad_control.h"
 #include "svf_control.h"
-#include "pages_control.h"
+#include "gui_manager.h"
 #include "clock.h"
 
 #define ALARM_MANAGER_OPEN_RAD_PAGE_EVERY   30000
+#define ALARM_MANAGER_CHECK_MINDOSE2_EVERY  2000
 
 uint16_t alarm_manager_level1 = 0xFFFF;
 uint16_t alarm_manager_level2 = 0xFFFF;
@@ -38,11 +39,20 @@ uint16_t alarm_manager_getlevel(uint8_t level) {
   }
 }
 
+uint8_t alarm_manager_dose2level(uint32_t dose) {
+  if (dose >= alarm_manager_level2) {
+    return 2;
+  } else if (dose >= alarm_manager_level1) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 bool alarm_manager_open_rad_page() {
   uint32_t now = clock_millis();
   if (alarm_manager_next_open_rad < now) {
-    Serial.println("alarm - open rad");
-    pages_control_openrad();
+    gui_manager_openrad();
 
     if (now + ALARM_MANAGER_OPEN_RAD_PAGE_EVERY < now) {
       alarm_manager_next_open_rad = 0xFFFFFFFF; // isrcall will restart this variable
@@ -59,13 +69,13 @@ bool alarm_manager_open_rad_page() {
 void alarm_manager_on_main_loop() {
   if (alarm_manager_wasimpulse) {
     alarm_manager_wasimpulse = false;
-    uint32_t dose = rad_control_dose();
-    if (dose >= alarm_manager_level2) {
+    uint8_t level = alarm_manager_dose2level(rad_control_dose());
+    if (level == 2) {
       if (alarm_manager_open_rad_page()) {
         svf_control_play_sound__alarm2();
         svf_control_play_vibro__alarm2();
       }
-    } else if (dose >= alarm_manager_level1) {
+    } else if (level == 1) {
       if (alarm_manager_open_rad_page()) {
         svf_control_play_sound__alarm1();
         svf_control_play_vibro__alarm1();
@@ -84,13 +94,16 @@ void alarm_manager_mute_alarm() {
 
 void isrcall_alarm_manager_onimpulse() {
   alarm_manager_wasimpulse = true;
-  if (rad_control_dose(true) >= alarm_manager_level2) {
+  if (!clock_is_elapsed(alarm_manager_last_impulse, ALARM_MANAGER_CHECK_MINDOSE2_EVERY, true)) {
+    return;
+  }  
+
+  alarm_manager_last_impulse = clock_millis(true);
+  if (isrcall_rad_control_check_dose_alarm(alarm_manager_level2, alarm_manager_last_impulse)) {
     if (!powersave_is_on()) {
       powersave_wakeup();
     }
   }
-
-  alarm_manager_last_impulse = clock_millis(true);
 }
 
 void isrcall_alarm_manager_onminute() {
