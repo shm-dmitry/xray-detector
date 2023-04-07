@@ -7,7 +7,7 @@
 
 void alarm_manager_init();
 void alarm_manager_refresh_levels();
-uint16_t alarm_manager_getlevel(uint8_t level);
+uint8_t alarm_manager_getlevel(uint8_t level);
 uint8_t alarm_manager_dose2level(uint32_t dose);
 void alarm_manager_on_main_loop();
 bool alarm_manager_is_alarm();

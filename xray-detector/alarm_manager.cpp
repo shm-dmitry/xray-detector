@@ -12,13 +12,13 @@
 #define ALARM_MANAGER_OPEN_RAD_PAGE_EVERY   30000
 #define ALARM_MANAGER_CHECK_MINDOSE2_EVERY  2000
 
-uint16_t alarm_manager_level1 = 0xFFFF;
-uint16_t alarm_manager_level2 = 0xFFFF;
+uint8_t alarm_manager_level1 = 0xFF;
+uint8_t alarm_manager_level2 = 0xFF;
 
 volatile bool alarm_manager_wasimpulse = false;
 volatile uint32_t alarm_manager_next_open_rad = 0;
 volatile uint32_t alarm_manager_last_impulse = 0;
-volatile uint16_t alarm_manager_no_impulse_seconds = 0;
+volatile uint8_t alarm_manager_no_impulse_seconds = 0;
 
 void alarm_manager_init() {
   alarm_manager_refresh_levels();
@@ -29,7 +29,7 @@ void alarm_manager_refresh_levels() {
   alarm_manager_no_impulse_seconds = eeprom_control_get_noimpulse_seconds();
 }
 
-uint16_t alarm_manager_getlevel(uint8_t level) {
+uint8_t alarm_manager_getlevel(uint8_t level) {
   if (level == 1) {
     return alarm_manager_level1;
   } else if (level == 2) {
@@ -40,7 +40,7 @@ uint16_t alarm_manager_getlevel(uint8_t level) {
 }
 
 uint8_t alarm_manager_dose2level(uint32_t dose) {
-  if (dose >= alarm_manager_level2) {
+  if (dose >= (uint32_t)alarm_manager_level2 * 1000) {
     return 2;
   } else if (dose >= alarm_manager_level1) {
     return 1;
@@ -99,7 +99,7 @@ void isrcall_alarm_manager_onimpulse() {
   }  
 
   alarm_manager_last_impulse = clock_millis(true);
-  if (isrcall_rad_control_check_dose_alarm(alarm_manager_level2, alarm_manager_last_impulse)) {
+  if (isrcall_rad_control_check_dose_alarm((uint16_t)alarm_manager_level2 * 1000, alarm_manager_last_impulse)) {
     if (!powersave_is_on()) {
       powersave_wakeup();
     }

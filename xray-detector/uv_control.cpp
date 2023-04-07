@@ -32,9 +32,7 @@ void uv_control_init() {
   uv_control_disable_pwm();
 
   // configure PWM
-  eeprom_control_uv def = { 0 };
-  eeprom_control_get_uv(def);
-  uv_control_update_pwm(def.freq, def.duty);
+  uv_control_update_pwm(eeprom_control_get_freq(), eeprom_control_get_duty());
   uv_control_enable_pwm();
 }
 
@@ -55,7 +53,7 @@ bool uv_control_is_on() {
   return TCCR2B != 0;
 }
 
-void uv_control_change_pwm_with_testrun(uint32_t freq, uint8_t duty) {
+void uv_control_change_pwm_with_testrun(uint8_t freq, uint8_t duty) {
   uv_control_refill_sec = 1;
   uv_control_impulses = 0;
 
@@ -68,12 +66,8 @@ void uv_control_change_pwm_with_testrun(uint32_t freq, uint8_t duty) {
 }
 
 
-bool uv_control_update_pwm(uint32_t freq, uint8_t duty) {
-  Serial.print("Set FREQ = ");
-  Serial.print(freq);
-  Serial.print("; DUTY = ");
-  Serial.println(duty);
-  OCR2A  = F_CPU / 2 / freq;
+bool uv_control_update_pwm(uint8_t freq, uint8_t duty) {
+  OCR2A  = F_CPU / 2 / freq / 1000;
 
   uint8_t prev = OCR2B;
   OCR2B = (OCR2A * duty) / 100;

@@ -21,7 +21,7 @@
 #define SETTINGS_PAGE_MINVAL  SETTINGS_PAGE_UV_FREQ
 #define SETTINGS_PAGE_MAXVAL  SETTINGS_PAGE_ALRM_NI
 
-#define SETTINGS_PAGE_UNCHANGED 0xFFFFFFFF
+#define SETTINGS_PAGE_UNCHANGED 0xFF
 
 #define SETTINGS_PAGE_EDIT_DATETIME_UNCHANGED 0
 #define SETTINGS_PAGE_EDIT_DATETIME_YEAR      1
@@ -32,11 +32,11 @@
 
 uint8_t menu_actual_prev   = SETTINGS_PAGE_MINVAL;
 uint8_t menu_actual        = SETTINGS_PAGE_MINVAL;
-uint32_t menu_change_value = SETTINGS_PAGE_UNCHANGED;
+uint8_t menu_change_value = SETTINGS_PAGE_UNCHANGED;
 bool menu_refreshed        = false;
 uint8_t menu_edit_datetime = SETTINGS_PAGE_EDIT_DATETIME_UNCHANGED;
 
-void gui_settings_page_print(Adafruit_SPITFT * tft, bool force, uint8_t index, uint32_t value, const char * text);
+void gui_settings_page_print(Adafruit_SPITFT * tft, bool force, uint8_t index, uint8_t value, const char * text);
 void gui_settings_page_print_onoff(Adafruit_SPITFT * tft, bool force, uint8_t index, bool value);
 void gui_settings_page_print_date(Adafruit_SPITFT * tft, bool force, uint8_t index);
 void gui_settings_page_print_time(Adafruit_SPITFT * tft, bool force, uint8_t index);
@@ -76,14 +76,11 @@ bool gui_settings_page_refresh(uint8_t data) {
   }
 
   if (data || !menu_refreshed) {
-    eeprom_control_uv uv = { 0 };
-    eeprom_control_get_uv(uv);
-
-    gui_settings_page_print(tft, data, SETTINGS_PAGE_UV_FREQ, uv.freq, "Hz");
-    gui_settings_page_print(tft, data, SETTINGS_PAGE_UV_DUTY, uv.duty, "%");
+    gui_settings_page_print(tft, data, SETTINGS_PAGE_UV_FREQ, eeprom_control_get_freq(), "KHz");
+    gui_settings_page_print(tft, data, SETTINGS_PAGE_UV_DUTY, eeprom_control_get_duty(), "%");
     gui_settings_page_print_onoff(tft, data, SETTINGS_PAGE_UV_ON, uv_control_is_on()); 
     gui_settings_page_print(tft, data, SETTINGS_PAGE_ALRM_L1, alarm_manager_getlevel(1), "uR"); 
-    gui_settings_page_print(tft, data, SETTINGS_PAGE_ALRM_L2, alarm_manager_getlevel(2), "uR"); 
+    gui_settings_page_print(tft, data, SETTINGS_PAGE_ALRM_L2, alarm_manager_getlevel(2), "mR"); 
     gui_settings_page_print(tft, data, SETTINGS_PAGE_ALRM_NI, alarm_manager_getlevel(ALARM_MANAGER_NI_LEVEL), "sec"); 
     gui_settings_page_print_date(tft, data, SETTINGS_PAGE_DATE);
     gui_settings_page_print_time(tft, data, SETTINGS_PAGE_TIME);
@@ -94,7 +91,7 @@ bool gui_settings_page_refresh(uint8_t data) {
   return false;
 }
 
-void gui_settings_page_print(Adafruit_SPITFT * tft, bool force, uint8_t index, uint32_t value, const char * text) {
+void gui_settings_page_print(Adafruit_SPITFT * tft, bool force, uint8_t index, uint8_t value, const char * text) {
   tft->setCursor(80, 18 + 8 * index);
   tft->fillRect(tft->getCursorX(), tft->getCursorY(), 80, 8, DISPLAY_BLACK);
 
@@ -244,14 +241,12 @@ void gui_settings_page_print_onoff(Adafruit_SPITFT * tft, bool force, uint8_t in
 
 bool gui_settings_page_on_left(bool fast) {
   if (menu_actual == SETTINGS_PAGE_UV_FREQ && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    menu_change_value -= fast ? 2000 : 500;
-    if (menu_change_value < 60000) {
-      menu_change_value = 60000;
+    menu_change_value -= fast ? 3 : 1;
+    if (menu_change_value < 60) {
+      menu_change_value = 60;
     }
 
-    eeprom_control_uv uv = { 0 };
-    eeprom_control_get_uv(uv);
-    uv_control_change_pwm_with_testrun(menu_change_value, uv.duty);
+    uv_control_change_pwm_with_testrun(menu_change_value, eeprom_control_get_duty());
 
     menu_refreshed = false;
   } else if (menu_actual == SETTINGS_PAGE_UV_DUTY && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
@@ -262,9 +257,7 @@ bool gui_settings_page_on_left(bool fast) {
       menu_change_value -= delta;
     }
 
-    eeprom_control_uv uv = { 0 };
-    eeprom_control_get_uv(uv);
-    uv_control_change_pwm_with_testrun(uv.freq, menu_change_value);
+    uv_control_change_pwm_with_testrun(eeprom_control_get_freq(), menu_change_value);
 
     menu_refreshed = false;
   } else if (menu_actual == SETTINGS_PAGE_UV_ON && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
@@ -325,14 +318,12 @@ bool gui_settings_page_on_left(bool fast) {
 
 bool gui_settings_page_on_right(bool fast) {
   if (menu_actual == SETTINGS_PAGE_UV_FREQ && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    menu_change_value += fast ? 2000 : 500;
-    if (menu_change_value > 120000) {
-      menu_change_value = 120000;
+    menu_change_value += fast ? 3 : 1;
+    if (menu_change_value > 130) {
+      menu_change_value = 130;
     }
 
-    eeprom_control_uv uv = { 0 };
-    eeprom_control_get_uv(uv);
-    uv_control_change_pwm_with_testrun(menu_change_value, uv.duty);
+    uv_control_change_pwm_with_testrun(menu_change_value, eeprom_control_get_duty());
 
     menu_refreshed = false;
   } else if (menu_actual == SETTINGS_PAGE_UV_DUTY && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
@@ -341,9 +332,7 @@ bool gui_settings_page_on_right(bool fast) {
       menu_change_value = 30;
     }
 
-    eeprom_control_uv uv = { 0 };
-    eeprom_control_get_uv(uv);
-    uv_control_change_pwm_with_testrun(uv.freq, menu_change_value);
+    uv_control_change_pwm_with_testrun(eeprom_control_get_freq(), menu_change_value);
 
     menu_refreshed = false;
   } else if (menu_actual == SETTINGS_PAGE_UV_ON && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
@@ -356,8 +345,8 @@ bool gui_settings_page_on_right(bool fast) {
     menu_refreshed = false;
   } else if ((menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2 || menu_actual == SETTINGS_PAGE_ALRM_NI) && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     menu_change_value += fast ? 10 : 1;
-    if (menu_change_value == 0xFFFF) {
-      menu_change_value = 0xFFFF;
+    if (menu_change_value > 240) {
+      menu_change_value = 240;
     }
 
     menu_refreshed = false;
@@ -411,18 +400,18 @@ bool gui_settings_page_on_move(uint8_t data) {
 }
 
 bool gui_settings_page_on_click(uint8_t data) {
-  if (menu_actual == SETTINGS_PAGE_UV_FREQ || menu_actual == SETTINGS_PAGE_UV_DUTY) {
-    eeprom_control_uv uv = { 0 };
-    eeprom_control_get_uv(uv);
+  if (menu_actual == SETTINGS_PAGE_UV_FREQ) {
     if (menu_change_value == SETTINGS_PAGE_UNCHANGED) {
-      menu_change_value = menu_actual == SETTINGS_PAGE_UV_FREQ ? uv.freq : uv.duty;
+      menu_change_value = eeprom_control_get_freq();
     } else {
-      if (menu_actual == SETTINGS_PAGE_UV_FREQ) {
-        uv.freq = menu_change_value;
-      } else {
-        uv.duty = menu_change_value;
-      }
-      eeprom_control_save_uv_freq(uv);
+      eeprom_control_save_freq(menu_change_value);
+      menu_change_value = SETTINGS_PAGE_UNCHANGED;
+    }
+  } else if (menu_actual == SETTINGS_PAGE_UV_DUTY) {
+    if (menu_change_value == SETTINGS_PAGE_UNCHANGED) {
+      menu_change_value = eeprom_control_get_duty();
+    } else {
+      eeprom_control_save_duty(menu_change_value);
       menu_change_value = SETTINGS_PAGE_UNCHANGED;
     }
   } else if (menu_actual == SETTINGS_PAGE_UV_ON) {

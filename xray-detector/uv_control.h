@@ -7,12 +7,12 @@
 void uv_control_init();
 
 // commands
-bool uv_control_update_pwm(uint32_t freq, uint8_t duty);
+bool uv_control_update_pwm(uint8_t freq, uint8_t duty);
 void uv_control_enable_pwm();
 void uv_control_disable_pwm();
 bool uv_control_is_on();
 
-void uv_control_change_pwm_with_testrun(uint32_t freq, uint8_t duty);
+void uv_control_change_pwm_with_testrun(uint8_t freq, uint8_t duty);
 
 // callbacks
 
