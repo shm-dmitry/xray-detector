@@ -31,7 +31,7 @@ void gui_manager_init() {
 }
 
 void gui_manager_on_main_loop() {
-  if (display_get_object() == NULL) {
+  if (!display_is_on()) {
     return;
   }
 
@@ -69,9 +69,8 @@ void gui_manager_on_main_loop() {
   }
 
   if (fullrefresh) {
-    Adafruit_SPITFT * tft = display_get_object();
-    if (tft != NULL) {
-        tft->fillRect(0, 8, 160, 128-8*2, DISPLAY_BLACK);
+    if (display_is_on()) {
+      display_fill_rect(0, 8, 160, 128-8*2, DISPLAY_BLACK);
     }
   }
 

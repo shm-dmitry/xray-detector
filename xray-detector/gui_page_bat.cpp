@@ -10,8 +10,7 @@
 t_charger_data gui_bat_prev_data = { 0 };
 
 bool gui_bat_page_refresh(uint8_t data) {
-  Adafruit_SPITFT * tft = display_get_object();
-  if (tft == NULL) {
+  if (!display_is_on()) {
     return false;
   }
 
@@ -22,82 +21,82 @@ bool gui_bat_page_refresh(uint8_t data) {
     }
   }
 
-  tft->setTextSize(1);
+  display_set_textsize(1);
 
   if (data) {
-    tft->setTextColor(DISPLAY_WHITE);
+    display_set_textcolor(DISPLAY_WHITE);
 
-    tft->setCursor(20, 30);
-    tft->print("Vbat     = ");
+    display_set_cursor(20, 30);
+    display_prints("Vbat     = ");
 
-    tft->setCursor(20, 30 + 8);
-    tft->print("Icharger = ");
+    display_set_cursor(20, 30 + 8);
+    display_prints("Icharger = ");
 
-    tft->setCursor(20, 30 + 8*2);
-    tft->print("Source   = ");
+    display_set_cursor(20, 30 + 8*2);
+    display_prints("Source   = ");
   }
 
   if (data || charger_data.bat_voltage_x100 != gui_bat_prev_data.bat_voltage_x100) {
-    tft->setTextColor(DISPLAY_BLACK);
-    tft->setCursor(100, 30);
-    tft->print(gui_bat_prev_data.bat_voltage_x100 / 100);
+    display_set_textcolor(DISPLAY_BLACK);
+    display_set_cursor(100, 30);
+    display_print8(gui_bat_prev_data.bat_voltage_x100 / 100);
     if (gui_bat_prev_data.bat_voltage_x100 % 100 < 10) {
-      tft->print(".0");
+      display_prints(".0");
     } else {
-      tft->print(".");
+      display_prints(".");
     }
-    tft->print(gui_bat_prev_data.bat_voltage_x100 % 100);
-    tft->print("V");
+    display_print8(gui_bat_prev_data.bat_voltage_x100 % 100);
+    display_prints("V");
 
     uint8_t pc = charger_control_get_voltage_pc();
 
-    tft->setTextColor(pc > GUI_PAGE_BAT_HIGH ? DISPLAY_GREEN : (pc > GUI_PAGE_BAT_MEDIUM ? DISPLAY_WHITE : DISPLAY_RED));
-    tft->setCursor(100, 30);
-    tft->print(charger_data.bat_voltage_x100 / 100);
+    display_set_textcolor(pc > GUI_PAGE_BAT_HIGH ? DISPLAY_GREEN : (pc > GUI_PAGE_BAT_MEDIUM ? DISPLAY_WHITE : DISPLAY_RED));
+    display_set_cursor(100, 30);
+    display_print8(charger_data.bat_voltage_x100 / 100);
     if (charger_data.bat_voltage_x100 % 100 < 10) {
-      tft->print(".0");
+      display_prints(".0");
     } else {
-      tft->print(".");
+      display_prints(".");
     }
-    tft->print(charger_data.bat_voltage_x100 % 100);
-    tft->print("V");
+    display_print8(charger_data.bat_voltage_x100 % 100);
+    display_prints("V");
 
     gui_bat_prev_data.bat_voltage_x100 = charger_data.bat_voltage_x100;
   }
 
   if (data || charger_data.bat_current_x10 != gui_bat_prev_data.bat_current_x10) {
-    tft->setTextColor(DISPLAY_BLACK);
-    tft->setCursor(100, 30+8);
-    tft->print(gui_bat_prev_data.bat_current_x10 / 10);
-    tft->print(".");
-    tft->print(gui_bat_prev_data.bat_current_x10 % 10);
-    tft->print("A");
+    display_set_textcolor(DISPLAY_BLACK);
+    display_set_cursor(100, 30+8);
+    display_print8(gui_bat_prev_data.bat_current_x10 / 10);
+    display_prints(".");
+    display_print8(gui_bat_prev_data.bat_current_x10 % 10);
+    display_prints("A");
 
-    tft->setTextColor(DISPLAY_WHITE);
-    tft->setCursor(100, 30+8);
-    tft->print(charger_data.bat_current_x10 / 10);
-    tft->print(".");
-    tft->print(charger_data.bat_current_x10 % 10);
-    tft->print("A");
+    display_set_textcolor(DISPLAY_WHITE);
+    display_set_cursor(100, 30+8);
+    display_print8(charger_data.bat_current_x10 / 10);
+    display_prints(".");
+    display_print8(charger_data.bat_current_x10 % 10);
+    display_prints("A");
 
     gui_bat_prev_data.bat_current_x10 = charger_data.bat_current_x10;
   }
 
   if (data || charger_data.i2c_in_use != gui_bat_prev_data.i2c_in_use) {
-    tft->setTextColor(DISPLAY_BLACK);
-    tft->setCursor(100, 30+8*2);
+    display_set_textcolor(DISPLAY_BLACK);
+    display_set_cursor(100, 30+8*2);
     if (gui_bat_prev_data.i2c_in_use) {
-      tft->print("Charger");
+      display_prints("Charger");
     } else {
-      tft->print("ADC");
+      display_prints("ADC");
     }
 
-    tft->setTextColor(charger_data.i2c_in_use ? DISPLAY_GREEN : DISPLAY_YELLOW);
-    tft->setCursor(100, 30+8*2);
+    display_set_textcolor(charger_data.i2c_in_use ? DISPLAY_GREEN : DISPLAY_YELLOW);
+    display_set_cursor(100, 30+8*2);
     if (charger_data.i2c_in_use) {
-      tft->print("Charger");
+      display_prints("Charger");
     } else {
-      tft->print("ADC");
+      display_prints("ADC");
     }
 
     gui_bat_prev_data.i2c_in_use = charger_data.i2c_in_use;

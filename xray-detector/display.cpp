@@ -52,6 +52,58 @@ bool display_is_on() {
   return digitalRead(DISPLAY_ENABLE_PIN) == LOW && display_tft != NULL;
 }
 
-Adafruit_SPITFT * display_get_object() {
-  return display_tft;
+void display_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+  display_tft->fillRect(x, y, w, h, color);
+}
+
+void display_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+  display_tft->drawRect(x, y, w, h, color);
+}
+
+void display_draw_bitmap(uint8_t x, uint8_t y, const uint8_t bitmap[], uint8_t w, uint8_t h, uint16_t color) {
+  display_tft->drawBitmap(x, y, bitmap, w, h, color);
+}
+
+void display_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color) {
+  display_tft->drawLine(x0, y0, x1, y1, color);
+}
+
+void display_set_cursor(uint8_t x, uint8_t y) {
+  display_tft->setCursor(x, y);
+}
+
+void display_set_textcolor(uint16_t color) {
+  display_tft->setTextColor(color);
+}
+
+void display_set_textsize(uint8_t size) {
+  display_tft->setTextSize(size);
+}
+
+void display_prints(const char * text) {
+  display_tft->print(text);
+}
+
+void display_println(const char * text) {
+  display_tft->println(text);
+}
+
+void display_print8(uint8_t value) {
+  display_tft->print(value);
+}
+
+void display_print16(uint16_t value) {
+  display_tft->print(value);
+}
+
+void display_print32(uint32_t value) {
+  display_tft->print(value);
+}
+
+uint8_t display_get_cursor_x() {
+  return display_tft->getCursorX();
+}
+
+uint8_t display_get_cursor_y() {
+  return display_tft->getCursorY();
 }

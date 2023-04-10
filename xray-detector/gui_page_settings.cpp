@@ -36,20 +36,19 @@ uint8_t menu_change_value = SETTINGS_PAGE_UNCHANGED;
 bool menu_refreshed        = false;
 uint8_t menu_edit_datetime = SETTINGS_PAGE_EDIT_DATETIME_UNCHANGED;
 
-void gui_settings_page_print(Adafruit_SPITFT * tft, bool force, uint8_t index, uint8_t value, const char * text);
-void gui_settings_page_print_onoff(Adafruit_SPITFT * tft, bool force, uint8_t index, bool value);
-void gui_settings_page_print_date(Adafruit_SPITFT * tft, bool force, uint8_t index);
-void gui_settings_page_print_time(Adafruit_SPITFT * tft, bool force, uint8_t index);
+void gui_settings_page_print(bool force, uint8_t index, uint8_t value, const char * text);
+void gui_settings_page_print_onoff(bool force, uint8_t index, bool value);
+void gui_settings_page_print_date(bool force, uint8_t index);
+void gui_settings_page_print_time(bool force, uint8_t index);
 
 bool gui_settings_page_refresh(uint8_t data) {
-  Adafruit_SPITFT * tft = display_get_object();
-  if (tft == NULL) {
+  if (!display_is_on()) {
     return false;
   }
 
-  tft->setCursor(0, 18);
-  tft->setTextColor(DISPLAY_WHITE);
-  tft->setTextSize(1);
+  display_set_cursor(0, 18);
+  display_set_textcolor(DISPLAY_WHITE);
+  display_set_textsize(1);
 
   if (data) {
     if (data == USERINPUT_MOVE_LEFT) {
@@ -58,32 +57,32 @@ bool gui_settings_page_refresh(uint8_t data) {
       menu_actual = SETTINGS_PAGE_MINVAL;
     }
 
-    tft->println("  UV freq: ");
-    tft->println("  UV duty: ");
-    tft->println("  UV: ");
-    tft->println("  Date: ");
-    tft->println("  Time: ");
-    tft->println(" Alarms:");
-    tft->println("  Level1: ");
-    tft->println("  Level2: ");
-    tft->println("  No Impuls: ");
+    display_println("  UV freq: ");
+    display_println("  UV duty: ");
+    display_println("  UV: ");
+    display_println("  Date: ");
+    display_println("  Time: ");
+    display_println(" Alarms:");
+    display_println("  Level1: ");
+    display_println("  Level2: ");
+    display_println("  No Impuls: ");
   }
 
   if (menu_actual_prev != menu_actual || data) {
-    tft->drawBitmap(3, 18 + 8 * menu_actual_prev, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_BLACK);
-    tft->drawBitmap(3, 18 + 8 * menu_actual, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_YELLOW);
+    display_draw_bitmap(3, 18 + 8 * menu_actual_prev, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_BLACK);
+    display_draw_bitmap(3, 18 + 8 * menu_actual, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_YELLOW);
     menu_actual_prev = menu_actual;
   }
 
   if (data || !menu_refreshed) {
-    gui_settings_page_print(tft, data, SETTINGS_PAGE_UV_FREQ, eeprom_control_get_freq(), "KHz");
-    gui_settings_page_print(tft, data, SETTINGS_PAGE_UV_DUTY, eeprom_control_get_duty(), "%");
-    gui_settings_page_print_onoff(tft, data, SETTINGS_PAGE_UV_ON, uv_control_is_on()); 
-    gui_settings_page_print(tft, data, SETTINGS_PAGE_ALRM_L1, alarm_manager_getlevel(1), "uR"); 
-    gui_settings_page_print(tft, data, SETTINGS_PAGE_ALRM_L2, alarm_manager_getlevel(2), "mR"); 
-    gui_settings_page_print(tft, data, SETTINGS_PAGE_ALRM_NI, alarm_manager_getlevel(ALARM_MANAGER_NI_LEVEL), "sec"); 
-    gui_settings_page_print_date(tft, data, SETTINGS_PAGE_DATE);
-    gui_settings_page_print_time(tft, data, SETTINGS_PAGE_TIME);
+    gui_settings_page_print(data, SETTINGS_PAGE_UV_FREQ, eeprom_control_get_freq(), "KHz");
+    gui_settings_page_print(data, SETTINGS_PAGE_UV_DUTY, eeprom_control_get_duty(), "%");
+    gui_settings_page_print_onoff(data, SETTINGS_PAGE_UV_ON, uv_control_is_on()); 
+    gui_settings_page_print(data, SETTINGS_PAGE_ALRM_L1, alarm_manager_getlevel(1), "uR"); 
+    gui_settings_page_print(data, SETTINGS_PAGE_ALRM_L2, alarm_manager_getlevel(2), "mR"); 
+    gui_settings_page_print(data, SETTINGS_PAGE_ALRM_NI, alarm_manager_getlevel(ALARM_MANAGER_NI_LEVEL), "sec"); 
+    gui_settings_page_print_date(data, SETTINGS_PAGE_DATE);
+    gui_settings_page_print_time(data, SETTINGS_PAGE_TIME);
   }
 
   menu_refreshed = true;
@@ -91,151 +90,151 @@ bool gui_settings_page_refresh(uint8_t data) {
   return false;
 }
 
-void gui_settings_page_print(Adafruit_SPITFT * tft, bool force, uint8_t index, uint8_t value, const char * text) {
-  tft->setCursor(80, 18 + 8 * index);
-  tft->fillRect(tft->getCursorX(), tft->getCursorY(), 80, 8, DISPLAY_BLACK);
+void gui_settings_page_print(bool force, uint8_t index, uint8_t value, const char * text) {
+  display_set_cursor(80, 18 + 8 * index);
+  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
 
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    tft->setTextColor(DISPLAY_YELLOW);
-    tft->print("<");
-    tft->print(menu_change_value);
-    tft->print(" ");
-    tft->print(text);
-    tft->print(">");
+    display_set_textcolor(DISPLAY_YELLOW);
+    display_prints("<");
+    display_print8(menu_change_value);
+    display_prints(" ");
+    display_prints(text);
+    display_prints(">");
   } else {
-    tft->setTextColor(DISPLAY_WHITE);
-    tft->print(value);
-    tft->print(" ");
-    tft->print(text);
+    display_set_textcolor(DISPLAY_WHITE);
+    display_print8(value);
+    display_prints(" ");
+    display_prints(text);
   }
 }
 
-void gui_settings_page_print_date(Adafruit_SPITFT * tft, bool force, uint8_t index) {
-  tft->setCursor(80, 18 + 8 * index);
-  tft->fillRect(tft->getCursorX(), tft->getCursorY(), 80, 8, DISPLAY_BLACK);
+void gui_settings_page_print_date(bool force, uint8_t index) {
+  display_set_cursor(80, 18 + 8 * index);
+  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
   
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     if (menu_edit_datetime == SETTINGS_PAGE_EDIT_DATETIME_YEAR) {
-      tft->setTextColor(DISPLAY_YELLOW);
-      tft->print("<");
-      tft->print(menu_change_value);
-      tft->print(">");
+      display_set_textcolor(DISPLAY_YELLOW);
+      display_prints("<20");
+      display_print8(menu_change_value);
+      display_prints(">");
     } else {
-      tft->setTextColor(DISPLAY_WHITE);
-      tft->print(clock_get_component(CLOCK_COMPONENT_YEAR));
+      display_set_textcolor(DISPLAY_WHITE);
+      display_print16(clock_get_component(CLOCK_COMPONENT_YEAR));
     }
-    tft->setTextColor(DISPLAY_WHITE);
-    tft->print("-");
+    display_set_textcolor(DISPLAY_WHITE);
+    display_prints("-");
     if (menu_edit_datetime == SETTINGS_PAGE_EDIT_DATETIME_MONTH) {
-      tft->setTextColor(DISPLAY_YELLOW);
-      tft->print("<");
-      tft->print(menu_change_value);
-      tft->print(">");
+      display_set_textcolor(DISPLAY_YELLOW);
+      display_prints("<");
+      display_print8(menu_change_value);
+      display_prints(">");
     } else {
-      tft->setTextColor(DISPLAY_WHITE);
+      display_set_textcolor(DISPLAY_WHITE);
       uint8_t temp = clock_get_component(CLOCK_COMPONENT_MONTH);
       if (temp <= 9) {
-        tft->print("0");
+        display_prints("0");
       }
-      tft->print(temp);
+      display_print8(temp);
     }
-    tft->setTextColor(DISPLAY_WHITE);
-    tft->print("-");
+    display_set_textcolor(DISPLAY_WHITE);
+    display_prints("-");
     if (menu_edit_datetime == SETTINGS_PAGE_EDIT_DATETIME_DAY) {
-      tft->setTextColor(DISPLAY_YELLOW);
-      tft->print("<");
-      tft->print(menu_change_value);
-      tft->print(">");
+      display_set_textcolor(DISPLAY_YELLOW);
+      display_prints("<");
+      display_print8(menu_change_value);
+      display_prints(">");
     } else {
-      tft->setTextColor(DISPLAY_WHITE);
+      display_set_textcolor(DISPLAY_WHITE);
       uint8_t temp = clock_get_component(CLOCK_COMPONENT_DAY);
       if (temp <= 9) {
-        tft->print("0");
+        display_prints("0");
       }
-      tft->print(temp);
+      display_print8(temp);
     }
   } else {
-    tft->setTextColor(DISPLAY_WHITE);
-    tft->print(clock_get_component(CLOCK_COMPONENT_YEAR));
+    display_set_textcolor(DISPLAY_WHITE);
+    display_print16(clock_get_component(CLOCK_COMPONENT_YEAR));
     uint8_t temp = clock_get_component(CLOCK_COMPONENT_MONTH);
     if (temp <= 9) {
-      tft->print("-0");
+      display_prints("-0");
     } else {
-      tft->print("-");
+      display_prints("-");
     }
-    tft->print(temp);
+    display_print8(temp);
     temp = clock_get_component(CLOCK_COMPONENT_DAY);
     if (temp <= 9) {
-      tft->print("-0");
+      display_prints("-0");
     } else {
-      tft->print("-");
+      display_prints("-");
     }
-    tft->print(temp);
+    display_print8(temp);
   }
 }
 
-void gui_settings_page_print_time(Adafruit_SPITFT * tft, bool force, uint8_t index) {
-  tft->setCursor(80, 18 + 8 * index);
-  tft->fillRect(tft->getCursorX(), tft->getCursorY(), 80, 8, DISPLAY_BLACK);
+void gui_settings_page_print_time(bool force, uint8_t index) {
+  display_set_cursor(80, 18 + 8 * index);
+  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
   
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     if (menu_edit_datetime == SETTINGS_PAGE_EDIT_DATETIME_HOUR) {
-      tft->setTextColor(DISPLAY_YELLOW);
-      tft->print("<");
-      tft->print(menu_change_value);
-      tft->print(">");
+      display_set_textcolor(DISPLAY_YELLOW);
+      display_prints("<");
+      display_print8(menu_change_value);
+      display_prints(">");
     } else {
-      tft->setTextColor(DISPLAY_WHITE);
+      display_set_textcolor(DISPLAY_WHITE);
       uint8_t temp = clock_get_component(CLOCK_COMPONENT_HOUR);
       if (temp <= 9) {
-        tft->print("0");
+        display_prints("0");
       }
-      tft->print(temp);
+      display_print8(temp);
     }
-    tft->setTextColor(DISPLAY_WHITE);
-    tft->print(":");
+    display_set_textcolor(DISPLAY_WHITE);
+    display_prints(":");
     if (menu_edit_datetime == SETTINGS_PAGE_EDIT_DATETIME_MINUTE) {
-      tft->setTextColor(DISPLAY_YELLOW);
-      tft->print("<");
-      tft->print(menu_change_value);
-      tft->print(">");
+      display_set_textcolor(DISPLAY_YELLOW);
+      display_prints("<");
+      display_print8(menu_change_value);
+      display_prints(">");
     } else {
-      tft->setTextColor(DISPLAY_WHITE);
+      display_set_textcolor(DISPLAY_WHITE);
       uint8_t temp = clock_get_component(CLOCK_COMPONENT_MINUTE);
       if (temp <= 9) {
-        tft->print("0");
+        display_prints("0");
       }
-      tft->print(temp);
+      display_print8(temp);
     }
   } else {
-    tft->setTextColor(DISPLAY_WHITE);
+    display_set_textcolor(DISPLAY_WHITE);
     uint8_t temp = clock_get_component(CLOCK_COMPONENT_HOUR);
     if (temp <= 9) {
-      tft->print("0");
+      display_prints("0");
     }
-    tft->print(temp);
+    display_print8(temp);
     temp = clock_get_component(CLOCK_COMPONENT_MINUTE);
     if (temp <= 9) {
-      tft->print(":0");
+      display_prints(":0");
     } else {
-      tft->print(":");
+      display_prints(":");
     }
-    tft->print(temp);
+    display_print8(temp);
   }
 }
 
-void gui_settings_page_print_onoff(Adafruit_SPITFT * tft, bool force, uint8_t index, bool value) {
-  tft->setCursor(80, 18 + 8 * index);
-  tft->fillRect(tft->getCursorX(), tft->getCursorY(), 80, 8, DISPLAY_BLACK);
+void gui_settings_page_print_onoff(bool force, uint8_t index, bool value) {
+  display_set_cursor(80, 18 + 8 * index);
+  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
   
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    tft->setTextColor(DISPLAY_YELLOW);
-    tft->print("<");
-    tft->print(value ? "ON" : "OFF");
-    tft->print(">");
+    display_set_textcolor(DISPLAY_YELLOW);
+    display_prints("<");
+    display_print8(value ? "ON" : "OFF");
+    display_prints(">");
   } else {
-    tft->setTextColor(DISPLAY_WHITE);
-    tft->print(value ? "ON" : "OFF");
+    display_set_textcolor(DISPLAY_WHITE);
+    display_prints(value ? "ON" : "OFF");
   }
 }
 
@@ -439,9 +438,9 @@ bool gui_settings_page_on_click(uint8_t data) {
   } else if (menu_actual == SETTINGS_PAGE_DATE) {
     if (menu_change_value == SETTINGS_PAGE_UNCHANGED) {
       menu_edit_datetime = SETTINGS_PAGE_EDIT_DATETIME_YEAR;
-      menu_change_value = clock_get_component(CLOCK_COMPONENT_YEAR);
+      menu_change_value = clock_get_component(CLOCK_COMPONENT_YEAR) - 2000;
     } else if (menu_edit_datetime == SETTINGS_PAGE_EDIT_DATETIME_YEAR) {
-      clock_set_component(CLOCK_COMPONENT_YEAR, menu_change_value);
+      clock_set_component(CLOCK_COMPONENT_YEAR, menu_change_value + 2000);
       menu_edit_datetime = SETTINGS_PAGE_EDIT_DATETIME_MONTH;
       menu_change_value = clock_get_component(CLOCK_COMPONENT_MONTH);
     } else if (menu_edit_datetime == SETTINGS_PAGE_EDIT_DATETIME_MONTH) {
