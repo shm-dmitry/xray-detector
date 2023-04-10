@@ -2,6 +2,14 @@
 
 #include "clock.h"
 
+#define DISPLAY_SIMUL true
+
+#if DISPLAY_SIMUL
+#include <Adafruit_ILI9341.h>
+#else
+#include <Adafruit_ST7735.h>
+#endif
+
 #define DISPLAY_DC_PIN      A3
 #define DISPLAY_ENABLE_PIN  A1
 

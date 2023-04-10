@@ -1,6 +1,8 @@
 #ifndef GUI_IMAGES_H_
 #define GUI_IMAGES_H_
 
+#include "Arduino.h"
+
 #define IMG_XRAY_SMALL_W  8
 #define IMG_XRAY_SMALL_H  8
 static const uint8_t PROGMEM IMG_XRAY_SMALL[] = {0x7e, 0x3c, 0x3c, 0x18, 0x7e, 0xff, 0xe7, 0xc3};

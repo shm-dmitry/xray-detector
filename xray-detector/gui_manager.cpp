@@ -7,6 +7,7 @@
 #include "gui_page_settings.h"
 #include "userinput.h"
 #include "display.h"
+#include "stddef.h"
 
 #define GUI_PAGE_RAD   0
 
