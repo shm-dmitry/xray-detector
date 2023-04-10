@@ -36,10 +36,10 @@ uint8_t menu_change_value = SETTINGS_PAGE_UNCHANGED;
 bool menu_refreshed        = false;
 uint8_t menu_edit_datetime = SETTINGS_PAGE_EDIT_DATETIME_UNCHANGED;
 
-void gui_settings_page_print(bool force, uint8_t index, uint8_t value, const char * text);
-void gui_settings_page_print_onoff(bool force, uint8_t index, bool value);
-void gui_settings_page_print_date(bool force, uint8_t index);
-void gui_settings_page_print_time(bool force, uint8_t index);
+void gui_settings_page_print(uint8_t index, uint8_t value, const char * text);
+void gui_settings_page_print_onoff(uint8_t index, bool value);
+void gui_settings_page_print_date(uint8_t index);
+void gui_settings_page_print_time(uint8_t index);
 
 bool gui_settings_page_refresh(uint8_t data) {
   if (!display_is_on()) {
@@ -75,14 +75,14 @@ bool gui_settings_page_refresh(uint8_t data) {
   }
 
   if (data || !menu_refreshed) {
-    gui_settings_page_print(data, SETTINGS_PAGE_UV_FREQ, eeprom_control_get_freq(), "KHz");
-    gui_settings_page_print(data, SETTINGS_PAGE_UV_DUTY, eeprom_control_get_duty(), "%");
-    gui_settings_page_print_onoff(data, SETTINGS_PAGE_UV_ON, uv_control_is_on()); 
-    gui_settings_page_print(data, SETTINGS_PAGE_ALRM_L1, alarm_manager_getlevel(1), "uR"); 
-    gui_settings_page_print(data, SETTINGS_PAGE_ALRM_L2, alarm_manager_getlevel(2), "mR"); 
-    gui_settings_page_print(data, SETTINGS_PAGE_ALRM_NI, alarm_manager_getlevel(ALARM_MANAGER_NI_LEVEL), "sec"); 
-    gui_settings_page_print_date(data, SETTINGS_PAGE_DATE);
-    gui_settings_page_print_time(data, SETTINGS_PAGE_TIME);
+    gui_settings_page_print(SETTINGS_PAGE_UV_FREQ, eeprom_control_get_freq(), "KHz");
+    gui_settings_page_print(SETTINGS_PAGE_UV_DUTY, eeprom_control_get_duty(), "%");
+    gui_settings_page_print_onoff(SETTINGS_PAGE_UV_ON, uv_control_is_on()); 
+    gui_settings_page_print(SETTINGS_PAGE_ALRM_L1, alarm_manager_getlevel(1), "uR"); 
+    gui_settings_page_print(SETTINGS_PAGE_ALRM_L2, alarm_manager_getlevel(2), "mR"); 
+    gui_settings_page_print(SETTINGS_PAGE_ALRM_NI, alarm_manager_getlevel(ALARM_MANAGER_NI_LEVEL), "sec"); 
+    gui_settings_page_print_date(SETTINGS_PAGE_DATE);
+    gui_settings_page_print_time(SETTINGS_PAGE_TIME);
   }
 
   menu_refreshed = true;
@@ -90,7 +90,7 @@ bool gui_settings_page_refresh(uint8_t data) {
   return false;
 }
 
-void gui_settings_page_print(bool force, uint8_t index, uint8_t value, const char * text) {
+void gui_settings_page_print(uint8_t index, uint8_t value, const char * text) {
   display_set_cursor(80, 18 + 8 * index);
   display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
 
@@ -109,7 +109,7 @@ void gui_settings_page_print(bool force, uint8_t index, uint8_t value, const cha
   }
 }
 
-void gui_settings_page_print_date(bool force, uint8_t index) {
+void gui_settings_page_print_date(uint8_t index) {
   display_set_cursor(80, 18 + 8 * index);
   display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
   
@@ -173,7 +173,7 @@ void gui_settings_page_print_date(bool force, uint8_t index) {
   }
 }
 
-void gui_settings_page_print_time(bool force, uint8_t index) {
+void gui_settings_page_print_time(uint8_t index) {
   display_set_cursor(80, 18 + 8 * index);
   display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
   
@@ -223,7 +223,7 @@ void gui_settings_page_print_time(bool force, uint8_t index) {
   }
 }
 
-void gui_settings_page_print_onoff(bool force, uint8_t index, bool value) {
+void gui_settings_page_print_onoff(uint8_t index, bool value) {
   display_set_cursor(80, 18 + 8 * index);
   display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
   

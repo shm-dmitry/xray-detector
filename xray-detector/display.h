@@ -21,7 +21,6 @@
 #define DISPLAY_GRAY   0xC659
 #endif
 
-
 void display_init();
 void display_on();
 void display_off();
