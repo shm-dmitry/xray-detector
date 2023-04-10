@@ -3,6 +3,7 @@
 #include "svf_control.h"
 #include "userinput.h"
 #include "display.h"
+#include "gui_images.h"
 
 uint8_t gui_flash_pc = 0x00;
 uint8_t gui_flash_prev_pc = 0x00;
@@ -21,27 +22,28 @@ bool gui_flash_page_refresh(uint8_t data) {
     tft->drawLine(20+50, 40+20, 20+50+10, 40+20+5, DISPLAY_WHITE);
     tft->drawLine(20+50+10, 40-5, 20+50+10, 40+20+5, DISPLAY_WHITE);
     
-    tft->fillCircle(20+50/2, 40+10, 4, DISPLAY_GRAY);
-    tft->fillCircle(20+50/2, 40+10, 2, DISPLAY_BLACK);
+    tft->drawBitmap(20+50/2-4, 40+6, IMG_CIRCLE, IMG_CIRCLE_H, IMG_CIRCLE_W, DISPLAY_GRAY);
+    tft->drawBitmap(20+50/2-4, 40+6, IMG_CIRCLE_LOW, IMG_CIRCLE_LOW_H, IMG_CIRCLE_LOW_W, DISPLAY_BLACK);
 
-    tft->fillTriangle(20+50+2, 40+10, 20+50+8, 40+10-3, 20+50+8, 40+10+3, DISPLAY_GRAY);
+    tft->drawBitmap(20+50+2, 40+6, IMG_TRIANGLE, IMG_TRIANGLE_H, IMG_TRIANGLE_W, DISPLAY_GRAY);
   }
 
   if (gui_flash_prev_pc != gui_flash_pc || gui_flash_editing_prev != gui_flash_editing || data) {
     if (gui_flash_pc == 0x00) {
-      tft->fillTriangle(20+50+2, 40+10, 20+50+8, 40+10-3, 20+50+8, 40+10+3, DISPLAY_GRAY);
-      tft->fillCircle(20+50/2, 40+10, 4, DISPLAY_GRAY);
-      tft->fillCircle(20+50/2, 40+10, 2, DISPLAY_BLACK);
+      tft->drawBitmap(20+50+2, 40+6, IMG_TRIANGLE, IMG_TRIANGLE_H, IMG_TRIANGLE_W, DISPLAY_GRAY);
+  
+      tft->drawBitmap(20+50/2-4, 40+6, IMG_CIRCLE, IMG_CIRCLE_H, IMG_CIRCLE_W, DISPLAY_GRAY);
+      tft->drawBitmap(20+50/2-4, 40+6, IMG_CIRCLE_LOW, IMG_CIRCLE_LOW_H, IMG_CIRCLE_LOW_W, DISPLAY_BLACK);
 
       tft->fillRect(29, 40+20+20, 102, 10, DISPLAY_BLACK);
       if (gui_flash_editing) {
         tft->drawRect(29, 40+20+20, 102, 10, DISPLAY_WHITE);
       }
     } else {
-      tft->fillTriangle(20+50+2, 40+10, 20+50+8, 40+10-3, 20+50+8, 40+10+3, DISPLAY_YELLOW);
+      tft->drawBitmap(20+50+2, 40+6, IMG_TRIANGLE, IMG_TRIANGLE_H, IMG_TRIANGLE_W, DISPLAY_YELLOW);
 
-      tft->fillCircle(20+50/2, 40+10, 4, DISPLAY_WHITE);
-      tft->fillCircle(20+50/2, 40+10, 2, DISPLAY_GREEN);
+      tft->drawBitmap(20+50/2-4, 40+6, IMG_CIRCLE, IMG_CIRCLE_H, IMG_CIRCLE_W, DISPLAY_WHITE);
+      tft->drawBitmap(20+50/2-4, 40+6, IMG_CIRCLE_LOW, IMG_CIRCLE_LOW_H, IMG_CIRCLE_LOW_W, DISPLAY_GREEN);
 
       if (gui_flash_editing) {
         if (!gui_flash_editing_prev) {
