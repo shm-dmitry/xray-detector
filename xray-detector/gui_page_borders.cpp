@@ -125,11 +125,15 @@ void gui_borders_show_bat_pc(uint8_t voltagepc) {
     voltagepc = 20;
   }
 
-  display_fill_rect(160-20-2, 0, voltagepc, 8, color);
+  if (voltagepc > 0) {
+    display_fill_rect(160-20-2, 0, voltagepc, 8, color);
+  }
+
   if (voltagepc < 19) {
     display_fill_rect(160-20-2 + voltagepc, 0, 20 - voltagepc, 8, DISPLAY_BLACK);
     display_draw_rect(160-20-2 + voltagepc, 0, 20 - voltagepc, 8, color);
   }
+  
   display_fill_rect(160-2, 2, 2, 4, color);
 }
 

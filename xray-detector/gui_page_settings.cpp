@@ -230,7 +230,7 @@ void gui_settings_page_print_onoff(uint8_t index, bool value) {
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     display_set_textcolor(DISPLAY_YELLOW);
     display_prints("<");
-    display_print8(value ? "ON" : "OFF");
+    display_prints(value ? "ON" : "OFF");
     display_prints(">");
   } else {
     display_set_textcolor(DISPLAY_WHITE);

@@ -1,21 +1,28 @@
 #include "display.h"
 
+#include "Arduino.h"
 #include "clock.h"
 
-#define DISPLAY_SIMUL true
+#define DISPLAY_TYOE_SIMUL_ADAFRUIT false
+#define DISPLAY_TYPE_SIMIL_CUSTOM true
+#define DISPLAY_TYPE_ST7335_ADAFRUIT false
+#define DISPLAY_TYPE_ST7335_CUSTOM false
 
-#if DISPLAY_SIMUL
+#if DISPLAY_TYOE_SIMUL_ADAFRUIT
 #include <Adafruit_ILI9341.h>
-#else
+#elif DISPLAY_TYPE_ST7335_ADAFRUIT
 #include <Adafruit_ST7735.h>
+#elif DISPLAY_TYPE_SIMIL_CUSTOM
+#include "display_ili9341.h"
+#elif DISPLAY_TYPE_ST7335_CUSTOM
 #endif
 
 #define DISPLAY_DC_PIN      A3
 #define DISPLAY_ENABLE_PIN  A1
 
-#if DISPLAY_SIMUL
+#if DISPLAY_TYOE_SIMUL_ADAFRUIT
 Adafruit_ILI9341 * display_tft = NULL;
-#else
+#elif DISPLAY_TYPE_ST7335_ADAFRUIT
 Adafruit_ST7735 * display_tft = NULL;
 #endif
 
@@ -28,38 +35,43 @@ void display_init() {
 }
 
 void display_on() {
-  if (display_tft) {
+  if (display_is_on()) {
     return;
   }
 
   digitalWrite(DISPLAY_ENABLE_PIN, LOW);
   clock_delay(100); // await for a power up
 
-#if DISPLAY_SIMUL
+#if DISPLAY_TYOE_SIMUL_ADAFRUIT
   display_tft = new Adafruit_ILI9341(-1, DISPLAY_DC_PIN, -1);
   display_tft->begin();
-#else
+#elif DISPLAY_TYPE_ST7335_ADAFRUIT
   display_tft = new Adafruit_ST7735(-1, DISPLAY_DC_PIN, -1);
   display_tft->setSPISpeed(1000000);
   display_tft->initR(INITR_BLACKTAB);
   display_tft->setRotation(3);
+#elif DISPLAY_TYPE_SIMIL_CUSTOM
+  display_ili9341_init(DISPLAY_DC_PIN);
 #endif
 
-  display_tft->fillRect(0, 0, 160, 128, DISPLAY_BLACK);
+  display_fill_rect(0, 0, 160, 128, DISPLAY_BLACK);
 }
 
 void display_off() {
   digitalWrite(DISPLAY_ENABLE_PIN, HIGH);
   digitalWrite(DISPLAY_DC_PIN, LOW);
   clock_delay(100);
+#if DISPLAY_TYOE_SIMUL_ADAFRUIT or DISPLAY_TYPE_ST7335_ADAFRUIT
   delete display_tft;
   display_tft = NULL;
+#endif
 }
 
 bool display_is_on() {
-  return digitalRead(DISPLAY_ENABLE_PIN) == LOW && display_tft != NULL;
+  return digitalRead(DISPLAY_ENABLE_PIN) == LOW;
 }
 
+#if DISPLAY_TYOE_SIMUL_ADAFRUIT or DISPLAY_TYPE_ST7335_ADAFRUIT
 void display_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
   display_tft->fillRect(x, y, w, h, color);
 }
@@ -115,3 +127,60 @@ uint8_t display_get_cursor_x() {
 uint8_t display_get_cursor_y() {
   return display_tft->getCursorY();
 }
+#elif DISPLAY_TYPE_SIMIL_CUSTOM or DISPLAY_TYPE_ST7335_CUSTOM
+void display_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+  display_spi_fill_rect(x, y, w, h, color);
+}
+
+void display_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+  display_spi_draw_rect(x, y, w, h, color);
+}
+
+void display_draw_bitmap(uint8_t x, uint8_t y, const uint8_t bitmap[], uint8_t w, uint8_t h, uint16_t color) {
+  display_spi_draw_bitmap(x, y, bitmap, w, h, color);
+}
+
+void display_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color) {
+  display_spi_draw_line(x0, y0, x1, y1, color);
+}
+
+void display_set_cursor(uint8_t x, uint8_t y) {
+  display_spi_set_cursor(x, y);
+}
+
+void display_set_textcolor(uint16_t color) {
+  display_spi_set_textcolor(color);
+}
+
+void display_set_textsize(uint8_t size) {
+  display_spi_set_textsize(size);
+}
+
+void display_prints(const char * text) {
+  display_spi_prints(text);
+}
+
+void display_println(const char * text) {
+  display_spi_println(text);
+}
+
+void display_print8(uint8_t value) {
+  display_spi_print8(value);
+}
+
+void display_print16(uint16_t value) {
+  display_spi_print16(value);
+}
+
+void display_print32(uint32_t value) {
+  display_spi_print32(value);
+}
+
+uint8_t display_get_cursor_x() {
+  return display_spi_get_cursor_x();
+}
+
+uint8_t display_get_cursor_y() {
+  return display_spi_get_cursor_y();
+}
+#endif

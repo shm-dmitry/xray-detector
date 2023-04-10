@@ -4,7 +4,7 @@
 
 #include "Arduino.h"
 
-#define UV_HIGH_VOLTAGE_OUTPUT_ENABLED false
+#define UV_HIGH_VOLTAGE_OUTPUT_ENABLED true
 
 #define UV_CONTROL_PIN_PWM    PD3
 
