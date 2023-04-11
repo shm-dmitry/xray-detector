@@ -4,9 +4,9 @@
 #include "clock.h"
 
 #define DISPLAY_TYOE_SIMUL_ADAFRUIT false
-#define DISPLAY_TYPE_SIMIL_CUSTOM true
+#define DISPLAY_TYPE_SIMIL_CUSTOM false
 #define DISPLAY_TYPE_ST7335_ADAFRUIT false
-#define DISPLAY_TYPE_ST7335_CUSTOM false
+#define DISPLAY_TYPE_ST7335_CUSTOM true
 
 #if DISPLAY_TYOE_SIMUL_ADAFRUIT
 #include <Adafruit_ILI9341.h>
@@ -15,6 +15,7 @@
 #elif DISPLAY_TYPE_SIMIL_CUSTOM
 #include "display_ili9341.h"
 #elif DISPLAY_TYPE_ST7335_CUSTOM
+#include "display_st7735.h"
 #endif
 
 #define DISPLAY_DC_PIN      A3
@@ -47,11 +48,12 @@ void display_on() {
   display_tft->begin();
 #elif DISPLAY_TYPE_ST7335_ADAFRUIT
   display_tft = new Adafruit_ST7735(-1, DISPLAY_DC_PIN, -1);
-  display_tft->setSPISpeed(1000000);
   display_tft->initR(INITR_BLACKTAB);
   display_tft->setRotation(3);
 #elif DISPLAY_TYPE_SIMIL_CUSTOM
   display_ili9341_init(DISPLAY_DC_PIN);
+#elif DISPLAY_TYPE_ST7335_CUSTOM
+  display_st7735_init(DISPLAY_DC_PIN);
 #endif
 
   display_fill_rect(0, 0, 160, 128, DISPLAY_BLACK);

@@ -22,6 +22,11 @@ This code based on projects:
   x = y; \
   y = a; \
 }
+#define SPI_WRITE32(x) \
+  SPI.transfer(x >> 24); \
+  SPI.transfer(x >> 16); \
+  SPI.transfer(x >> 8); \
+  SPI.transfer(x);
 
 uint8_t display_spi_dc;
 SPISettings settings;
@@ -32,6 +37,9 @@ SPISettings settings;
 #define DISPLAY_SPI_CASET 0x2A ///< Column Address Set
 #define DISPLAY_SPI_PASET 0x2B ///< Page Address Set
 #define DISPLAY_SPI_RAMWR 0x2C ///< Memory Write
+#define ST77XX_CASET 0x2A
+#define ST77XX_RASET 0x2B
+#define ST77XX_RAMWR 0x2C
 
 inline void display_spi_start_write();
 inline void display_spi_end_write();

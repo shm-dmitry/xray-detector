@@ -1,9 +1,20 @@
-#include "display_ili9341.h"
+#include "display_st7735.h"
 
 #include "Arduino.h"
-
 #include "clock.h"
 #include "avr/pgmspace.h"
+
+// I tryed to reproduce INIT stage from https://github.com/adafruit/Adafruit-ST7735-Library
+// but it does not work. I dont know - why.
+// But I saw - INIT stage from https://github.com/adafruit/Adafruit_ILI9341 works fine with my ST7735 display
+// So, I took init stage from ILI9341 and ROTATE command from ST7735
+
+#define ST77XX_MADCTL 0x36
+#define ST77XX_MADCTL_MY 0x80
+#define ST77XX_MADCTL_MX 0x40
+#define ST77XX_MADCTL_MV 0x20
+#define ST77XX_MADCTL_ML 0x10
+#define ST77XX_MADCTL_RGB 0x00
 
 #define ILI9341_SWRESET 0x01 ///< Software reset register
 #define ILI9341_PWCTR1 0xC0 ///< Power Control 1
@@ -49,7 +60,7 @@ static const uint8_t PROGMEM ILI9341_INIT_CMD[] = {
   0x00                                   // End of list
 };
 
-void display_ili9341_init(uint8_t dc) {
+void display_st7735_init(uint8_t dc) {
   display_spi_init(dc);
 
   display_spi_send_command(ILI9341_SWRESET);
@@ -66,5 +77,14 @@ void display_ili9341_init(uint8_t dc) {
       clock_delay(150);
     }
   }
+
+  uint8_t madctl = 0xC0;
+  display_spi_send_command(ST77XX_MADCTL, &madctl, 1);
+
+  madctl = ST77XX_MADCTL_MX | ST77XX_MADCTL_MY | ST77XX_MADCTL_RGB;
+  display_spi_send_command(ST77XX_MADCTL, &madctl, 1);
+
+  madctl = ST77XX_MADCTL_MX | ST77XX_MADCTL_MV | ST77XX_MADCTL_RGB;
+  display_spi_send_command(ST77XX_MADCTL, &madctl, 1);
 }
 

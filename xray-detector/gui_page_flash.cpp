@@ -36,7 +36,7 @@ bool gui_flash_page_refresh(uint8_t data) {
 
       display_fill_rect(29, 40+20+20, 102, 10, DISPLAY_BLACK);
       if (gui_flash_editing) {
-        display_draw_rect(29, 40+20+20, 102, 10, DISPLAY_RED);
+        display_draw_rect(29, 40+20+20, 102, 10, DISPLAY_WHITE);
       }
     } else {
       display_draw_bitmap(20+50+2, 40+6, IMG_TRIANGLE, IMG_TRIANGLE_H, IMG_TRIANGLE_W, DISPLAY_YELLOW);
