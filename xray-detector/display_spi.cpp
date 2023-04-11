@@ -11,7 +11,7 @@ This code based on projects:
 #include "display_spi_font.h"
 #include "SPI.h"
 
-#define SPI_DEFAULT_FREQ F_CPU
+#define SPI_DEFAULT_FREQ 8000000L
 #define AVR_WRITESPI(x) for (SPDR = (x); (!(SPSR & _BV(SPIF)));)
 #define SPI_WRITE16(x) \
   SPI.transfer(x >> 8); \
@@ -79,13 +79,26 @@ void display_spi_init(uint8_t dc) {
   settings = SPISettings(SPI_DEFAULT_FREQ, MSBFIRST, SPI_MODE0);
 }
 
-void display_spi_send_command(uint8_t command, const uint8_t * data, uint8_t datasize) {
+void display_spi_send_command_pgm(uint8_t command, const uint8_t * data, uint8_t datasize) {
+  SPI.beginTransaction(settings);
   digitalWrite(display_spi_dc, LOW);
-  SPI.transfer(command);
+  AVR_WRITESPI(command);
   digitalWrite(display_spi_dc, HIGH);
   for (uint8_t i = 0; i<datasize; i++) {
-    SPI.transfer(data[i]);
+    AVR_WRITESPI(pgm_read_byte(data++));
   }
+  SPI.endTransaction();
+}
+
+void display_spi_send_command(uint8_t command, const uint8_t * data, uint8_t datasize) {
+  SPI.beginTransaction(settings);
+  digitalWrite(display_spi_dc, LOW);
+  AVR_WRITESPI(command);
+  digitalWrite(display_spi_dc, HIGH);
+  for (uint8_t i = 0; i<datasize; i++) {
+    AVR_WRITESPI(data[i]);
+  }
+  SPI.endTransaction();
 }
 
 void display_spi_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {

@@ -11,6 +11,8 @@ This code based on projects:
 
 void display_spi_init(uint8_t dc);
 void display_spi_send_command(uint8_t command, const uint8_t * data = 0, uint8_t datasize = 0);
+void display_spi_send_command_pgm(uint8_t command, const uint8_t * data = 0, uint8_t datasize = 0);
+
 void display_spi_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color);
 void display_spi_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color);
 void display_spi_draw_bitmap(uint8_t x, uint8_t y, const uint8_t bitmap[], uint8_t w, uint8_t h, uint16_t color);

@@ -1,10 +1,9 @@
 #include "uv_control.h"
 #include "eeprom_control.h"
 #include "rad_control.h"
+#include "config.h"
 
 #include "Arduino.h"
-
-#define UV_HIGH_VOLTAGE_OUTPUT_ENABLED true
 
 #define UV_CONTROL_PIN_PWM    PD3
 

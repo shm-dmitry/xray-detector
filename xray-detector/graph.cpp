@@ -11,6 +11,8 @@
 
 #define GRAPH_HISTORY_COLOR_MASKS 0b11000000
 
+#define GRAPH_MIN_MAXVALUE  50
+
 #define GRAPH_COLOR_FOR(value) \ 
   ((value & GRAPH_HISTORY_COLOR_MASKS) == GRAPH_HISTORY_COLOR1_MASK ? color1 : ((value & GRAPH_HISTORY_COLOR_MASKS) == GRAPH_HISTORY_COLOR2_MASK ? color2 : color3))
 #define GRAPH_VALUE_FOR(value) (value & GRAPH_MAX_HEIGHT)
@@ -21,6 +23,7 @@ uint32_t graph_history_maxvalue;
 uint32_t graph_history_prev_maxvalue;
 
 void graph_draw_one_column(uint8_t xbase, uint8_t ybase, uint8_t colwidth, uint8_t index, int8_t height, uint16_t color);
+void graph_correct_maxvalue(uint32_t & maxvalue);
 
 void graph_refresh_from_history() {
   const t_rad_history_minute_points_buffer * buffer = rad_history_get_minute_points_buffer();
@@ -34,6 +37,8 @@ void graph_refresh_from_history() {
   if (maxvalue == 0) {
     return;
   }
+
+  graph_correct_maxvalue(maxvalue);
 
   graph_history_prev_maxvalue = graph_history_maxvalue;
   graph_history_maxvalue = maxvalue;
@@ -130,4 +135,18 @@ void graph_draw_one_column(uint8_t xbase, uint8_t ybase, uint8_t colwidth, uint8
 
 uint32_t graph_get_maxvalue(bool prev) {
   return prev ? graph_history_prev_maxvalue : graph_history_maxvalue;
+}
+
+void graph_correct_maxvalue(uint32_t & maxvalue) {
+  if (maxvalue < GRAPH_MIN_MAXVALUE) {
+    maxvalue = GRAPH_MIN_MAXVALUE;
+  } else if (maxvalue > 1000000) {
+    maxvalue = ((maxvalue / 100000) + 1) * 100000;
+  } else if (maxvalue > 100000) {
+    maxvalue = ((maxvalue / 10000) + 1) * 10000;
+  } else if (maxvalue > 10000) {
+    maxvalue = ((maxvalue / 1000) + 1) * 1000;
+  } else if (maxvalue > 1000) {
+    maxvalue = ((maxvalue / 100) + 1) * 100;
+  }
 }
