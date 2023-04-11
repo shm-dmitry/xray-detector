@@ -3,6 +3,7 @@
 #include "alarm_manager.h"
 #include "string.h"
 #include "display.h"
+#include "Arduino.h"
 
 #define GRAPH_HISTORY_COLOR1_MASK 0b01000000
 #define GRAPH_HISTORY_COLOR2_MASK 0b10000000
@@ -45,9 +46,9 @@ void graph_refresh_from_history() {
     uint32_t dose = (*buffer)[i].dose;
     
     if (div <= 1) {
-      graph_history_buffer[i] = (dose * GRAPH_MAX_HEIGHT) / maxvalue;
+      graph_history_buffer[i] = (uint8_t)((dose * GRAPH_MAX_HEIGHT) / maxvalue);
     } else {
-      graph_history_buffer[i] = dose / div;
+      graph_history_buffer[i] = (uint8_t)(dose / div);
     }
 
     if (graph_history_buffer[i] > GRAPH_MAX_HEIGHT) {
@@ -58,11 +59,11 @@ void graph_refresh_from_history() {
 
     uint8_t level = alarm_manager_dose2level(dose);
     if (level == 0) {
-      graph_history_buffer[i] = graph_history_buffer[i] | GRAPH_HISTORY_COLOR1_MASK;
+      graph_history_buffer[i] |= GRAPH_HISTORY_COLOR1_MASK;
     } else if (level == 1) {
-      graph_history_buffer[i] = graph_history_buffer[i] | GRAPH_HISTORY_COLOR2_MASK;
+      graph_history_buffer[i] |= GRAPH_HISTORY_COLOR2_MASK;
     } else if (level == 2) {
-      graph_history_buffer[i] = graph_history_buffer[i] | GRAPH_HISTORY_COLOR3_MASK;
+      graph_history_buffer[i] |= GRAPH_HISTORY_COLOR3_MASK;
     }
   }
 }
@@ -80,14 +81,14 @@ void graph_write_delta(uint8_t xbase, uint8_t ybase, uint8_t colwidth, uint16_t 
       continue;
     }
 
-    uint8_t value = GRAPH_VALUE_FOR(graph_history_buffer[i]);
-    uint8_t prevvalue = GRAPH_VALUE_FOR(graph_history_prev_buffer[i]);
+    int8_t value = GRAPH_VALUE_FOR(graph_history_buffer[i]);
+    int8_t prevvalue = GRAPH_VALUE_FOR(graph_history_prev_buffer[i]);
 
-    if ((graph_history_buffer[i] & GRAPH_HISTORY_COLOR_MASKS) != (graph_history_prev_buffer[i] & GRAPH_HISTORY_COLOR_MASKS)) {
+    if (prevvalue > 0 && (graph_history_buffer[i] & GRAPH_HISTORY_COLOR_MASKS) != (graph_history_prev_buffer[i] & GRAPH_HISTORY_COLOR_MASKS)) {
       graph_draw_one_column(xbase, ybase, colwidth, i, value, GRAPH_COLOR_FOR(graph_history_buffer[i]));
 
-      if (value != prevvalue) {
-        graph_draw_one_column(xbase, ybase, colwidth, i, (int8_t)value - (int8_t)GRAPH_MAX_HEIGHT, bgcolor);
+      if (value < prevvalue) {
+        graph_draw_one_column(xbase, ybase, colwidth, i, value - (int8_t)GRAPH_MAX_HEIGHT, bgcolor);
       }
 
       continue;
@@ -98,7 +99,7 @@ void graph_write_delta(uint8_t xbase, uint8_t ybase, uint8_t colwidth, uint16_t 
     }
 
     if (value < prevvalue) {
-      graph_draw_one_column(xbase, ybase, colwidth, i, value - prevvalue, bgcolor);
+      graph_draw_one_column(xbase, ybase, colwidth, i, value - (int8_t)GRAPH_MAX_HEIGHT, bgcolor);
     }
   }
 }
