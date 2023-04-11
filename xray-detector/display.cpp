@@ -2,11 +2,7 @@
 
 #include "Arduino.h"
 #include "clock.h"
-
-#define DISPLAY_TYOE_SIMUL_ADAFRUIT false
-#define DISPLAY_TYPE_SIMIL_CUSTOM false
-#define DISPLAY_TYPE_ST7335_ADAFRUIT false
-#define DISPLAY_TYPE_ST7335_CUSTOM true
+#include "config.h"
 
 #if DISPLAY_TYOE_SIMUL_ADAFRUIT
 #include <Adafruit_ILI9341.h>

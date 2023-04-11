@@ -9,6 +9,7 @@
 #include "eeprom_control.h"
 #include "alarm_manager.h"
 #include "charger_control.h"
+#include "rad_history.h"
 //#include "ip5328p_dump.h"
 
 #define UV_DEBUG_MODE false
@@ -28,7 +29,6 @@ void setup() {
   clock_init();
   svf_control_init();
   eeprom_control_init();
-  clock_init();
   rad_control_init();
   uv_control_init();
   svf_control_init();
@@ -52,6 +52,7 @@ void loop() {
   charger_control_on_main_loop();
   svf_control_on_main_loop();
   gui_manager_on_main_loop();
+  rad_history_on_main_loop();
 
   clock_delay(5);
 }

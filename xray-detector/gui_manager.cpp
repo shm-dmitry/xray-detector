@@ -29,6 +29,7 @@ const t_page_callback PAGES_VTABLE[PAGES_COUNT][PAGE_CALLBACKS] = {
 };
 
 void gui_manager_init() {
+  gui_page_current = 0xFF;
 }
 
 void gui_manager_on_main_loop() {
@@ -37,6 +38,10 @@ void gui_manager_on_main_loop() {
   }
 
   uint8_t fullrefresh = 0x00;
+  if (gui_page_current == 0xFF) {
+    gui_page_current = GUI_PAGE_RAD;
+    fullrefresh = USERINPUT_MOVE_RIGHT;
+  }
 
   uint8_t move = userinput_get_move();
   if (move != USERINPUT_MOVE_NONE) {
@@ -83,7 +88,7 @@ void gui_manager_on_main_loop() {
 void gui_manager_openrad() {
   if (gui_page_current != GUI_PAGE_RAD) {
     gui_page_current = GUI_PAGE_RAD;
-    PAGES_VTABLE[gui_page_current][GUI_PAGE_ACTION_REFRESH](0x01);
+    PAGES_VTABLE[gui_page_current][GUI_PAGE_ACTION_REFRESH](USERINPUT_MOVE_RIGHT);
     gui_borders_refresh(gui_page_current, PAGES_COUNT);
   }
 }

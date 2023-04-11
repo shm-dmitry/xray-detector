@@ -4,6 +4,7 @@
 #include "charger_control.h"
 #include "powersave.h"
 #include "clock.h"
+#include "config.h"
 
 // This code based on Alex Gyver samples.
 // Thanks to him for the code.
@@ -17,8 +18,6 @@
 #define USERINPUT_PIN_CLICK   8
 // PCINT23
 #define USERINPUT_PIN_WAKEUP  PD7
-
-#define USERINPUT_ENCODER_SIMUL false
 
 #define USERINPUT_BIT_LEFT     (_BV(0))
 #define USERINPUT_BIT_RIGHT    (_BV(1))

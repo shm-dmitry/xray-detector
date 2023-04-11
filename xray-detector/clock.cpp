@@ -6,6 +6,8 @@
 #include "svf_control.h"
 #include "alarm_manager.h"
 #include "eeprom_control.h"
+#include "rad_history.h"
+#include "datepacker.h"
 
 #define CLOCK_MAX_UINT32_T    0xFFFFFFFF
 #define CLOCK_OVF_MILLIS_FIX         296
@@ -15,7 +17,8 @@
   isrcall_uv_control_on_timer(); \
   if (clock_seconds == 0) { \
     isrcall_alarm_manager_onminute(); \
-  }
+  } \
+  isrcall_rad_history_on_second(clock_seconds); \
 
 #define CLOCK_ON_ONE_MILLISECOND_CALLBACKS \
   isrcall_svf_control_on_millis();
@@ -50,8 +53,7 @@ ISR(TIMER0_COMPA_vect) {
   }
 }
 
-uint8_t clock_days_in_month()
-{
+uint8_t clock_days_in_month() {
   const uint8_t ds_in_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
   
   if (clock_month == 2) {
@@ -207,6 +209,23 @@ void clock_get_time(uint16_t & year, uint8_t & month, uint8_t & day, uint8_t & h
   minute = clock_minutes;
 
   SREG = oldSREG;
+}
+
+uint32_t clock_get_packed(bool inisr = false) {
+  uint8_t oldSREG;
+  if (!inisr) {
+    oldSREG = SREG;
+    cli();
+  }
+
+  uint32_t packed;
+  DATE_PACK(packed, 2000 + clock_year, clock_month, clock_day, clock_hour, clock_minutes);
+
+  if (!inisr) {
+    SREG = oldSREG;
+  }
+
+  return packed;
 }
 
 uint32_t clock_millis(bool inisr = false) {

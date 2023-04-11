@@ -18,6 +18,7 @@ void clock_set_component(uint8_t component, uint16_t value);
 
 void clock_delay(uint32_t mils);
 
+uint32_t clock_get_packed(bool inisr = false);
 uint32_t clock_millis(bool inisr = false);
 uint32_t clock_calc_delay(uint32_t base, uint32_t delta, bool & ovf);
 bool clock_is_elapsed(uint32_t base, uint32_t delta, bool inisr = false);
