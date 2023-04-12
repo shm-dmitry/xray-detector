@@ -60,7 +60,7 @@ void display_ili9341_init(uint8_t dc) {
   while ((cmd = pgm_read_byte(addr++)) > 0) {
     uint8_t x = pgm_read_byte(addr++);
     uint8_t numArgs = x & 0x7F;
-    display_spi_send_command(cmd, addr, numArgs);
+    display_spi_send_command_pgm(cmd, addr, numArgs);
     addr += numArgs;
     if (x & 0x80) {
       clock_delay(150);

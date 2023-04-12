@@ -1,6 +1,7 @@
 #include "rad_history.h"
 #include "rad_control.h"
 #include "clock.h"
+#include "rad_accum_history.h"
 
 #include "Arduino.h"
 
@@ -56,6 +57,9 @@ void rad_history_on_main_loop() {
     }
 
     uint32_t temp = rad_control_dose();
+
+    rad_accum_history_ondose(temp);
+
     if (temp > 0 && rad_history_totaldose + temp > rad_history_totaldose) {
       rad_history_totaldose += temp;
       rad_history_totaldose_count++;

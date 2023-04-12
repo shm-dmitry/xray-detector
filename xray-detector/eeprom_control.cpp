@@ -2,6 +2,8 @@
 
 #include "EEPROM.h"
 #include "datepacker.h"
+#include "config.h"
+#include "Arduino.h"
 
 #define EEPROM_VERSION_ACTUAL 0x01
 #define EEPROM_VERSION_UNINIT 0xFF
@@ -10,6 +12,7 @@
 #define EEPROM_ADDR_UV        0x01
 #define EEPROM_ADDR_ALARM     0x0F
 #define EEPROM_ADDR_DATE      0x16
+#define EEPROM_ADDR_ACCUM     (1024 - EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS * 8 - 10)
 
 #define EEPROM_DEFAULT_UV_FREQ 100
 #define EEPROM_DEFAULT_UV_DUTY 13
@@ -18,7 +21,14 @@
 #define EEPROM_DEFAULT_ALRM_L2    1
 #define EEPROM_DEFAULT_ALRM_NOIMP (60*3)
 
+#define EEPROM_ADDR_ACCUM_DATEFORCELL(x) (EEPROM_ADDR_ACCUM + (x) * 8)
+#define EEPROM_ADDR_ACCUM_VALUEFORCELL(x) (EEPROM_ADDR_ACCUM + (x) * 8 + 4)
+
 void eeprom_control_migrate(uint8_t from_ver);
+
+#if EEPROM_CONTROL_INIT_FAKE_BUFFER
+void eeprom_control_init_fake_accum_buffer();
+#endif
 
 void eeprom_control_init() {
   uint8_t ver = EEPROM.read(EEPROM_ADDR_VERSION);
@@ -27,6 +37,10 @@ void eeprom_control_init() {
   } else if (ver != EEPROM_VERSION_ACTUAL) {
     eeprom_control_migrate(ver);
   }
+
+#if EEPROM_CONTROL_INIT_FAKE_BUFFER
+  eeprom_control_init_fake_accum_buffer();
+#endif
 }
 
 void eeprom_control_migrate(uint8_t from_ver) {
@@ -116,3 +130,161 @@ void eeprom_control_save_date_time(uint8_t year, uint8_t month, uint8_t day, uin
   EEPROM.put(EEPROM_ADDR_DATE, packed);
 }
 
+void eeprom_control_accum_resetbuffer(uint32_t datepacked) {
+  uint32_t temp = 0xFFFFFFFF;
+  for (uint8_t i = 1; i<EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS; i++) {
+    EEPROM.put(EEPROM_ADDR_ACCUM_DATEFORCELL(i), temp);
+    EEPROM.put(EEPROM_ADDR_ACCUM_VALUEFORCELL(i), temp);
+  }
+
+  EEPROM.put(EEPROM_ADDR_ACCUM_DATEFORCELL(0), datepacked);
+
+  temp = 0;
+  EEPROM.put(EEPROM_ADDR_ACCUM_VALUEFORCELL(0), temp);
+}
+
+uint16_t eeprom_control_find_accum_for_date(uint32_t datepacked) {
+  // memory is a ring-buffer for a EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS cells.
+
+  uint32_t temp = 0;
+
+  // found cell for current month
+  for (uint8_t i = 0; i<EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS; i++) {
+    EEPROM.get(EEPROM_ADDR_ACCUM_DATEFORCELL(i), temp);
+    if (temp == datepacked) {
+      return i;
+    }
+  }
+
+  // check consistency - we cant store dates less than any
+  EEPROM.get(EEPROM_ADDR_ACCUM_DATEFORCELL(0), temp);
+  if (temp != 0xFFFFFFFF && temp > datepacked) {
+    eeprom_control_accum_resetbuffer(datepacked);
+    return 0;
+  }
+
+  // try to find next cell in ring buffer
+  uint32_t prev = 0;
+  EEPROM.get(EEPROM_ADDR_ACCUM_DATEFORCELL(0), prev);
+  if (prev == 0xFFFFFFFF) {
+    // buffer is empty, use first cell
+    EEPROM.put(EEPROM_ADDR_ACCUM_DATEFORCELL(0), datepacked);
+    temp = 0;
+    EEPROM.put(EEPROM_ADDR_ACCUM_VALUEFORCELL(0), temp);
+    return 0;
+  }
+
+  for (uint8_t i = 1; i<EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS; i++) {
+    EEPROM.get(EEPROM_ADDR_ACCUM_DATEFORCELL(i), temp);
+    if (temp == 0xFFFFFFFF) {
+      // found empty cell
+      EEPROM.put(EEPROM_ADDR_ACCUM_DATEFORCELL(i), datepacked);
+      temp = 0;
+      EEPROM.put(EEPROM_ADDR_ACCUM_VALUEFORCELL(i), temp);
+      return i;
+    }
+
+    if (temp > datepacked) {
+      // inconsistency, reset buffer
+      eeprom_control_accum_resetbuffer(datepacked);
+      return 0;
+    }
+
+    if (temp > prev) {
+      prev = temp;
+    } else {
+      // this is end of buffer, so  - we can write data here
+      EEPROM.put(EEPROM_ADDR_ACCUM_DATEFORCELL(i), datepacked);
+      temp = 0;
+      EEPROM.put(EEPROM_ADDR_ACCUM_VALUEFORCELL(i), temp);
+      return i;
+    }
+  }
+
+  // end of buffer, this case means - we start from beginning
+  EEPROM.put(EEPROM_ADDR_ACCUM_DATEFORCELL(0), datepacked);
+  temp = 0;
+  EEPROM.put(EEPROM_ADDR_ACCUM_VALUEFORCELL(0), temp);
+  return 0;
+}
+
+void eeprom_control_on_save_rad_accum(uint32_t datepacked, uint32_t dose) {
+  if (dose == 0) {
+    return;
+  }
+
+  datepacked = DATE_PACKER__YYMM(datepacked);
+
+  uint8_t cell = eeprom_control_find_accum_for_date(datepacked);
+  uint32_t current = 0;
+  EEPROM.get(EEPROM_ADDR_ACCUM_VALUEFORCELL(cell), current);
+  if (current != 0xFFFFFFFF && current + dose > current) {
+    current += dose;
+    EEPROM.put(EEPROM_ADDR_ACCUM_VALUEFORCELL(cell), current);
+  } else if (current != 0xFFFFFFFF) {
+    current = 0xFFFFFFFF;
+    EEPROM.put(EEPROM_ADDR_ACCUM_VALUEFORCELL(cell), current);
+  }
+}
+
+bool eeprom_control_read_accumulated(uint8_t sortedindex, uint32_t & datepacked, uint32_t & value) {
+  if (sortedindex > EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS) {
+    return false;    
+  }
+
+  // 1. find begin-of-ring-buffer
+  uint32_t prev = 0;
+  EEPROM.get(EEPROM_ADDR_ACCUM_DATEFORCELL(0), prev);
+  if (prev == 0xFFFFFFFF || prev == 0) {
+    return false;
+  }
+
+  uint8_t begin = 1;
+  for (;begin < EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS; begin++) {
+    uint32_t current = 0;
+    EEPROM.get(EEPROM_ADDR_ACCUM_DATEFORCELL(begin), current);
+    if (current == 0xFFFFFFFF) {
+      begin = 0;
+      break; // end of buffer reached
+    }
+
+    if (current > prev) {
+      prev = current;      
+    } else {
+      break;
+    }
+  }
+
+  if (begin == EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS) {
+    // restart buffer from beginning
+    begin = 0;
+  }
+
+  // get requested position
+  begin += sortedindex;
+  if (begin >= EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS) {
+    begin -= EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS;
+  }
+
+  // try to read cell
+  EEPROM.get(EEPROM_ADDR_ACCUM_DATEFORCELL(begin), prev);
+  if (prev == 0xFFFFFFFF) {
+    return false; // nodata in cell
+  }
+
+  datepacked = prev;
+  EEPROM.get(EEPROM_ADDR_ACCUM_VALUEFORCELL(begin), value);
+  return true;
+}
+
+#if EEPROM_CONTROL_INIT_FAKE_BUFFER
+void eeprom_control_init_fake_accum_buffer() {
+  eeprom_control_accum_resetbuffer(0xFFFFFFFF);
+
+  for (uint8_t i = 0; i<7; i++) {
+    uint32_t packed = 0;
+    DATE_PACK(packed, 2023, i + 1, 0, 0, 0);
+    eeprom_control_on_save_rad_accum(packed, i * 100 + 4444);
+  }
+}
+#endif

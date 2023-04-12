@@ -13,4 +13,7 @@
 // Enable hign voltage generator
 #define UV_HIGH_VOLTAGE_OUTPUT_ENABLED false
 
+// init fake accumulated data buffer on startup
+#define EEPROM_CONTROL_INIT_FAKE_BUFFER true
+
 #endif /* CONFIG_H_ */

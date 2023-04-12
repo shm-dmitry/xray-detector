@@ -22,7 +22,7 @@ uint8_t gui_page_current = 0;
 
 // this "vtable" saves RAM and ROM against classes with virtual methods
 const t_page_callback PAGES_VTABLE[PAGES_COUNT][PAGE_CALLBACKS] = {
-  {&gui_rad_page_refresh,      NULL,                       NULL},
+  {&gui_rad_page_refresh,      NULL,                       &gui_rad_page_onclick},
   {&gui_flash_page_refresh,    &gui_flash_page_on_move,    &gui_flash_page_on_click},
   {&gui_bat_page_refresh,      NULL,                       NULL},
   {&gui_settings_page_refresh, &gui_settings_page_on_move, &gui_settings_page_on_click},
@@ -88,7 +88,7 @@ void gui_manager_on_main_loop() {
 void gui_manager_openrad() {
   if (gui_page_current != GUI_PAGE_RAD) {
     gui_page_current = GUI_PAGE_RAD;
-    PAGES_VTABLE[gui_page_current][GUI_PAGE_ACTION_REFRESH](USERINPUT_MOVE_RIGHT);
+    PAGES_VTABLE[gui_page_current][GUI_PAGE_ACTION_REFRESH](0xFF);
     gui_borders_refresh(gui_page_current, PAGES_COUNT);
   }
 }
