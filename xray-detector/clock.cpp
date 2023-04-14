@@ -18,7 +18,7 @@
   if (clock_seconds == 0) { \
     isrcall_alarm_manager_onminute(); \
   } \
-  isrcall_rad_history_on_second(clock_seconds); \
+  isrcall_rad_history_on_second(clock_seconds);
 
 #define CLOCK_ON_ONE_MILLISECOND_CALLBACKS \
   isrcall_svf_control_on_millis();

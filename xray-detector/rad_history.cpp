@@ -19,6 +19,7 @@ bool rad_history_minute_buffer_changed = false;
 
 void rad_history_on_store_one_event(uint32_t dose);
 void rad_history_on_store_last_point(uint32_t dose);
+void rad_history_process_simple_event();
 
 void isrcall_rad_history_on_second(uint8_t seconds) {
   rad_history_on_timer = (seconds % 5 == 0) ? RAD_HISTORY_TIMER_STOREEVENT : RAD_HISTORY_TIMER_EVENT;
@@ -44,28 +45,38 @@ void rad_history_on_main_loop() {
     return;
   }
 
-  if (event == RAD_HISTORY_TIMER_STOREEVENT && rad_history_totaldose_count > 0) {
-    uint32_t dose = rad_history_totaldose / rad_history_totaldose_count;
-    rad_history_on_store_one_event(dose);
+  if (event == RAD_HISTORY_TIMER_STOREEVENT) {
+    if (rad_history_totaldose_count == 0) {
+      rad_history_process_simple_event();      
+    }
 
-    rad_history_totaldose = 0;
-    rad_history_totaldose_count = 0;
-    rad_history_minute_currentdate = 0;
+    if (rad_history_totaldose_count > 0) {
+      uint32_t dose = rad_history_totaldose / rad_history_totaldose_count;
+      rad_history_on_store_one_event(dose);
+
+      rad_history_totaldose = 0;
+      rad_history_totaldose_count = 0;
+      rad_history_minute_currentdate = 0;
+    }
   } else if (event == RAD_HISTORY_TIMER_EVENT) {
-    if (rad_history_minute_currentdate == 0) {
-      rad_history_minute_currentdate = clock_get_packed();
-    }
+    rad_history_process_simple_event();
+  }
+}
 
-    uint32_t temp = rad_control_dose();
+void rad_history_process_simple_event() {
+  if (rad_history_minute_currentdate == 0) {
+    rad_history_minute_currentdate = clock_get_packed();
+  }
 
-    rad_accum_history_ondose(temp);
+  uint32_t temp = rad_control_dose();
 
-    if (temp > 0 && rad_history_totaldose + temp > rad_history_totaldose) {
-      rad_history_totaldose += temp;
-      rad_history_totaldose_count++;
+  rad_accum_history_ondose(temp);
 
-      rad_history_on_store_last_point(rad_history_totaldose / rad_history_totaldose_count);
-    }
+  if (temp > 0 && rad_history_totaldose + temp > rad_history_totaldose) {
+    rad_history_totaldose += temp;
+    rad_history_totaldose_count++;
+
+    rad_history_on_store_last_point(rad_history_totaldose / rad_history_totaldose_count);
   }
 }
 
