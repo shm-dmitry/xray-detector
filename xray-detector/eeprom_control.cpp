@@ -14,8 +14,10 @@
 #define EEPROM_ADDR_DATE      0x16
 #define EEPROM_ADDR_ACCUM     (1024 - EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS * 8 - 10)
 
-#define EEPROM_DEFAULT_UV_FREQ 100
-#define EEPROM_DEFAULT_UV_DUTY 13
+#define EEPROM_DEFAULT_UV_FREQ  100
+#define EEPROM_DEFAULT_UV_DUTY  13
+#define EEPROM_DEFAULT_UV_APX_A 5463
+#define EEPROM_DEFAULT_UV_APX_B 1471
 
 #define EEPROM_DEFAULT_ALRM_L1    100
 #define EEPROM_DEFAULT_ALRM_L2    1
@@ -44,13 +46,17 @@ void eeprom_control_init() {
 }
 
 void eeprom_control_migrate(uint8_t from_ver) {
+  eeprom_control_init_default();
 }
 
 void eeprom_control_init_default() {
-  EEPROM.update(EEPROM_ADDR_VERSION, EEPROM_VERSION_ACTUAL);
+  uint8_t value = EEPROM_VERSION_ACTUAL;
+  EEPROM.update(EEPROM_ADDR_VERSION, value);
   
   eeprom_control_save_freq(EEPROM_DEFAULT_UV_FREQ);
   eeprom_control_save_duty(EEPROM_DEFAULT_UV_DUTY);
+  eeprom_control_save_uv_A(EEPROM_DEFAULT_UV_APX_A);
+  eeprom_control_save_uv_B(EEPROM_DEFAULT_UV_APX_B);
 
   eeprom_control_save_alarm_levels(EEPROM_DEFAULT_ALRM_L1, EEPROM_DEFAULT_ALRM_L2);
 }
@@ -79,6 +85,34 @@ uint8_t eeprom_control_get_duty() {
     val = EEPROM_DEFAULT_UV_DUTY;
   }
   return val;
+}
+
+uint16_t eeprom_control_get_uv_A() {
+  uint16_t a = 0;
+  EEPROM.get(EEPROM_ADDR_UV + 2, a);
+  if (a == 0xFFFF) {
+    a = EEPROM_DEFAULT_UV_APX_A;
+  }
+
+  return a;
+}
+
+void eeprom_control_save_uv_A(uint16_t a) {
+  EEPROM.put(EEPROM_ADDR_UV + 2, a);
+}
+
+uint16_t eeprom_control_get_uv_B() {
+  uint16_t b = 0;
+  EEPROM.get(EEPROM_ADDR_UV + 4, b);
+  if (b == 0xFFFF) {
+    b = EEPROM_DEFAULT_UV_APX_B;
+  }
+
+  return b;
+}
+
+void eeprom_control_save_uv_B(uint16_t b) {
+  EEPROM.put(EEPROM_ADDR_UV + 4, b);
 }
 
 void eeprom_control_get_alarm_levels(uint8_t & level1, uint8_t & level2) {

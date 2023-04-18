@@ -140,3 +140,10 @@ void gui_borders_show_bat_pc(uint8_t voltagepc) {
 void gui_borders_show_dose_flag(uint8_t doseflag) {
   display_draw_bitmap(115, 0, IMG_XRAY_SMALL, IMG_XRAY_SMALL_W, IMG_XRAY_SMALL_H, doseflag == 0 ? DISPLAY_GREEN : (doseflag == 1 ? DISPLAY_YELLOW : DISPLAY_RED));
 }
+
+void gui_borders_onwakeup() {
+  page_borders_hash_cal  = 0xFFFF;
+  page_borders_tab       = 0xFF;
+  page_borders_bat_px    = 0xFF;
+  page_borders_dose_flag = 0xFF;
+}

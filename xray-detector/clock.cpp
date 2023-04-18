@@ -9,6 +9,8 @@
 #include "rad_history.h"
 #include "datepacker.h"
 
+typedef void (*t_wd_timer_impl)();
+
 #define CLOCK_MAX_UINT32_T    0xFFFFFFFF
 #define CLOCK_OVF_MILLIS_FIX         296
 
@@ -26,6 +28,9 @@
 #define CLOCK_ON_RESET_MILLISECOND_CALLBACKS \
   isrcall_alarm_manager_onresetmillis();
 
+#define CLOCK_START_TIMER_COUNTER0  \
+  TCCR0B  = _BV(WGM02) | _BV(CS00) | _BV(CS01)
+
 volatile uint32_t clock_millis_value = 0;
 volatile uint8_t clock_year    = 22;
 volatile uint8_t clock_month   = 12;
@@ -34,9 +39,15 @@ volatile uint8_t clock_hour    = 0;
 volatile uint8_t clock_minutes = 0;
 volatile uint8_t clock_seconds = 0;
 
+volatile uint16_t clock_wd_timer_value_ms =  0;
+volatile uint16_t clock_wd_timer_calibrate_start_ms = 0;
+volatile t_wd_timer_impl wd_timer_impl;
+
 void clock_on_one_second();
 void clock_on_one_millis();
 void clock_on_reset_millis();
+void isr_clock_wd_timer_calibrate();
+void isr_clock_wd_timer_execute();
 
 ISR(TIMER0_COMPA_vect) {
   clock_millis_value++; 
@@ -51,6 +62,35 @@ ISR(TIMER0_COMPA_vect) {
   } else {
     clock_on_one_millis();
   }
+}
+
+ISR(WDT_vect) {
+  if (wd_timer_impl) {
+    wd_timer_impl();
+  }
+}
+
+void isr_clock_wd_timer_calibrate() {
+  if (clock_wd_timer_calibrate_start_ms > 0) {
+    clock_wd_timer_value_ms = clock_millis_value - clock_wd_timer_calibrate_start_ms;
+    clock_wd_timer_calibrate_start_ms = clock_millis_value;
+  } else {
+    clock_wd_timer_calibrate_start_ms = clock_millis_value;
+  }
+}
+
+void isr_clock_wd_timer_execute() {
+  uint32_t prevms = clock_millis_value;
+  clock_millis_value += clock_wd_timer_value_ms;
+  if (clock_millis_value < prevms) {
+    clock_millis_value += CLOCK_OVF_MILLIS_FIX;
+    clock_on_reset_millis();
+  }
+
+  uint16_t ms_to_next_second = 1000 - prevms % 1000;
+  if (clock_wd_timer_value_ms <= ms_to_next_second) {
+    clock_on_one_second();
+  }  
 }
 
 uint8_t clock_days_in_month() {
@@ -116,11 +156,21 @@ void clock_init() {
   eeprom_control_get_date_time(clock_year, clock_month, clock_day, clock_hour, clock_minutes);
 
   TCCR0A  = _BV(WGM01) | _BV(WGM00);
-  TCCR0B  = _BV(WGM02) | _BV(CS00) | _BV(CS01);
+  CLOCK_START_TIMER_COUNTER0;
 
   OCR0A = F_CPU / 64 / 1000 - 1;
   
   TIMSK0 |= _BV(OCIE0A);   
+
+  // start wd timer in calibrate mode
+  wd_timer_impl = &isr_clock_wd_timer_calibrate;
+
+  uint8_t oldSREG = SREG;
+  cli();
+  WDTCSR = (1 << WDCE) | (1 << WDE); 
+  WDTCSR = (0 << WDP3) | (0 << WDP2) | (1 << WDP1) | (1 << WDP0);
+  WDTCSR |= (1 << WDIE);
+  SREG = oldSREG;
 }
 
 uint16_t clock_get_component(uint8_t component) {
@@ -274,3 +324,35 @@ bool clock_is_elapsed(uint32_t base, uint32_t delta, bool inisr = false) {
     return now >= untill;
   }
 }
+
+bool clock_enter_sleep_mode() {
+  uint8_t oldSREG = SREG;
+  cli();
+
+  bool success = (clock_wd_timer_value_ms > 0);
+  if (success) {
+    wd_timer_impl = &isr_clock_wd_timer_execute;
+    TCCR0B = 0;
+  }
+
+  SREG = oldSREG;
+
+  return success;
+}
+
+void clock_leave_sleep_mode() {
+  uint32_t current = clock_millis();
+  // await one WDT cicle
+  while (current == clock_millis());
+
+  // switch to standart timer
+  uint8_t oldSREG = SREG;
+  cli();
+
+  wd_timer_impl = &isr_clock_wd_timer_calibrate;
+  clock_wd_timer_calibrate_start_ms = 0;
+  CLOCK_START_TIMER_COUNTER0;
+
+  SREG = oldSREG;
+}
+

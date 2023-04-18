@@ -261,3 +261,8 @@ bool gui_rad_page_onclick(uint8_t data) {
   }
 }
 
+bool gui_rad_page_onwakeup(uint8_t data) {
+  rad_page_dose = 0;
+  rad_page_accum = 0;
+  rad_page_mode = RAD_PAGE_MODE_STARTUP;
+}

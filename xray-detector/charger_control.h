@@ -19,6 +19,8 @@ void charger_control_on_main_loop();
 void charger_control_enter_sleep_mode();
 
 bool charger_control_get_data(t_charger_data & data);
+bool charger_control_read_adc(t_charger_data & data);
+
 uint8_t charger_control_get_voltage_pc();
 
 void isrcall_charger_control_onusbint();

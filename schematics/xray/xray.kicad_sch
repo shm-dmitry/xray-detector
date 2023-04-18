@@ -5677,8 +5677,8 @@
     (effects (font (size 1.27 1.27) (thickness 0.254) bold) (justify left bottom))
     (uuid a2c7bd1f-91cc-4b48-b3e7-356c96585fda)
   )
-  (text "NOTE*\nThese capacitors used to adjust output voltage"
-    (at 95.25 344.17 0)
+  (text "NOTE*\nThese capacitors used to adjust output voltage\n\nNOTE**\nThis resistor can be used to adjust output voltage\nUse 10...100 ohm to reduce or increase it"
+    (at 95.25 351.79 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid b2a81a49-db03-45f7-a0da-66cda2247e42)
   )
@@ -9597,10 +9597,10 @@
   (symbol (lib_id "Device:R") (at 43.18 313.69 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 89660b35-b209-41f0-8ea7-91fd771bc464)
-    (property "Reference" "R1" (at 43.18 307.34 90)
+    (property "Reference" "R1" (at 43.18 308.61 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "10" (at 43.18 309.88 90)
+    (property "Value" "68 **" (at 43.18 311.15 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 43.18 315.468 90)

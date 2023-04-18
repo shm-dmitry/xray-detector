@@ -2,6 +2,7 @@
 
 #include "charger_control.h"
 #include "display.h"
+#include "string.h"
 
 #define GUI_PAGE_BAT_HIGH   70
 #define GUI_PAGE_BAT_MEDIUM 30
@@ -103,4 +104,8 @@ bool gui_bat_page_refresh(uint8_t data) {
   }
 
   return true;
+}
+
+void gui_bat_page_onwakeup(uint8_t data) {
+  memset(&gui_bat_prev_data, 0, sizeof(t_charger_data));
 }

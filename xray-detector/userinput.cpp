@@ -156,3 +156,7 @@ bool userinput_is_wakeup() {
 
   return false;
 }
+
+void isrcall_userinput_force_wakeup() {
+  USERINPUT_SETFLAG(USERINPUT_BIT_WAKEUP);  
+}

@@ -30,14 +30,13 @@ void setup() {
   svf_control_init();
   eeprom_control_init();
   rad_control_init();
-  uv_control_init();
   svf_control_init();
   userinput_init();
   display_init(); 
   gui_manager_init();
-  powersave_init();
   alarm_manager_init();
   charger_control_init();
+  uv_control_init();
 
   Serial.println("Init done");
 }
@@ -49,6 +48,7 @@ void loop() {
     return;
   }
   
+  uv_control_on_main_loop();
   charger_control_on_main_loop();
   svf_control_on_main_loop();
   gui_manager_on_main_loop();

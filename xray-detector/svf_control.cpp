@@ -245,3 +245,13 @@ void svf_control_flash(uint8_t percent) {
     }
   }
 }
+
+void svf_control_stop() {
+  svf_control_flash(0); 
+
+  svf_control_sound_mute();
+  svf_control_vibro_mute();
+
+  svf_control_vibro_stop();
+  svf_control_speaker_stop();
+}

@@ -3,7 +3,6 @@
 
 #include "stdbool.h"
 
-void powersave_init();
 bool powersave_on_main_loop();
 void powersave_wakeup();
 bool powersave_is_on();

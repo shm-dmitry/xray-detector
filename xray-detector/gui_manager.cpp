@@ -14,18 +14,19 @@
 #define GUI_PAGE_ACTION_REFRESH 0
 #define GUI_PAGE_ACTION_ONMOVE  1
 #define GUI_PAGE_ACTION_ONCLICK 2
+#define GUI_PAGE_ACTION_ONRESET 3
 
 #define PAGES_COUNT    4
-#define PAGE_CALLBACKS (GUI_PAGE_ACTION_ONCLICK + 1)
+#define PAGE_CALLBACKS (GUI_PAGE_ACTION_ONRESET + 1)
 
 uint8_t gui_page_current = 0;
 
 // this "vtable" saves RAM and ROM against classes with virtual methods
 const t_page_callback PAGES_VTABLE[PAGES_COUNT][PAGE_CALLBACKS] = {
-  {&gui_rad_page_refresh,      NULL,                       &gui_rad_page_onclick},
-  {&gui_flash_page_refresh,    &gui_flash_page_on_move,    &gui_flash_page_on_click},
-  {&gui_bat_page_refresh,      NULL,                       NULL},
-  {&gui_settings_page_refresh, &gui_settings_page_on_move, &gui_settings_page_on_click},
+  {&gui_rad_page_refresh,      NULL,                       &gui_rad_page_onclick,       &gui_rad_page_onwakeup},
+  {&gui_flash_page_refresh,    &gui_flash_page_on_move,    &gui_flash_page_on_click,    &gui_flash_page_onwakeup},
+  {&gui_bat_page_refresh,      NULL,                       NULL,                        &gui_bat_page_onwakeup},
+  {&gui_settings_page_refresh, &gui_settings_page_on_move, &gui_settings_page_on_click, &gui_settings_page_onwakeup},
 };
 
 void gui_manager_init() {
@@ -83,6 +84,18 @@ void gui_manager_on_main_loop() {
   PAGES_VTABLE[gui_page_current][GUI_PAGE_ACTION_REFRESH](fullrefresh);
 
   gui_borders_refresh(gui_page_current, PAGES_COUNT);
+}
+
+void gui_manager_on_wakeup() {
+  for (uint8_t i = 0; i<PAGES_COUNT; i++) {
+    t_page_callback func = PAGES_VTABLE[i][GUI_PAGE_ACTION_ONRESET];
+    if (func != NULL) {
+      func(0x00);
+    }
+  }
+
+  gui_borders_onwakeup();
+  PAGES_VTABLE[gui_page_current][GUI_PAGE_ACTION_REFRESH](USERINPUT_MOVE_RIGHT);
 }
 
 void gui_manager_openrad() {

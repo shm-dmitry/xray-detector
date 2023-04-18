@@ -25,4 +25,6 @@ void svf_control_vibro_mute();
 void isrcall_svf_control_on_millis();
 void svf_control_on_main_loop();
 
+void svf_control_stop();
+
 #endif /* NVF_CONTROL_ */
