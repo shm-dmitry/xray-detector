@@ -144,11 +144,13 @@ bool charger_control_get_data(t_charger_data & data) {
     }
 
     charger_control_last_wake_up = clock_millis();
-    
+
+#if CHARGER_CONTROL_ALLOW_WAKE_UP    
     // wake up charge controller
     digitalWrite(CHARGER_BUTTON_PIN, HIGH);
     clock_delay(100);
     digitalWrite(CHARGER_BUTTON_PIN, LOW);
+#endif
 
     for (uint8_t i = 0; i<5; i++) {
       // await some time to make sure charger wakes up

@@ -31,28 +31,6 @@ void ip5328_dump_init() {
   Wire.setClock(200000);
 }
 
-void ip5328_dump_prepare() {
-  Serial.println("Waking up controller...");
-
-  if (digitalRead(IP5328_DUMP_INT_PIN) == HIGH) {
-    return;
-  }
-
-  while(true) {
-    digitalWrite(IP5328_DUMP_BUTTON_PIN, HIGH);
-    delay(100);
-    digitalWrite(IP5328_DUMP_BUTTON_PIN, LOW);
-    delay(600);
-
-    if (digitalRead(IP5328_DUMP_INT_PIN) == HIGH) {
-      return;
-    }
-  }
-
-  Serial.println("ip5328 ready! Dump system memory.");
-  Serial.println();
-}
-
 void ip5328_dump() {
   Serial.begin(9600);
   delay(100);
@@ -61,7 +39,9 @@ void ip5328_dump() {
   ip5328_dump_init();
 
   while(true) {
-    ip5328_dump_prepare();
+    while (digitalRead(IP5328_DUMP_INT_PIN) == LOW);
+
+    Serial.println("IP5328 ready, reading memory....");
   
     Serial.print("   ");
     for (int i = 0; i<=0xF; i++) {

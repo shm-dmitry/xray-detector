@@ -1,7 +1,7 @@
 #ifndef IP5328_DUMP_H_
 #define IP5328_DUMP_H_
 
-#define IP5328_DUMP_ENABLED true
+#define IP5328_DUMP_ENABLED false
 
 void ip5328_dump();
 

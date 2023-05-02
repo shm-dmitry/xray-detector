@@ -1,2 +1,5 @@
 schematics/xray/xray-backups/*.zip
 xray-detector/*.hex
+schematics/xray-board-1.0-uv-stab-addon/xray-board-1.0-uv-stab-addon-backups
+schematics/W2-PD(IP).v1.0/W2-PD(IP).v1.0-backups/
+xray-detector/build/

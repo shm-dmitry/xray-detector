@@ -5648,6 +5648,14 @@
     (uuid ffb2d414-94d7-4a58-825f-d6df2ee85b08)
   )
 
+  (text_box "FIXME LIST on v2.0\n\nKNOWN ERRORS:\n1. required capacitor 22pF@500V on Y1\n\nFixes:\n1. integrate UV stabilizator\n2. replace L1 to AMPLF1040\n3. rewrite amplifier-detector to work on positive impulse\n4. remove unused JP2\n5. add soldered jumper on UV_PWM line\n6. add UV discharge button\n7. replace GND testpoint footprint\n8. replace BT1 connector footprint\n\nImprovments:\n1. think about clocker chip\n2. think about replace atmega328 to ESP32\n3. think about firmware updates via USB port\n4. replace R31 with variable resistor to adjust time-to-reset\n5. think about UV power auto-stabilization"
+    (at 379.73 287.02 0) (size 93.98 74.93)
+    (stroke (width 0) (type default))
+    (fill (type none))
+    (effects (font (size 2 2) (thickness 0.254) bold (color 255 0 0 1)) (justify left top))
+    (uuid 9984f5a2-8229-42cf-bd15-79eb1948bab7)
+  )
+
   (text "NOTE****\nTest required" (at 466.09 128.27 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 081d024e-4908-4062-bca4-a7e2594095c5)

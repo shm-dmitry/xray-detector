@@ -10,12 +10,13 @@
 #include "alarm_manager.h"
 #include "charger_control.h"
 #include "rad_history.h"
-//#include "ip5328p_dump.h"
+#include "ip5328p_dump.h"
 
 #define UV_DEBUG_MODE false
 
 void setup() {
 //  ip5328_dump();
+//  return;
   
   Serial.begin(9600);
 
