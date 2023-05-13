@@ -5648,12 +5648,19 @@
     (uuid ffb2d414-94d7-4a58-825f-d6df2ee85b08)
   )
 
-  (text_box "FIXME LIST on v2.0\n\nKNOWN ERRORS:\n1. required capacitor 22pF@500V on Y1\n\nFixes:\n1. integrate UV stabilizator\n2. replace L1 to AMPLF1040\n3. rewrite amplifier-detector to work on positive impulse\n4. remove unused JP2\n5. add soldered jumper on UV_PWM line\n6. add UV discharge button\n7. replace GND testpoint footprint\n8. replace BT1 connector footprint\n\nImprovments:\n1. think about clocker chip\n2. think about replace atmega328 to ESP32\n3. think about firmware updates via USB port\n4. replace R31 with variable resistor to adjust time-to-reset\n5. think about UV power auto-stabilization"
-    (at 379.73 287.02 0) (size 93.98 74.93)
+  (text_box "FIXME LIST on v2.0\n\nKNOWN ERRORS:\n1. Signal amplifier has error. See FIX#1\n\nFixes:\n1. integrate UV stabilizator\n2. replace L1 to AMPLF1040\n3. rewrite amplifier-detector to work on positive impulse\n4. remove unused JP2\n5. add soldered jumper on UV_PWM line\n6. add UV discharge button\n7. replace GND testpoint footprint\n8. replace BT1 connector footprint\n9. change V1 connector footprint - increase hole radius\n\nImprovments:\n1. think about clocker chip\n2. think about firmware updates via USB port\n3. replace R31 with variable resistor to adjust time-to-reset\n4. think about UV power auto-stabilization\n5. integrate hardware UV PWM controller\n6. think about grounded shield for a V1 or U7"
+    (at 369.57 276.86 0) (size 93.98 83.82)
     (stroke (width 0) (type default))
-    (fill (type none))
+    (fill (type color) (color 255 255 255 1))
     (effects (font (size 2 2) (thickness 0.254) bold (color 255 0 0 1)) (justify left top))
     (uuid 9984f5a2-8229-42cf-bd15-79eb1948bab7)
+  )
+  (text_box "FIX#1\n\nSignal amplifier error.\n1. Dont install Q5\n2. Dont install C34\n3. Replace R21 with capacitor 30pF\n4. Use soldering to short [1] and [3] legs of Q5"
+    (at 163.83 337.82 0) (size 54.61 16.51)
+    (stroke (width 0) (type default))
+    (fill (type color) (color 255 255 255 1))
+    (effects (font (size 1.27 1.27)) (justify left top))
+    (uuid ad7124eb-619a-44a3-9f14-86792b833218)
   )
 
   (text "NOTE****\nTest required" (at 466.09 128.27 0)
