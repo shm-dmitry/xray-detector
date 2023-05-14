@@ -4,6 +4,7 @@
 #include "datepacker.h"
 #include "config.h"
 #include "Arduino.h"
+#include "alarm_manager.h"
 
 #define EEPROM_VERSION_ACTUAL 0x01
 #define EEPROM_VERSION_UNINIT 0xFF
@@ -22,6 +23,7 @@
 #define EEPROM_DEFAULT_ALRM_L1    100
 #define EEPROM_DEFAULT_ALRM_L2    1
 #define EEPROM_DEFAULT_ALRM_NOIMP (60*3)
+#define EEPROM_DEFAULT_ALRM_ONIMP ALARM_MANAGER_ONIMPULSE_VOICE_VIBRO_AND_VOICE
 
 #define EEPROM_ADDR_ACCUM_DATEFORCELL(x) (EEPROM_ADDR_ACCUM + (x) * 8)
 #define EEPROM_ADDR_ACCUM_VALUEFORCELL(x) (EEPROM_ADDR_ACCUM + (x) * 8 + 4)
@@ -59,6 +61,7 @@ void eeprom_control_init_default() {
   eeprom_control_save_uv_B(EEPROM_DEFAULT_UV_APX_B);
 
   eeprom_control_save_alarm_levels(EEPROM_DEFAULT_ALRM_L1, EEPROM_DEFAULT_ALRM_L2);
+  eeprom_control_save_onimpulse_voice(EEPROM_DEFAULT_ALRM_ONIMP);
 }
 
 void eeprom_control_save_freq(uint8_t freq) {
@@ -144,6 +147,23 @@ uint8_t eeprom_control_get_noimpulse_seconds() {
 
 void eeprom_control_set_noimpulse_seconds(uint8_t value) {
   EEPROM.put(EEPROM_ADDR_ALARM + 2, value);
+}
+
+void eeprom_control_save_onimpulse_voice(uint8_t value) {
+  if (value > ALARM_MANAGER_ONIMPULSE_VOICE_MAXVALUE) {
+    value = EEPROM_DEFAULT_ALRM_ONIMP;
+  }
+
+  EEPROM.put(EEPROM_ADDR_ALARM + 3, value);
+}
+
+uint8_t eeprom_control_get_onimpulse_voice() {
+  uint8_t res = 0;
+  EEPROM.get(EEPROM_ADDR_ALARM + 3, res);
+  if (res == 0xFF || res > ALARM_MANAGER_ONIMPULSE_VOICE_MAXVALUE) {
+    res = EEPROM_DEFAULT_ALRM_ONIMP;
+  }
+  return res;
 }
 
 void eeprom_control_get_date_time(volatile uint8_t & year, volatile uint8_t & month, volatile uint8_t & day, volatile uint8_t & hour, volatile uint8_t & minute) {

@@ -21,6 +21,8 @@ void eeprom_control_get_alarm_levels(uint8_t & level1, uint8_t & level2);
 void eeprom_control_save_alarm_levels(uint8_t level1, uint8_t level2);
 uint8_t eeprom_control_get_noimpulse_seconds();
 void eeprom_control_set_noimpulse_seconds(uint8_t value);
+void eeprom_control_save_onimpulse_voice(uint8_t value);
+uint8_t eeprom_control_get_onimpulse_voice();
 
 void eeprom_control_get_date_time(volatile uint8_t & year, volatile uint8_t & month, volatile uint8_t & day, volatile uint8_t & hour, volatile uint8_t & minute);
 void eeprom_control_save_date_time(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute);

@@ -10,18 +10,17 @@
 
 #define SETTINGS_PAGE_UV_FREQ     0
 #define SETTINGS_PAGE_UV_DUTY     1
-#define SETTINGS_PAGE_UV_APPROX_A 2
-#define SETTINGS_PAGE_UV_APPROX_B 3
-#define SETTINGS_PAGE_UV_ON       4
-#define SETTINGS_PAGE_DATE        5
-#define SETTINGS_PAGE_TIME        6
-#define SETTINGS_PAGE_ALARM_H     7
-#define SETTINGS_PAGE_ALRM_L1     8
-#define SETTINGS_PAGE_ALRM_L2     9
-#define SETTINGS_PAGE_ALRM_NI     10
+#define SETTINGS_PAGE_UV_ON       2
+#define SETTINGS_PAGE_DATE        3
+#define SETTINGS_PAGE_TIME        4
+#define SETTINGS_PAGE_ALARM_H     5
+#define SETTINGS_PAGE_ALRM_L1     6
+#define SETTINGS_PAGE_ALRM_L2     7
+#define SETTINGS_PAGE_ALRM_NI     8
+#define SETTINGS_PAGE_ALRM_OI     9
 
 #define SETTINGS_PAGE_MINVAL  SETTINGS_PAGE_UV_FREQ
-#define SETTINGS_PAGE_MAXVAL  SETTINGS_PAGE_ALRM_NI
+#define SETTINGS_PAGE_MAXVAL  SETTINGS_PAGE_ALRM_OI
 
 #define SETTINGS_PAGE_UNCHANGED 0xFF
 
@@ -42,7 +41,7 @@ void gui_settings_page_print(uint8_t index, uint8_t value, const char * text);
 void gui_settings_page_print_onoff(uint8_t index, bool value);
 void gui_settings_page_print_date(uint8_t index);
 void gui_settings_page_print_time(uint8_t index);
-void gui_settings_page_print_uv_ab(uint8_t index, bool a);
+void gui_settings_page_print_alarm_onimpulse(uint8_t index);
 
 bool gui_settings_page_refresh(uint8_t data) {
   if (!display_is_on()) {
@@ -62,8 +61,6 @@ bool gui_settings_page_refresh(uint8_t data) {
 
     display_println("  UV freq: ");
     display_println("  UV freq: ");
-    display_println("  UV apx A: ");
-    display_println("  UV apx B: ");
     display_println("  UV: ");
     display_println("  Date: ");
     display_println("  Time: ");
@@ -71,6 +68,7 @@ bool gui_settings_page_refresh(uint8_t data) {
     display_println("  Level1: ");
     display_println("  Level2: ");
     display_println("  No Impuls: ");
+    display_println("  On Each: ");
   }
 
   if (menu_actual_prev != menu_actual || data) {
@@ -82,12 +80,11 @@ bool gui_settings_page_refresh(uint8_t data) {
   if (data || !menu_refreshed) {
     gui_settings_page_print(SETTINGS_PAGE_UV_FREQ, eeprom_control_get_freq(), "KHz");
     gui_settings_page_print(SETTINGS_PAGE_UV_DUTY, eeprom_control_get_duty(), "%");
-    gui_settings_page_print_uv_ab(SETTINGS_PAGE_UV_APPROX_A, true);
-    gui_settings_page_print_uv_ab(SETTINGS_PAGE_UV_APPROX_B, false);
     gui_settings_page_print_onoff(SETTINGS_PAGE_UV_ON, uv_control_is_on()); 
     gui_settings_page_print(SETTINGS_PAGE_ALRM_L1, alarm_manager_getlevel(1), "uR"); 
     gui_settings_page_print(SETTINGS_PAGE_ALRM_L2, alarm_manager_getlevel(2), "mR"); 
     gui_settings_page_print(SETTINGS_PAGE_ALRM_NI, alarm_manager_getlevel(ALARM_MANAGER_NI_LEVEL), "sec"); 
+    gui_settings_page_print_alarm_onimpulse(SETTINGS_PAGE_ALRM_OI);
     gui_settings_page_print_date(SETTINGS_PAGE_DATE);
     gui_settings_page_print_time(SETTINGS_PAGE_TIME);
   }
@@ -97,20 +94,30 @@ bool gui_settings_page_refresh(uint8_t data) {
   return false;
 }
 
-void gui_settings_page_print_uv_ab(uint8_t index, bool a) {
+void gui_settings_page_print_onimpulse_type(uint8_t value) {
+  if (value == ALARM_MANAGER_ONIMPULSE_VOICE_NONE) {
+    display_prints("none");
+  } else if (value == ALARM_MANAGER_ONIMPULSE_VOICE_VIBRO) {
+    display_prints("vibro");
+  } else if (value == ALARM_MANAGER_ONIMPULSE_VOICE_VOICE) {
+    display_prints("voice");
+  } else if (value == ALARM_MANAGER_ONIMPULSE_VOICE_VIBRO_AND_VOICE) {
+    display_prints("vibro&sound");
+  }
+}
+
+void gui_settings_page_print_alarm_onimpulse(uint8_t index) {
   display_set_cursor(80, 18 + 8 * index);
   display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
-
-  uint16_t value = a ? eeprom_control_get_uv_A() : eeprom_control_get_uv_B();
 
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     display_set_textcolor(DISPLAY_YELLOW);
     display_prints("<");
-    display_print16(value);
+    gui_settings_page_print_onimpulse_type(menu_change_value);
     display_prints(">");
   } else {
     display_set_textcolor(DISPLAY_WHITE);
-    display_print16(value);
+    gui_settings_page_print_onimpulse_type(eeprom_control_get_onimpulse_voice());
   }
 }
 
@@ -283,16 +290,6 @@ bool gui_settings_page_on_left(bool fast) {
     uv_control_change_pwm_with_testrun_freq(eeprom_control_get_freq(), menu_change_value);
 
     menu_refreshed = false;
-  } else if (menu_actual == SETTINGS_PAGE_UV_APPROX_A && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    eeprom_control_save_uv_A(eeprom_control_get_uv_A() - (fast ? 20 : 5));
-    uv_control_change_pwm_with_testrun_approx();
-
-    menu_refreshed = false;
-  } else if (menu_actual == SETTINGS_PAGE_UV_APPROX_B && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    eeprom_control_save_uv_B(eeprom_control_get_uv_B() - (fast ? 20 : 5));
-    uv_control_change_pwm_with_testrun_approx();
-
-    menu_refreshed = false;
   } else if (menu_actual == SETTINGS_PAGE_UV_ON && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     if (uv_control_is_on()) {
       uv_control_disable_pwm();
@@ -309,6 +306,11 @@ bool gui_settings_page_on_left(bool fast) {
       menu_change_value -= delta;
     }
 
+    menu_refreshed = false;
+  } else if (menu_actual == SETTINGS_PAGE_ALRM_OI && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
+    if (menu_change_value > 0x00) {
+      menu_change_value--;
+    }
     menu_refreshed = false;
   } else if (menu_actual == SETTINGS_PAGE_DATE && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     uint8_t delta = 0;
@@ -368,16 +370,6 @@ bool gui_settings_page_on_right(bool fast) {
     uv_control_change_pwm_with_testrun_freq(eeprom_control_get_freq(), menu_change_value);
 
     menu_refreshed = false;
-  } else if (menu_actual == SETTINGS_PAGE_UV_APPROX_A && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    eeprom_control_save_uv_A(eeprom_control_get_uv_A() + (fast ? 20 : 5));
-    uv_control_change_pwm_with_testrun_approx();
-
-    menu_refreshed = false;
-  } else if (menu_actual == SETTINGS_PAGE_UV_APPROX_B && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
-    eeprom_control_save_uv_B(eeprom_control_get_uv_B() + (fast ? 20 : 5));
-    uv_control_change_pwm_with_testrun_approx();
-
-    menu_refreshed = false;
   } else if (menu_actual == SETTINGS_PAGE_UV_ON && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     if (uv_control_is_on()) {
       uv_control_disable_pwm();
@@ -392,6 +384,11 @@ bool gui_settings_page_on_right(bool fast) {
       menu_change_value = 240;
     }
 
+    menu_refreshed = false;
+  } else if (menu_actual == SETTINGS_PAGE_ALRM_OI && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
+    if (menu_change_value < ALARM_MANAGER_ONIMPULSE_VOICE_MAXVALUE) {
+      menu_change_value++;
+    }
     menu_refreshed = false;
   } else if (menu_actual == SETTINGS_PAGE_DATE && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     uint8_t delta = 0;
@@ -457,7 +454,7 @@ bool gui_settings_page_on_click(uint8_t data) {
       eeprom_control_save_duty(menu_change_value);
       menu_change_value = SETTINGS_PAGE_UNCHANGED;
     }
-  } else if (menu_actual == SETTINGS_PAGE_UV_ON || menu_actual == SETTINGS_PAGE_UV_APPROX_A || menu_actual == SETTINGS_PAGE_UV_APPROX_B) {
+  } else if (menu_actual == SETTINGS_PAGE_UV_ON) {
     menu_change_value = menu_change_value == SETTINGS_PAGE_UNCHANGED ? 1 : SETTINGS_PAGE_UNCHANGED;
   } else if (menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2) {
     if (menu_change_value == SETTINGS_PAGE_UNCHANGED) {
@@ -476,6 +473,14 @@ bool gui_settings_page_on_click(uint8_t data) {
       menu_change_value = alarm_manager_getlevel(ALARM_MANAGER_NI_LEVEL);
     } else {
       eeprom_control_set_noimpulse_seconds(menu_change_value);
+      alarm_manager_refresh_levels();
+      menu_change_value = SETTINGS_PAGE_UNCHANGED;
+    }
+  } else if (menu_actual == SETTINGS_PAGE_ALRM_OI) {
+    if (menu_change_value == SETTINGS_PAGE_UNCHANGED) {
+      menu_change_value = eeprom_control_get_onimpulse_voice();
+    } else {
+      eeprom_control_save_onimpulse_voice(menu_change_value);
       alarm_manager_refresh_levels();
       menu_change_value = SETTINGS_PAGE_UNCHANGED;
     }

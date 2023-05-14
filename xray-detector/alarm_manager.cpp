@@ -14,6 +14,7 @@
 
 uint8_t alarm_manager_level1 = 0xFF;
 uint8_t alarm_manager_level2 = 0xFF;
+uint8_t alarm_manager_onimpulse_voice_type = ALARM_MANAGER_ONIMPULSE_VOICE_VIBRO_AND_VOICE;
 
 volatile bool alarm_manager_wasimpulse = false;
 volatile uint32_t alarm_manager_next_open_rad = 0;
@@ -27,6 +28,7 @@ void alarm_manager_init() {
 void alarm_manager_refresh_levels() {
   eeprom_control_get_alarm_levels(alarm_manager_level1, alarm_manager_level2);
   alarm_manager_no_impulse_seconds = eeprom_control_get_noimpulse_seconds();
+  alarm_manager_onimpulse_voice_type = eeprom_control_get_onimpulse_voice();
 }
 
 uint8_t alarm_manager_getlevel(uint8_t level) {
@@ -81,8 +83,14 @@ void alarm_manager_on_main_loop() {
         svf_control_play_vibro__alarm1();
       }
     } else {
-      svf_control_play_sound__impuls();
-      svf_control_play_vibro__impuls();
+      if (alarm_manager_onimpulse_voice_type == ALARM_MANAGER_ONIMPULSE_VOICE_VOICE || 
+          alarm_manager_onimpulse_voice_type == ALARM_MANAGER_ONIMPULSE_VOICE_VIBRO_AND_VOICE) {
+        svf_control_play_sound__impuls();
+      }
+      if (alarm_manager_onimpulse_voice_type == ALARM_MANAGER_ONIMPULSE_VOICE_VIBRO || 
+          alarm_manager_onimpulse_voice_type == ALARM_MANAGER_ONIMPULSE_VOICE_VIBRO_AND_VOICE) {
+        svf_control_play_vibro__impuls();
+      }
     }
   }
 }
