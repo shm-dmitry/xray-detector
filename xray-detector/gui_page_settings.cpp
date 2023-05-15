@@ -61,9 +61,6 @@ bool gui_settings_page_refresh(uint8_t data) {
       menu_actual = SETTINGS_PAGE_MINVAL;
     }
 
-    Serial.print("refresh with data == ");
-    Serial.println(data);
-
     display_println(" UV freq: ");
     display_println(" UV freq: ");
     display_println(" UV: ");

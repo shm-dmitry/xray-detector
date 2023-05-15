@@ -11,6 +11,7 @@
 #include "charger_control.h"
 #include "rad_history.h"
 #include "ip5328p_dump.h"
+#include "config.h"
 
 #define UV_DEBUG_MODE false
 
@@ -18,7 +19,9 @@ void setup() {
 //  ip5328_dump();
 //  return;
   
+#if SYSTEM_SERIAL_ENABLED
   Serial.begin(9600);
+#endif
 
 #if UV_DEBUG_MODE
   uv_control_init();
@@ -39,7 +42,9 @@ void setup() {
   charger_control_init();
   uv_control_init();
 
+#if SYSTEM_SERIAL_ENABLED
   Serial.println("Init done");
+#endif
 }
 
 void loop() {

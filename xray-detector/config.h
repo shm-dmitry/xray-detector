@@ -1,6 +1,8 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
+#define SYSTEM_SERIAL_ENABLED false
+
 // simulate encoder wia 3-buttons
 #define USERINPUT_ENCODER_SIMUL true
 
