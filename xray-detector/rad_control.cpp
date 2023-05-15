@@ -19,6 +19,12 @@
 #define RAD_CONTROL_MINIMPL_TO_RESULT 40
 #define RAD_CONTROL_IMPL2UR_MULT ((uint32_t)60 * (uint32_t)60 * (uint32_t)1000 / (uint32_t)rad_control_impl_per_ur)
 
+#define RAD_CONTROL_ISR_CHECK_INITIALIZED \
+  if (rad_control_counters[0] == 0 && !isrcall_uv_control_is_initialized()) { \
+    return; \
+  } \
+
+
 #define RAD_CONTROL_DUMP_CALC         false
 
 volatile uint32_t rad_control_counters[RAD_CONTROL_STORE_POINTS] = { 0 };
@@ -30,9 +36,7 @@ volatile uint16_t rad_control_user_counter = RAD_CONTROL_USER_COUNTER_DISABLED;
 volatile uint16_t rad_control_impl_per_ur = 0;
 
 void isr_rad_control_one_event() {
-  if (rad_control_counters[0] == 0 && !isrcall_uv_control_is_initialized()) {
-    return;
-  }
+  RAD_CONTROL_ISR_CHECK_INITIALIZED;
   
   rad_control_counters[0]++;
 
@@ -61,6 +65,8 @@ void rad_control_refresh_impl_per_ur() {
 }
 
 void isrcall_rad_control_on_timer(uint8_t seconds) {
+  RAD_CONTROL_ISR_CHECK_INITIALIZED;
+
   rad_control_cached_value = 0;
 
   rad_control_timers[0]++;
