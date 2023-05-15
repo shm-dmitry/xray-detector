@@ -14,15 +14,15 @@
 #define SETTINGS_PAGE_UV_ON       2
 #define SETTINGS_PAGE_DATE        3
 #define SETTINGS_PAGE_TIME        4
-#define SETTINGS_PAGE_ALARM_H     5
-#define SETTINGS_PAGE_ALRM_L1     6
-#define SETTINGS_PAGE_ALRM_L2     7
-#define SETTINGS_PAGE_ALRM_NI     8
-#define SETTINGS_PAGE_ALRM_OI     9
-#define SETTINGS_PAGE_IMPL2UR     10
+#define SETTINGS_PAGE_IMPL2UR     5
+#define SETTINGS_PAGE_ALARM_H     6
+#define SETTINGS_PAGE_ALRM_L1     7
+#define SETTINGS_PAGE_ALRM_L2     8
+#define SETTINGS_PAGE_ALRM_NI     9
+#define SETTINGS_PAGE_ALRM_OI     10
 
 #define SETTINGS_PAGE_MINVAL  SETTINGS_PAGE_UV_FREQ
-#define SETTINGS_PAGE_MAXVAL  SETTINGS_PAGE_IMPL2UR
+#define SETTINGS_PAGE_MAXVAL  SETTINGS_PAGE_ALRM_OI
 
 #define SETTINGS_PAGE_UNCHANGED 0xFF
 
@@ -61,17 +61,17 @@ bool gui_settings_page_refresh(uint8_t data) {
       menu_actual = SETTINGS_PAGE_MINVAL;
     }
 
-    display_println(" UV freq: ");
-    display_println(" UV freq: ");
-    display_println(" UV: ");
-    display_println(" Date: ");
-    display_println(" Time: ");
+    display_println("  UV freq: ");
+    display_println("  UV freq: ");
+    display_println("  UV: ");
+    display_println("  Date: ");
+    display_println("  Time: ");
+    display_println("  Impl/uR: ");
     display_println(" Alarms:");
     display_println("  Level1: ");
     display_println("  Level2: ");
     display_println("  No Impuls: ");
     display_println("  On Each: ");
-    display_println(" Impl/uR: ");
   }
 
   if (menu_actual_prev != menu_actual || data) {

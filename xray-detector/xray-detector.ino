@@ -59,6 +59,4 @@ void loop() {
   svf_control_on_main_loop();
   gui_manager_on_main_loop();
   rad_history_on_main_loop();
-
-  clock_delay(5);
 }

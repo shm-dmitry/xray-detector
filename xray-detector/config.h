@@ -4,11 +4,11 @@
 #define SYSTEM_SERIAL_ENABLED false
 
 // simulate encoder wia 3-buttons
-#define USERINPUT_ENCODER_SIMUL true
+#define USERINPUT_ENCODER_SIMUL false
 
 // display type
 #define DISPLAY_TYOE_SIMUL_ADAFRUIT false
-#define DISPLAY_TYPE_SIMIL_CUSTOM true
+#define DISPLAY_TYPE_SIMIL_CUSTOM false
 #define DISPLAY_TYPE_ST7335_ADAFRUIT false
 #define DISPLAY_TYPE_ST7335_CUSTOM true
 
