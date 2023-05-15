@@ -2,6 +2,7 @@
 #include "clock.h"
 #include "datepacker.h"
 #include "eeprom_control.h"
+#include "Arduino.h"
 
 #define RAD_ACCUM__R2SV(x) ((x) / 102) // rengen to sievert : 102 rengen == 1 sievert
 #define RAD_ACCUM_MAXVALUE 0xFFFFFFFFFFFFFFFF
@@ -61,6 +62,10 @@ uint32_t rad_accum_get_daily_dose_usv() {
   uint64_t value = (rad_accum_hour_dose / (uint64_t) rad_accum_hour_dose_count / 60) * (uint64_t) minutes;
   if (value > 0xFFFFFFFF) {
     return 0xFFFFFFFF;
+  }
+
+  if (rad_accum_daily_dose == 0 && value == 0) {
+    return RAD_ACCUM__R2SV(0);
   }
 
   if (rad_accum_daily_dose + (uint32_t) value > rad_accum_daily_dose) {
