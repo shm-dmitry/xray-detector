@@ -15,6 +15,9 @@
 #define UV_CONTROL_REFILL_DUR   1
 #define UV_CONTROL_REFILL_INIT  10
 
+#define UV_CONTROL_APX_A 5463
+#define UV_CONTROL_APX_B 1471
+
 #define UV_CONTROL_APPROX_MINFREQ 80000
 #define UV_CONTROL_APPROX_MAXFREQ 150000
 
@@ -111,10 +114,7 @@ bool uv_control_update_pwm_approx_linear() {
     return;
   }
 
-  uint16_t a = eeprom_control_get_uv_A();
-  uint16_t b = eeprom_control_get_uv_B();
-
-  uint32_t freq = (uint32_t) a * (uint32_t) 10 + ((uint32_t) b * (uint32_t) data.bat_voltage_x100) / (uint32_t) 10;  
+  uint32_t freq = (uint32_t) UV_CONTROL_APX_A * (uint32_t) 10 + ((uint32_t) UV_CONTROL_APX_B * (uint32_t) data.bat_voltage_x100) / (uint32_t) 10;  
 
   if (freq < UV_CONTROL_APPROX_MINFREQ || freq > UV_CONTROL_APPROX_MAXFREQ) {
     freq = eeprom_control_get_freq();

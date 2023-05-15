@@ -7,6 +7,7 @@
 #include "gui_images.h"
 #include "userinput.h"
 #include "clock.h"
+#include "rad_control.h"
 
 #define SETTINGS_PAGE_UV_FREQ     0
 #define SETTINGS_PAGE_UV_DUTY     1
@@ -18,9 +19,10 @@
 #define SETTINGS_PAGE_ALRM_L2     7
 #define SETTINGS_PAGE_ALRM_NI     8
 #define SETTINGS_PAGE_ALRM_OI     9
+#define SETTINGS_PAGE_IMPL2UR     10
 
 #define SETTINGS_PAGE_MINVAL  SETTINGS_PAGE_UV_FREQ
-#define SETTINGS_PAGE_MAXVAL  SETTINGS_PAGE_ALRM_OI
+#define SETTINGS_PAGE_MAXVAL  SETTINGS_PAGE_IMPL2UR
 
 #define SETTINGS_PAGE_UNCHANGED 0xFF
 
@@ -59,16 +61,20 @@ bool gui_settings_page_refresh(uint8_t data) {
       menu_actual = SETTINGS_PAGE_MINVAL;
     }
 
-    display_println("  UV freq: ");
-    display_println("  UV freq: ");
-    display_println("  UV: ");
-    display_println("  Date: ");
-    display_println("  Time: ");
+    Serial.print("refresh with data == ");
+    Serial.println(data);
+
+    display_println(" UV freq: ");
+    display_println(" UV freq: ");
+    display_println(" UV: ");
+    display_println(" Date: ");
+    display_println(" Time: ");
     display_println(" Alarms:");
     display_println("  Level1: ");
     display_println("  Level2: ");
     display_println("  No Impuls: ");
     display_println("  On Each: ");
+    display_println(" Impl/uR: ");
   }
 
   if (menu_actual_prev != menu_actual || data) {
@@ -87,6 +93,7 @@ bool gui_settings_page_refresh(uint8_t data) {
     gui_settings_page_print_alarm_onimpulse(SETTINGS_PAGE_ALRM_OI);
     gui_settings_page_print_date(SETTINGS_PAGE_DATE);
     gui_settings_page_print_time(SETTINGS_PAGE_TIME);
+    gui_settings_page_print(SETTINGS_PAGE_IMPL2UR, eeprom_control_get_impl_per_ur(), NULL); // possible overflow here!
   }
 
   menu_refreshed = true;
@@ -129,14 +136,18 @@ void gui_settings_page_print(uint8_t index, uint8_t value, const char * text) {
     display_set_textcolor(DISPLAY_YELLOW);
     display_prints("<");
     display_print8(menu_change_value);
-    display_prints(" ");
-    display_prints(text);
+    if (text) {
+      display_prints(" ");
+      display_prints(text);
+    }
     display_prints(">");
   } else {
     display_set_textcolor(DISPLAY_WHITE);
     display_print8(value);
-    display_prints(" ");
-    display_prints(text);
+    if (text) {
+      display_prints(" ");
+      display_prints(text);
+    }
   }
 }
 
@@ -298,7 +309,7 @@ bool gui_settings_page_on_left(bool fast) {
     }
 
     menu_refreshed = false;
-  } else if ((menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2 || menu_actual == SETTINGS_PAGE_ALRM_NI) && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
+  } else if ((menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2 || menu_actual == SETTINGS_PAGE_ALRM_NI || menu_actual == SETTINGS_PAGE_IMPL2UR) && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     uint8_t delta = fast ? 10 : 1;
     if (menu_change_value < delta) {
       menu_change_value = 1;
@@ -378,7 +389,7 @@ bool gui_settings_page_on_right(bool fast) {
     }
 
     menu_refreshed = false;
-  } else if ((menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2 || menu_actual == SETTINGS_PAGE_ALRM_NI) && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
+  } else if ((menu_actual == SETTINGS_PAGE_ALRM_L1 || menu_actual == SETTINGS_PAGE_ALRM_L2 || menu_actual == SETTINGS_PAGE_ALRM_NI || menu_actual == SETTINGS_PAGE_IMPL2UR) && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     menu_change_value += fast ? 10 : 1;
     if (menu_change_value > 240) {
       menu_change_value = 240;
@@ -482,6 +493,14 @@ bool gui_settings_page_on_click(uint8_t data) {
     } else {
       eeprom_control_save_onimpulse_voice(menu_change_value);
       alarm_manager_refresh_levels();
+      menu_change_value = SETTINGS_PAGE_UNCHANGED;
+    }
+  } else if (menu_actual == SETTINGS_PAGE_IMPL2UR) {
+    if (menu_change_value == SETTINGS_PAGE_UNCHANGED) {
+      menu_change_value = eeprom_control_get_impl_per_ur();
+    } else {
+      eeprom_control_save_impl_per_ur(menu_change_value);
+      rad_control_refresh_impl_per_ur();
       menu_change_value = SETTINGS_PAGE_UNCHANGED;
     }
   } else if (menu_actual == SETTINGS_PAGE_DATE) {

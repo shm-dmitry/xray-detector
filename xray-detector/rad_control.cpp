@@ -4,6 +4,7 @@
 #include "clock.h"
 #include "svf_control.h"
 #include "alarm_manager.h"
+#include "eeprom_control.h"
 
 #define RAD_CONTROL_PIN               2
 
@@ -16,8 +17,7 @@
 #define RAD_CONTROL_PRIORITY_VALUE    2
 #define RAD_CONTROL_PRIORITY_POINTS   3
 #define RAD_CONTROL_MINIMPL_TO_RESULT 40
-#define RAD_CONTROL_IMPL_PER_UR       (4 * 50)
-#define RAD_CONTROL_IMPL2UR_MULT ((uint32_t)60 * (uint32_t)60 * (uint32_t)1000 / (uint32_t)RAD_CONTROL_IMPL_PER_UR)
+#define RAD_CONTROL_IMPL2UR_MULT ((uint32_t)60 * (uint32_t)60 * (uint32_t)1000 / (uint32_t)rad_control_impl_per_ur)
 
 #define RAD_CONTROL_DUMP_CALC         false
 
@@ -25,6 +25,9 @@ volatile uint32_t rad_control_counters[RAD_CONTROL_STORE_POINTS] = { 0 };
 volatile uint8_t  rad_control_timers[RAD_CONTROL_STORE_POINTS] = { 0 };
 
 volatile uint32_t rad_control_cached_value = 0;
+volatile uint16_t rad_control_user_counter = RAD_CONTROL_USER_COUNTER_DISABLED;
+
+volatile uint16_t rad_control_impl_per_ur = 0;
 
 void isr_rad_control_one_event() {
   if (rad_control_counters[0] == 0 && !isrcall_uv_control_is_initialized()) {
@@ -33,13 +36,28 @@ void isr_rad_control_one_event() {
   
   rad_control_counters[0]++;
 
+  if (rad_control_user_counter < RAD_CONTROL_USER_COUNTER_MAXVAL) {
+    rad_control_user_counter++;
+  }
+
   isrcall_uv_control_on_impulse();
   isrcall_alarm_manager_onimpulse();
 }
 
 void rad_control_init() {
+  rad_control_refresh_impl_per_ur();
+
   pinMode(RAD_CONTROL_PIN, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(RAD_CONTROL_PIN), isr_rad_control_one_event, FALLING);
+}
+
+void rad_control_refresh_impl_per_ur() {
+  uint16_t value = eeprom_control_get_impl_per_ur();
+
+  uint8_t oldSREG = SREG;
+  cli();
+  rad_control_impl_per_ur = value;
+  SREG = oldSREG;
 }
 
 void isrcall_rad_control_on_timer(uint8_t seconds) {
@@ -114,6 +132,8 @@ uint32_t rad_control_dose() {
 #if RAD_CONTROL_DUMP_CALC
   Serial.print("impulses = ");
   Serial.print(impulses);
+  Serial.print("; impl/ur = ");
+  Serial.print(rad_control_impl_per_ur);
   Serial.print("; time = ");
   Serial.print(time);
   Serial.print("; mils = ");
@@ -123,4 +143,24 @@ uint32_t rad_control_dose() {
 #endif
 
   return result;
+}
+
+uint16_t rad_control_user_counter_getvalue() {
+  uint8_t oldSREG = SREG;
+  cli();
+
+  uint16_t value = rad_control_user_counter;
+
+  SREG = oldSREG;
+
+  return value;
+}
+
+void rad_control_user_counter_startstop(bool start) {
+  uint8_t oldSREG = SREG;
+  cli();
+
+  rad_control_user_counter = start ? 0 : RAD_CONTROL_USER_COUNTER_DISABLED;
+
+  SREG = oldSREG;
 }

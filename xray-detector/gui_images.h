@@ -7,6 +7,10 @@
 #define IMG_XRAY_SMALL_H  8
 static const uint8_t PROGMEM IMG_XRAY_SMALL[] = {0x7e, 0x3c, 0x3c, 0x18, 0x7e, 0xff, 0xe7, 0xc3};
 
+#define IMG_XRAY_SMALL_BETTA_W  8
+#define IMG_XRAY_SMALL_BETTA_H  8
+static const uint8_t PROGMEM IMG_XRAY_SMALL_BETTA[] = {0x70, 0x20, 0x76, 0xfd, 0x57, 0x05, 0x06, 0x0c};
+
 #define IMG_FLASH_W  8
 #define IMG_FLASH_H  8
 static const uint8_t PROGMEM IMG_FLASH[] = {0x00, 0x03, 0x07, 0xff, 0xff, 0x07, 0x03, 0x00};
@@ -42,11 +46,12 @@ typedef struct t_icon {
   const uint8_t * img;
 };
 
-static const t_icon IMG_ICONS[4] = {
-  {.w = IMG_XRAY_SMALL_W, .h = IMG_XRAY_SMALL_H, .img = IMG_XRAY_SMALL},
-  {.w = IMG_FLASH_W,      .h = IMG_FLASH_H,      .img = IMG_FLASH},
-  {.w = IMG_BAT_W,        .h = IMG_BAT_H,        .img = IMG_BAT},
-  {.w = IMG_SETTINGS_W,   .h = IMG_SETTINGS_H,   .img = IMG_SETTINGS},
+static const t_icon IMG_ICONS[5] = {
+  {.w = IMG_XRAY_SMALL_W,       .h = IMG_XRAY_SMALL_H,       .img = IMG_XRAY_SMALL},
+  {.w = IMG_XRAY_SMALL_BETTA_W, .h = IMG_XRAY_SMALL_BETTA_H, .img = IMG_XRAY_SMALL_BETTA},
+  {.w = IMG_FLASH_W,            .h = IMG_FLASH_H,            .img = IMG_FLASH},
+  {.w = IMG_BAT_W,              .h = IMG_BAT_H,              .img = IMG_BAT},
+  {.w = IMG_SETTINGS_W,         .h = IMG_SETTINGS_H,         .img = IMG_SETTINGS},
 };
 
 #endif /* GUI_IMAGES_H_ */

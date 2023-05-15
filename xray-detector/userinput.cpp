@@ -94,7 +94,7 @@ void userinput_init() {
   pinMode(USERINPUT_PIN_A,      INPUT_PULLUP);
   pinMode(USERINPUT_PIN_B,      INPUT_PULLUP);
   pinMode(USERINPUT_PIN_CLICK,  INPUT_PULLUP);
-  pinMode(USERINPUT_PIN_WAKEUP, INPUT_PULLUP);
+  pinMode(USERINPUT_PIN_WAKEUP, INPUT);
 
   clock_delay(5); // await for a filter capacitors before attach interrupts
 

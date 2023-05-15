@@ -5,9 +5,11 @@
 #include "gui_page_flash.h"
 #include "gui_page_bat.h"
 #include "gui_page_settings.h"
+#include "gui_page_rad_betta.h"
 #include "userinput.h"
 #include "display.h"
 #include "stddef.h"
+#include "Arduino.h"
 
 #define GUI_PAGE_RAD   0
 
@@ -16,17 +18,18 @@
 #define GUI_PAGE_ACTION_ONCLICK 2
 #define GUI_PAGE_ACTION_ONRESET 3
 
-#define PAGES_COUNT    4
+#define PAGES_COUNT    5
 #define PAGE_CALLBACKS (GUI_PAGE_ACTION_ONRESET + 1)
 
 uint8_t gui_page_current = 0;
 
 // this "vtable" saves RAM and ROM against classes with virtual methods
 const t_page_callback PAGES_VTABLE[PAGES_COUNT][PAGE_CALLBACKS] = {
-  {&gui_rad_page_refresh,      NULL,                       &gui_rad_page_onclick,       &gui_rad_page_onwakeup},
-  {&gui_flash_page_refresh,    &gui_flash_page_on_move,    &gui_flash_page_on_click,    &gui_flash_page_onwakeup},
-  {&gui_bat_page_refresh,      NULL,                       NULL,                        &gui_bat_page_onwakeup},
-  {&gui_settings_page_refresh, &gui_settings_page_on_move, &gui_settings_page_on_click, &gui_settings_page_onwakeup},
+  {&gui_rad_page_refresh,       NULL,                       &gui_rad_page_onclick,       &gui_rad_page_onwakeup},
+  {&gui_rad_page_betta_refresh, NULL,                       &gui_rad_page_betta_onclick, &gui_rad_page_betta_onwakeup},
+  {&gui_flash_page_refresh,     &gui_flash_page_on_move,    &gui_flash_page_on_click,    &gui_flash_page_onwakeup},
+  {&gui_bat_page_refresh,       NULL,                       NULL,                        &gui_bat_page_onwakeup},
+  {&gui_settings_page_refresh,  &gui_settings_page_on_move, &gui_settings_page_on_click, &gui_settings_page_onwakeup},
 };
 
 void gui_manager_init() {

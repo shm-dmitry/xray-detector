@@ -12,10 +12,8 @@ void eeprom_control_save_freq(uint8_t freq);
 uint8_t eeprom_control_get_freq();
 void eeprom_control_save_duty(uint8_t duty);
 uint8_t eeprom_control_get_duty();
-uint16_t eeprom_control_get_uv_A();
-void eeprom_control_save_uv_A(uint16_t a);
-uint16_t eeprom_control_get_uv_B();
-void eeprom_control_save_uv_B(uint16_t b);
+void eeprom_control_save_impl_per_ur(uint16_t value);
+uint16_t eeprom_control_get_impl_per_ur();
 
 void eeprom_control_get_alarm_levels(uint8_t & level1, uint8_t & level2);
 void eeprom_control_save_alarm_levels(uint8_t level1, uint8_t level2);

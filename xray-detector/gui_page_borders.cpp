@@ -107,9 +107,9 @@ void gui_borders_show_date(uint16_t year, uint8_t month, uint8_t day, uint8_t ho
 
 void gui_borders_show_tab(uint8_t currentpage, uint8_t pagescount) {
   for (uint8_t i = 0; i<pagescount; i++) {
-    display_draw_bitmap(20 + i * 30, 128-7, IMG_ICONS[i].img, IMG_ICONS[i].w, IMG_ICONS[i].h, i == currentpage ? DISPLAY_GREEN : DISPLAY_WHITE);
+    display_draw_bitmap(15 + i * 30, 128-8, IMG_ICONS[i].img, IMG_ICONS[i].w, IMG_ICONS[i].h, i == currentpage ? DISPLAY_GREEN : DISPLAY_WHITE);
     if (i != pagescount - 1) {
-      display_set_cursor(20+i * 30 + 16, 128-7);
+      display_set_cursor(15 + i * 30 + 16, 128-8);
       display_set_textcolor(DISPLAY_WHITE);
       display_set_textsize(1);
       display_prints("|");

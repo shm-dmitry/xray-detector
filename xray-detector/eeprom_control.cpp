@@ -17,13 +17,13 @@
 
 #define EEPROM_DEFAULT_UV_FREQ  100
 #define EEPROM_DEFAULT_UV_DUTY  13
-#define EEPROM_DEFAULT_UV_APX_A 5463
-#define EEPROM_DEFAULT_UV_APX_B 1471
+#define EEPROM_DEFAULT_IMPL_PER_UR (4*50)
 
 #define EEPROM_DEFAULT_ALRM_L1    100
 #define EEPROM_DEFAULT_ALRM_L2    1
 #define EEPROM_DEFAULT_ALRM_NOIMP (60*3)
 #define EEPROM_DEFAULT_ALRM_ONIMP ALARM_MANAGER_ONIMPULSE_VOICE_VIBRO_AND_VOICE
+
 
 #define EEPROM_ADDR_ACCUM_DATEFORCELL(x) (EEPROM_ADDR_ACCUM + (x) * 8)
 #define EEPROM_ADDR_ACCUM_VALUEFORCELL(x) (EEPROM_ADDR_ACCUM + (x) * 8 + 4)
@@ -57,11 +57,11 @@ void eeprom_control_init_default() {
   
   eeprom_control_save_freq(EEPROM_DEFAULT_UV_FREQ);
   eeprom_control_save_duty(EEPROM_DEFAULT_UV_DUTY);
-  eeprom_control_save_uv_A(EEPROM_DEFAULT_UV_APX_A);
-  eeprom_control_save_uv_B(EEPROM_DEFAULT_UV_APX_B);
 
   eeprom_control_save_alarm_levels(EEPROM_DEFAULT_ALRM_L1, EEPROM_DEFAULT_ALRM_L2);
   eeprom_control_save_onimpulse_voice(EEPROM_DEFAULT_ALRM_ONIMP);
+
+  eeprom_control_save_impl_per_ur(EEPROM_DEFAULT_IMPL_PER_UR);
 }
 
 void eeprom_control_save_freq(uint8_t freq) {
@@ -90,32 +90,18 @@ uint8_t eeprom_control_get_duty() {
   return val;
 }
 
-uint16_t eeprom_control_get_uv_A() {
-  uint16_t a = 0;
-  EEPROM.get(EEPROM_ADDR_UV + 2, a);
-  if (a == 0xFFFF) {
-    a = EEPROM_DEFAULT_UV_APX_A;
-  }
-
-  return a;
+void eeprom_control_save_impl_per_ur(uint16_t value) {
+  EEPROM.put(EEPROM_ADDR_UV + 6, value);
 }
 
-void eeprom_control_save_uv_A(uint16_t a) {
-  EEPROM.put(EEPROM_ADDR_UV + 2, a);
-}
-
-uint16_t eeprom_control_get_uv_B() {
+uint16_t eeprom_control_get_impl_per_ur() {
   uint16_t b = 0;
-  EEPROM.get(EEPROM_ADDR_UV + 4, b);
-  if (b == 0xFFFF) {
-    b = EEPROM_DEFAULT_UV_APX_B;
+  EEPROM.get(EEPROM_ADDR_UV + 6, b);
+  if (b == 0xFFFF || b == 0x0000) {
+    b = EEPROM_DEFAULT_IMPL_PER_UR;
   }
 
   return b;
-}
-
-void eeprom_control_save_uv_B(uint16_t b) {
-  EEPROM.put(EEPROM_ADDR_UV + 4, b);
 }
 
 void eeprom_control_get_alarm_levels(uint8_t & level1, uint8_t & level2) {
