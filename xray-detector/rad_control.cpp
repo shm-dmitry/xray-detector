@@ -51,7 +51,7 @@ void isr_rad_control_one_event() {
 void rad_control_init() {
   rad_control_refresh_impl_per_ur();
 
-  pinMode(RAD_CONTROL_PIN, INPUT_PULLUP);
+  pinMode(RAD_CONTROL_PIN, INPUT);
   attachInterrupt(digitalPinToInterrupt(RAD_CONTROL_PIN), isr_rad_control_one_event, FALLING);
 }
 

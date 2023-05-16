@@ -103,11 +103,8 @@ void userinput_init() {
 #else
   PCICR   = _BV(PCIE0)   | _BV(PCIE2);
 #endif
-  PCMSK2 |= _BV(PCINT20) | _BV(PCINT23);
-#if USERINPUT_ENCODER_SIMUL
-  PCMSK1 |= _BV(PCINT8);
-#endif
-  PCMSK0 |= _BV(PCINT0)  | _BV(PCINT1);
+
+  userinput_on_stop_sleep();
 }
 
 uint8_t userinput_get_move() {
@@ -155,6 +152,22 @@ bool userinput_is_wakeup() {
   }
 
   return false;
+}
+
+void userinput_on_start_sleep() {
+  PCMSK2 &= ~(_BV(PCINT20));
+#if USERINPUT_ENCODER_SIMUL
+  PCMSK1 &= ~(_BV(PCINT8));
+#endif
+  PCMSK0 &= ~(_BV(PCINT0));
+}
+
+void userinput_on_stop_sleep() {
+  PCMSK2 |= _BV(PCINT20) | _BV(PCINT23);
+#if USERINPUT_ENCODER_SIMUL
+  PCMSK1 |= _BV(PCINT8);
+#endif
+  PCMSK0 |= _BV(PCINT0)  | _BV(PCINT1);
 }
 
 void userinput_reset() {

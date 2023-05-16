@@ -74,6 +74,7 @@ void powersave_enter_light_sleep() {
     display_off();
     charger_control_enter_sleep_mode();
     svf_control_stop();
+    userinput_on_start_sleep();
 
 #if POWERSAVE_LIGHTSLEEP_DISABLE_IO
     PRR = _BV(PRTWI) |
@@ -102,7 +103,7 @@ void powersave_leave_light_sleep() {
   charger_control_leave_sleep_mode();
   display_on();
   gui_manager_on_wakeup();
-  userinput_reset();
+  userinput_on_stop_sleep();
 
   powersave_mode = POWERSAVE_WORK_MODES_NORMAL;
 }
