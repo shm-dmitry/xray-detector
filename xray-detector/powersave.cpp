@@ -5,12 +5,21 @@
 #include "charger_control.h"
 #include "svf_control.h"
 #include "gui_manager.h"
+#include "config.h"
+#include "clock.h"
+#include "uv_control.h"
 
 #include "Arduino.h"
+#include <avr/sleep.h>
 
-#define POWERSAVE_WORK_MODES_NORMAL     0
-#define POWERSAVE_WORK_MODES_LIGHTSLEEP 1
-#define POWERSAVE_WORK_MODES_STANDBY    2
+#define POWERSAVE_WORK_MODES_NORMAL       0
+#define POWERSAVE_WORK_MODES_LIGHTSLEEP   1
+#define POWERSAVE_WORK_MODES_STANDBY      2
+#define POWERSAVE_WORK_MODES_LEAVESTANDBY 3
+
+#define POWERSAVE_STANDBY_SLEEP_COUNT     10
+
+#define POWERSAVE_WORK_MODES_UV_MIN_SECONDS_TO_SLEEP 10
 
 uint8_t powersave_mode = POWERSAVE_WORK_MODES_NORMAL;
 
@@ -34,7 +43,25 @@ bool powersave_on_main_loop() {
       powersave_enter_extended_standby();
     }
   }
+
+  if (powersave_mode == POWERSAVE_WORK_MODES_LEAVESTANDBY) {
+    powersave_leave_extended_standby();
+  }
+
+  if (powersave_mode == POWERSAVE_WORK_MODES_STANDBY) {
+    for (uint8_t i = 0; i<POWERSAVE_STANDBY_SLEEP_COUNT; i++) {
+      if (powersave_mode != POWERSAVE_WORK_MODES_STANDBY) {
+        break;
+      }
+
+      sleep_cpu();
+    }
+  }
   
+  if (powersave_mode == POWERSAVE_WORK_MODES_LEAVESTANDBY) {
+    powersave_leave_extended_standby();
+  }
+
   return powersave_is_on();
 }
 
@@ -48,14 +75,40 @@ void powersave_enter_light_sleep() {
     charger_control_enter_sleep_mode();
     svf_control_stop();
 
+#if POWERSAVE_LIGHTSLEEP_DISABLE_IO
+    PRR = _BV(PRTWI) |
+          _BV(PRTIM1) |
+          _BV(PRSPI)  |
+          _BV(PRADC)  |
+          _BV(PRUSART0);
+#endif
+
     powersave_mode = POWERSAVE_WORK_MODES_LIGHTSLEEP;
   } else {
     powersave_leave_extended_standby();
   }
 }
 
+void powersave_leave_light_sleep() {
+#if POWERSAVE_LIGHTSLEEP_DISABLE_IO
+#if SYSTEM_SERIAL_ENABLED
+  PRR = 0;
+  Serial.begin(SYSTEM_SERIAL_FREQ);
+#else
+  PRR = _BV(PRUSART0);
+#endif
+#endif
+
+  charger_control_leave_sleep_mode();
+  display_on();
+  gui_manager_on_wakeup();
+  userinput_reset();
+
+  powersave_mode = POWERSAVE_WORK_MODES_NORMAL;
+}
+
 void powersave_enter_extended_standby() {
-  if (powersave_mode == POWERSAVE_WORK_MODES_STANDBY) {
+  if (powersave_mode == POWERSAVE_WORK_MODES_STANDBY || powersave_mode == POWERSAVE_WORK_MODES_LEAVESTANDBY) {
     return;
   }
 
@@ -64,12 +117,22 @@ void powersave_enter_extended_standby() {
     return;
   }
 
-  // TODO enter extended standby
+  if (clock_enter_sleep_mode()) {
+    set_sleep_mode(SLEEP_MODE_EXT_STANDBY);
+    sleep_enable();
+
+    powersave_mode = POWERSAVE_WORK_MODES_STANDBY;
+  }
 }
 
 void powersave_leave_extended_standby() {
-  // TODO: go from extended standby to light sleep
+  clock_leave_sleep_mode();
+
+  sleep_disable();
+
+  powersave_mode = POWERSAVE_WORK_MODES_LIGHTSLEEP;
 }
+
 bool powersave_is_on() {
   return powersave_mode == POWERSAVE_WORK_MODES_NORMAL;
 }
@@ -79,7 +142,7 @@ void powersave_wakeup() {
     return;
   }
 
-  if (powersave_mode == POWERSAVE_WORK_MODES_STANDBY) {
+  if (powersave_mode == POWERSAVE_WORK_MODES_STANDBY || powersave_mode == POWERSAVE_WORK_MODES_LEAVESTANDBY) {
     powersave_leave_extended_standby();
   }
 
@@ -88,19 +151,20 @@ void powersave_wakeup() {
   }
 }
 
-void powersave_leave_light_sleep() {
-  display_on();
-  gui_manager_on_wakeup();
-
-  powersave_mode = POWERSAVE_WORK_MODES_NORMAL;
-}
-
 bool powersave_check_can_go_standby() {
-  return false;
+  if (uv_control_seconds_between_uv_on() < POWERSAVE_WORK_MODES_UV_MIN_SECONDS_TO_SLEEP) {
+    return false;
+  }
+
+  if (charger_control_is_active()) {
+    return false;
+  }
+
+  return true;
 }
 
-void isrcall_powersave_onwakeup() {
-  if (!powersave_is_on()) {
-    isrcall_userinput_force_wakeup();
+void isrcall_powersave_leave_standby() {
+  if (powersave_mode == POWERSAVE_WORK_MODES_STANDBY) {
+    powersave_mode = POWERSAVE_WORK_MODES_LEAVESTANDBY;
   }
 }

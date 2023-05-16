@@ -20,7 +20,7 @@ void setup() {
 //  return;
   
 #if SYSTEM_SERIAL_ENABLED
-  Serial.begin(9600);
+  Serial.begin(SYSTEM_SERIAL_FREQ);
 #endif
 
 #if UV_DEBUG_MODE

@@ -18,6 +18,8 @@ void uv_control_change_pwm_with_testrun_approx();
 
 void uv_control_on_main_loop();
 
+uint8_t uv_control_seconds_between_uv_on();
+
 // callbacks
 
 void isrcall_uv_control_on_impulse();

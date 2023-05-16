@@ -73,8 +73,7 @@ void charger_control_init() {
     charger_control_enable_i2c_time = clock_millis();
   }
 
-  Wire.begin();
-  Wire.setClock(200000);
+  charger_control_leave_sleep_mode();
 
   ADCSRA = 0; // disable ADC
   ADMUX = (0 << REFS1) | (1 << REFS0) | // reference: internal 1.1V
@@ -88,10 +87,14 @@ void isrcall_charger_control_onusbint() {
       charger_control_enable_i2c_time = clock_millis(true);
     }
 
-    isrcall_powersave_onwakeup();
+    isrcall_powersave_leave_standby();
   } else {
     charger_control_enable_i2c_time = 0;
   }
+}
+
+bool charger_control_is_active() {
+  return digitalRead(CHARGER_INT_PIN) == HIGH;
 }
 
 void charger_control_on_main_loop() {
@@ -204,6 +207,12 @@ bool charger_control_read_adc(t_charger_data & data) {
 
 void charger_control_enter_sleep_mode() {
   charger_control_enable_i2c_time = 0;
+  ADCSRA = 0;
+}
+
+void charger_control_leave_sleep_mode() {
+  Wire.begin();
+  Wire.setClock(200000);
 }
 
 uint8_t charger_control_get_voltage_pc() {

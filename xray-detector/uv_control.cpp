@@ -29,6 +29,8 @@ static volatile uint8_t uv_control_refill_sec   = UV_CONTROL_REFILL_INIT;
 static volatile uint8_t uv_control_impulses     = UV_CONTROL_REFILL_REQRS;
 static volatile uint8_t uv_control_duty         = 10;
 static volatile uint32_t uv_control_recalc_freq = 0;
+static volatile uint32_t uv_control_last_run_uv = 0;
+static volatile uint8_t uv_control_seconds_between_uv = 0;
 
 void uv_control_enable_pwm();
 void uv_control_disable_pwm();
@@ -144,6 +146,18 @@ void isrcall_uv_control_on_timer() {
     if (uv_control_refill_sec == 0) {
       uv_control_refill_sec = UV_CONTROL_REFILL_DUR;
 
+      uint32_t now = clock_millis(true);
+      if (uv_control_last_run_uv > 0 && now > uv_control_last_run_uv) {
+        uint32_t temp = (now - uv_control_last_run_uv) / 1000;
+        if (temp > 0xFF) {
+          temp = 0xFF;
+        }
+        
+        uv_control_seconds_between_uv = temp;
+      }
+
+      uv_control_last_run_uv = now;
+
       uv_control_enable_pwm();
     } else {
       if (uv_control_refill_sec == 1) {
@@ -155,6 +169,10 @@ void isrcall_uv_control_on_timer() {
       }
     }
   }
+}
+
+uint8_t uv_control_seconds_between_uv_on() {
+  return uv_control_seconds_between_uv;
 }
 
 void uv_control_on_main_loop() {

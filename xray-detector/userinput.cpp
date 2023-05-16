@@ -67,7 +67,7 @@ ISR(PCINT2_vect) {
 
   if (digitalRead(USERINPUT_PIN_WAKEUP) == LOW) {
     USERINPUT_SETFLAG(USERINPUT_BIT_WAKEUP);
-    isrcall_powersave_onwakeup();
+    isrcall_powersave_leave_standby();
   }
 }
 
@@ -157,6 +157,15 @@ bool userinput_is_wakeup() {
   return false;
 }
 
-void isrcall_userinput_force_wakeup() {
-  USERINPUT_SETFLAG(USERINPUT_BIT_WAKEUP);  
+void userinput_reset() {
+  uint8_t oldSREG = SREG;
+  cli();
+
+  if (userinput_flags & USERINPUT_BIT_WAKEUP) {
+    userinput_flags = USERINPUT_BIT_WAKEUP;
+  } else {
+    userinput_flags = 0;
+  }
+
+  SREG = oldSREG;
 }

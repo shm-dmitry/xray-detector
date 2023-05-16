@@ -72,6 +72,10 @@ void alarm_manager_on_main_loop() {
   if (alarm_manager_wasimpulse) {
     alarm_manager_wasimpulse = false;
     uint8_t level = alarm_manager_dose2level(rad_control_dose());
+    if (level > 0 && !powersave_is_on()) {
+      powersave_wakeup();
+    }
+
     if (level == 2) {
       if (alarm_manager_open_rad_page()) {
         svf_control_play_sound__alarm2();
@@ -82,7 +86,7 @@ void alarm_manager_on_main_loop() {
         svf_control_play_sound__alarm1();
         svf_control_play_vibro__alarm1();
       }
-    } else {
+    } else if (powersave_is_on()) {
       if (alarm_manager_onimpulse_voice_type == ALARM_MANAGER_ONIMPULSE_VOICE_VOICE || 
           alarm_manager_onimpulse_voice_type == ALARM_MANAGER_ONIMPULSE_VOICE_VIBRO_AND_VOICE) {
         svf_control_play_sound__impuls();

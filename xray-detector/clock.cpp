@@ -41,7 +41,7 @@ volatile uint8_t clock_seconds = 0;
 
 volatile uint16_t clock_wd_timer_value_ms =  0;
 volatile uint16_t clock_wd_timer_calibrate_start_ms = 0;
-volatile t_wd_timer_impl wd_timer_impl;
+volatile t_wd_timer_impl wd_timer_impl = 0;
 
 void clock_on_one_second();
 void clock_on_one_millis();
@@ -68,10 +68,12 @@ ISR(WDT_vect) {
   if (wd_timer_impl) {
     wd_timer_impl();
   }
+
+  WDTCSR |= (1 << WDIE);
 }
 
 void isr_clock_wd_timer_calibrate() {
-  if (clock_wd_timer_calibrate_start_ms > 0) {
+  if (clock_wd_timer_calibrate_start_ms > 0 && clock_millis_value > clock_wd_timer_calibrate_start_ms) {
     clock_wd_timer_value_ms = clock_millis_value - clock_wd_timer_calibrate_start_ms;
     clock_wd_timer_calibrate_start_ms = clock_millis_value;
   } else {
@@ -88,9 +90,9 @@ void isr_clock_wd_timer_execute() {
   }
 
   uint16_t ms_to_next_second = 1000 - prevms % 1000;
-  if (clock_wd_timer_value_ms <= ms_to_next_second) {
+  if (clock_wd_timer_value_ms >= ms_to_next_second) {
     clock_on_one_second();
-  }  
+  }
 }
 
 uint8_t clock_days_in_month() {

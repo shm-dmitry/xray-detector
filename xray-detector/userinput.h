@@ -16,6 +16,6 @@ uint8_t userinput_get_move();
 bool userinput_is_click();
 bool userinput_is_wakeup();
 
-void isrcall_userinput_force_wakeup();
+void userinput_reset();
 
 #endif /* USERINPUT_H_ */
