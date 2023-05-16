@@ -168,9 +168,7 @@ void userinput_on_stop_sleep() {
   PCMSK1 |= _BV(PCINT8);
 #endif
   PCMSK0 |= _BV(PCINT0)  | _BV(PCINT1);
-}
 
-void userinput_reset() {
   uint8_t oldSREG = SREG;
   cli();
 

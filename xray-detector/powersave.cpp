@@ -49,12 +49,16 @@ bool powersave_on_main_loop() {
   }
 
   if (powersave_mode == POWERSAVE_WORK_MODES_STANDBY) {
-    for (uint8_t i = 0; i<POWERSAVE_STANDBY_SLEEP_COUNT; i++) {
-      if (powersave_mode != POWERSAVE_WORK_MODES_STANDBY) {
-        break;
-      }
+    if (!powersave_check_can_go_standby()) {
+      powersave_mode = POWERSAVE_WORK_MODES_LEAVESTANDBY;
+    } else {
+      for (uint8_t i = 0; i<POWERSAVE_STANDBY_SLEEP_COUNT; i++) {
+        if (powersave_mode != POWERSAVE_WORK_MODES_STANDBY) {
+          break;
+        }
 
-      sleep_cpu();
+        sleep_cpu();
+      }
     }
   }
   

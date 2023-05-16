@@ -12,6 +12,7 @@
 #include "rad_history.h"
 #include "ip5328p_dump.h"
 #include "config.h"
+#include "graph.h"
 
 #define UV_DEBUG_MODE false
 
@@ -51,12 +52,14 @@ void loop() {
   alarm_manager_on_main_loop();
   
   if (!powersave_on_main_loop()) {
+    rad_history_on_main_loop();
+    graph_refresh_from_history();
     return;
   }
   
   uv_control_on_main_loop();
   charger_control_on_main_loop();
   svf_control_on_main_loop();
-  gui_manager_on_main_loop();
   rad_history_on_main_loop();
+  gui_manager_on_main_loop();
 }
