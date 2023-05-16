@@ -13,7 +13,7 @@
 
 #define GRAPH_MIN_MAXVALUE  50
 
-#define GRAPH_COLOR_FOR(value) \ 
+#define GRAPH_COLOR_FOR(value) \
   ((value & GRAPH_HISTORY_COLOR_MASKS) == GRAPH_HISTORY_COLOR1_MASK ? color1 : ((value & GRAPH_HISTORY_COLOR_MASKS) == GRAPH_HISTORY_COLOR2_MASK ? color2 : color3))
 #define GRAPH_VALUE_FOR(value) (value & GRAPH_MAX_HEIGHT)
 

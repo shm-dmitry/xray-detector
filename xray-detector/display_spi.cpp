@@ -197,7 +197,7 @@ void display_spi_draw_bitmap(uint8_t x, uint8_t y, const uint8_t bitmap[], uint8
 }
 
 void display_spi_write_pixel(uint8_t x, uint8_t y, uint16_t color) {
-  if ((x >= 0) && (x < DISPLAY_WIDTH) && (y >= 0) && (y < DISPLAY_HEIGHT)) {
+  if ((x < DISPLAY_WIDTH) && (y < DISPLAY_HEIGHT)) {
     display_spi_set_addr_window(x, y, 1, 1);
     SPI_WRITE16(color);
   }

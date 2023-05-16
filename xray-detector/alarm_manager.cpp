@@ -38,6 +38,8 @@ uint8_t alarm_manager_getlevel(uint8_t level) {
     return alarm_manager_level2;
   } else if (level == ALARM_MANAGER_NI_LEVEL) {
     return alarm_manager_no_impulse_seconds;
+  } else {
+    return 0;
   }
 }
 

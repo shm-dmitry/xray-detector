@@ -110,10 +110,11 @@ bool uv_control_update_pwm_approx_linear() {
   return;
   #endif
 
-  t_charger_data data = {0};
+  t_charger_data data;
+  memset(&data, 0, sizeof(data));
   if (!charger_control_read_adc(data)) {
     uv_control_update_pwm(eeprom_control_get_freq(), uv_control_duty);
-    return;
+    return false;
   }
 
   uint32_t freq = (uint32_t) UV_CONTROL_APX_A * (uint32_t) 10 + ((uint32_t) UV_CONTROL_APX_B * (uint32_t) data.bat_voltage_x100) / (uint32_t) 10;  

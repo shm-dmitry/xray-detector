@@ -40,7 +40,7 @@ static const uint8_t PROGMEM IMG_CIRCLE_LOW[] = {0x00, 0x00, 0x18, 0x3c, 0x3c, 0
 static const uint8_t PROGMEM IMG_TRIANGLE[] = {0x03, 0x0f, 0x3f, 0xff, 0xff, 0x3f, 0x0f, 0x03};
 
 
-typedef struct t_icon {
+struct t_icon {
   uint8_t w;
   uint8_t h;
   const uint8_t * img;

@@ -15,7 +15,7 @@ typedef void (*t_wd_timer_impl)();
 #define CLOCK_OVF_MILLIS_FIX         296
 
 #define CLOCK_ON_ONE_SECOND_CALLBACKS \
-  isrcall_rad_control_on_timer(clock_seconds); \
+  isrcall_rad_control_on_timer(); \
   isrcall_uv_control_on_timer(); \
   if (clock_seconds == 0) { \
     isrcall_alarm_manager_onminute(); \
@@ -263,7 +263,7 @@ void clock_get_time(uint16_t & year, uint8_t & month, uint8_t & day, uint8_t & h
   SREG = oldSREG;
 }
 
-uint32_t clock_get_packed(bool inisr = false) {
+uint32_t clock_get_packed(bool inisr) {
   uint8_t oldSREG;
   if (!inisr) {
     oldSREG = SREG;
@@ -280,7 +280,7 @@ uint32_t clock_get_packed(bool inisr = false) {
   return packed;
 }
 
-uint32_t clock_millis(bool inisr = false) {
+uint32_t clock_millis(bool inisr) {
   if (inisr) {
     return clock_millis_value;
   }
@@ -315,7 +315,7 @@ uint32_t clock_calc_delay(uint32_t base, uint32_t delta, bool & ovf) {
   }
 }
 
-bool clock_is_elapsed(uint32_t base, uint32_t delta, bool inisr = false) {
+bool clock_is_elapsed(uint32_t base, uint32_t delta, bool inisr) {
   uint32_t now = clock_millis(inisr);
   bool ovf = false;
   uint32_t untill = clock_calc_delay(base, delta, ovf);

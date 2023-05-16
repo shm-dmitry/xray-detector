@@ -14,6 +14,7 @@ typedef t_rad_history_minute_points t_rad_history_minute_points_buffer[RAD_HISTO
 
 void isrcall_rad_history_on_second(uint8_t seconds);
 
+void rad_history_init();
 void rad_history_on_main_loop();
 
 const t_rad_history_minute_points_buffer * rad_history_get_minute_points_buffer();

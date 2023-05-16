@@ -216,7 +216,8 @@ void charger_control_leave_sleep_mode() {
 }
 
 uint8_t charger_control_get_voltage_pc() {
-  t_charger_data data = { 0 };
+  t_charger_data data;
+  memset(&data, 0, sizeof(data));
   if (charger_control_read_adc(data)) {
     if (data.bat_voltage_x100 >= CHARGER_CONTROL_MAXV_X100) {
       return 100;

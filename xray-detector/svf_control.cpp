@@ -129,7 +129,7 @@ void isrcall_svf_control_on_millis() {
   }
 }
 
-bool svf_control_play(volatile t_data_sample & obj, uint8_t id, const uint16_t ** progmem_data) {
+bool svf_control_play(volatile t_data_sample & obj, uint8_t id, const uint16_t * const* progmem_data) {
   // priority
   if (obj.id < id) {
     svf_control_mute(obj);

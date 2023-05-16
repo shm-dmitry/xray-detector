@@ -18,7 +18,7 @@ void rad_accum_on_save_date(uint32_t packed);
 void rad_accum_on_next_hour();
 
 void rad_accum_history_ondose(uint32_t dose) {
-  if (rad_accum_daily_dose == RAD_ACCUM_MAXVALUE) {
+  if (rad_accum_daily_dose == 0xFFFFFFFF) {
     return;
   }
   if (dose == 0) {

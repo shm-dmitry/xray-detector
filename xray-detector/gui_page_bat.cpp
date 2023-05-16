@@ -8,14 +8,15 @@
 #define GUI_PAGE_BAT_MEDIUM 30
 
 
-t_charger_data gui_bat_prev_data = { 0 };
+t_charger_data gui_bat_prev_data;
 
 bool gui_bat_page_refresh(uint8_t data) {
   if (!display_is_on()) {
     return false;
   }
 
-  t_charger_data charger_data = { 0 };
+  t_charger_data charger_data;
+  memset(&charger_data, 0, sizeof(charger_data));
   if (!charger_control_get_data(charger_data)) {
     if (!data) {
       return true;
@@ -25,6 +26,8 @@ bool gui_bat_page_refresh(uint8_t data) {
   display_set_textsize(1);
 
   if (data) {
+    memset(&gui_bat_prev_data, 0, sizeof(gui_bat_prev_data));
+
     display_set_textcolor(DISPLAY_WHITE);
 
     display_set_cursor(20, 30);
@@ -106,6 +109,7 @@ bool gui_bat_page_refresh(uint8_t data) {
   return true;
 }
 
-void gui_bat_page_onwakeup(uint8_t data) {
+bool gui_bat_page_onwakeup(uint8_t data) {
   memset(&gui_bat_prev_data, 0, sizeof(t_charger_data));
+  return true;
 }

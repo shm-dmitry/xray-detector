@@ -13,7 +13,7 @@ volatile uint8_t rad_history_on_timer = RAD_HISTORY_TIMER_NOEVENT;
 uint32_t rad_history_totaldose = 0;
 uint8_t rad_history_totaldose_count = 0;
 
-t_rad_history_minute_points_buffer rad_history_minute_points = { 0 };
+t_rad_history_minute_points_buffer rad_history_minute_points;
 uint32_t rad_history_minute_currentdate = 0;
 bool rad_history_minute_buffer_changed = false;
 
@@ -23,6 +23,10 @@ void rad_history_process_simple_event();
 
 void isrcall_rad_history_on_second(uint8_t seconds) {
   rad_history_on_timer = (seconds % 5 == 0) ? RAD_HISTORY_TIMER_STOREEVENT : RAD_HISTORY_TIMER_EVENT;
+}
+
+void rad_history_init() {
+  memset(&rad_history_minute_points, 0, sizeof(rad_history_minute_points));
 }
 
 uint8_t rad_history_get_event() {

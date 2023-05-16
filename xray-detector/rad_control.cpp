@@ -64,7 +64,7 @@ void rad_control_refresh_impl_per_ur() {
   SREG = oldSREG;
 }
 
-void isrcall_rad_control_on_timer(uint8_t seconds) {
+void isrcall_rad_control_on_timer() {
   RAD_CONTROL_ISR_CHECK_INITIALIZED;
 
   rad_control_cached_value = 0;

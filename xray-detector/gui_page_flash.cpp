@@ -137,6 +137,8 @@ bool gui_flash_page_on_click(uint8_t data) {
     gui_flash_pc = 50;
     svf_control_flash(gui_flash_pc);
   }
+
+  return true;
 }
 
 bool gui_flash_page_onwakeup(uint8_t data) {
@@ -144,4 +146,6 @@ bool gui_flash_page_onwakeup(uint8_t data) {
   gui_flash_prev_pc = 0x00;
   gui_flash_editing = false;
   gui_flash_editing_prev = false;
+
+  return true;
 }

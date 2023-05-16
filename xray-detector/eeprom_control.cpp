@@ -28,7 +28,7 @@
 #define EEPROM_ADDR_ACCUM_DATEFORCELL(x) (EEPROM_ADDR_ACCUM + (x) * 8)
 #define EEPROM_ADDR_ACCUM_VALUEFORCELL(x) (EEPROM_ADDR_ACCUM + (x) * 8 + 4)
 
-void eeprom_control_migrate(uint8_t from_ver);
+void eeprom_control_migrate();
 
 #if EEPROM_CONTROL_INIT_FAKE_BUFFER
 void eeprom_control_init_fake_accum_buffer();
@@ -39,7 +39,7 @@ void eeprom_control_init() {
   if (ver == EEPROM_VERSION_UNINIT) {
     eeprom_control_init_default();
   } else if (ver != EEPROM_VERSION_ACTUAL) {
-    eeprom_control_migrate(ver);
+    eeprom_control_migrate();
   }
 
 #if EEPROM_CONTROL_INIT_FAKE_BUFFER
@@ -47,7 +47,7 @@ void eeprom_control_init() {
 #endif
 }
 
-void eeprom_control_migrate(uint8_t from_ver) {
+void eeprom_control_migrate() {
   eeprom_control_init_default();
 }
 

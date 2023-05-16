@@ -27,7 +27,7 @@ void gui_rad_page_draw_accum_list_item(uint32_t dose_usv);
 
 bool gui_rad_page_refresh(uint8_t data) {
   if (!display_is_on()) {
-    return;
+    return false;
   }
 
   if (data == 0xFF) {
@@ -259,10 +259,14 @@ bool gui_rad_page_onclick(uint8_t data) {
   } else {
     rad_page_mode = RAD_PAGE_MODE_STARTUP_FULLREFRESH;
   }
+
+  return false;
 }
 
 bool gui_rad_page_onwakeup(uint8_t data) {
   rad_page_dose = 0;
   rad_page_accum = 0;
   rad_page_mode = RAD_PAGE_MODE_STARTUP;
+  
+  return false;
 }

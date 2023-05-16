@@ -20,8 +20,10 @@
 #define POWERSAVE_STANDBY_SLEEP_COUNT     10
 
 #define POWERSAVE_WORK_MODES_UV_MIN_SECONDS_TO_SLEEP 10
+#define POWERSAVE_AUTO_SLEEP_TIMEOUT      ((uint32_t)5*60*1000)
 
 uint8_t powersave_mode = POWERSAVE_WORK_MODES_NORMAL;
+uint32_t powersave_normal_mode_activated = 0;
 
 void powersave_enter_light_sleep();
 void powersave_enter_extended_standby();
@@ -30,6 +32,12 @@ void powersave_leave_extended_standby();
 bool powersave_check_can_go_standby();
 
 bool powersave_on_main_loop() {
+  if (powersave_mode == POWERSAVE_WORK_MODES_NORMAL) {
+    if (clock_is_elapsed(powersave_normal_mode_activated, POWERSAVE_AUTO_SLEEP_TIMEOUT)) {
+      powersave_enter_light_sleep();
+    }
+  }
+
   if (userinput_is_wakeup()) {
     if (powersave_mode == POWERSAVE_WORK_MODES_NORMAL) {
       powersave_enter_light_sleep();
@@ -110,6 +118,7 @@ void powersave_leave_light_sleep() {
   userinput_on_stop_sleep();
 
   powersave_mode = POWERSAVE_WORK_MODES_NORMAL;
+  powersave_normal_mode_activated = clock_millis();
 }
 
 void powersave_enter_extended_standby() {

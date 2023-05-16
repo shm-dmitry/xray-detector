@@ -42,6 +42,7 @@ void setup() {
   alarm_manager_init();
   charger_control_init();
   uv_control_init();
+  rad_history_init();
 
 #if SYSTEM_SERIAL_ENABLED
   Serial.println("Init done");

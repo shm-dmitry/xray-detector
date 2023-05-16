@@ -543,4 +543,6 @@ bool gui_settings_page_onwakeup(uint8_t data) {
   menu_change_value  = SETTINGS_PAGE_UNCHANGED;
   menu_refreshed     = false;
   menu_edit_datetime = SETTINGS_PAGE_EDIT_DATETIME_UNCHANGED;
+
+  return true;
 }
