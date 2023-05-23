@@ -32,6 +32,8 @@ void display_init() {
 }
 
 void display_on() {
+  Serial.println("display_on");
+
   if (display_is_on()) {
     return;
   }
