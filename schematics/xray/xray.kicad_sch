@@ -5648,8 +5648,8 @@
     (uuid ffb2d414-94d7-4a58-825f-d6df2ee85b08)
   )
 
-  (text_box "FIXME LIST on v2.0\n\nKNOWN ERRORS:\n1. Signal amplifier has error. See FIX#1\n2. Add emf screen connection point to GNDm see FIX#2\n\nFixes:\n1. integrate UV stabilizator\n2. replace L1 to AMPLF1040\n3. rewrite amplifier-detector to work on positive impulse\n4. remove unused JP2\n5. add soldered jumper on UV_PWM line\n6. add UV discharge button\n7. replace GND testpoint footprint\n8. replace BT1 connector footprint\n9. change V1 connector footprint - increase hole radius\n10. move display to the center of the board\n\nImprovments:\n1. think about clocker chip\n2. think about firmware updates via USB port\n3. replace R31 with variable resistor to adjust time-to-reset\n4. think about UV power auto-stabilization\n5. integrate hardware UV PWM controller\n6. think about grounded shield for a V1 or U7"
-    (at 369.57 276.86 0) (size 93.98 86.36)
+  (text_box "FIXME LIST on v2.0\n\nKNOWN ERRORS:\n1. Signal amplifier has error. See FIX#1\n2. Add emf screen connection point to GNDm see FIX#2\n\nFixes:\n1. integrate UV stabilizator\n2. replace L1 to AMPLF1040\n3. rewrite amplifier-detector to work on positive impulse\n4. remove unused JP2\n5. add soldered jumper on UV_PWM line\n6. add UV discharge button\n7. replace GND testpoint footprint\n8. replace BT1 connector footprint\n9. change V1 connector footprint - increase hole radius\n10. move display to the center of the board\n11. replace electrolitic capacitors with a SMD\n\nImprovments:\n1. think about clocker chip\n2. think about firmware updates via USB port\n3. replace R31 with variable resistor to adjust time-to-reset\n4. think about UV power auto-stabilization\n5. integrate hardware UV PWM controller\n6. think about grounded shield for a V1 or U7\n7. Change display/sensor place\n"
+    (at 369.57 276.86 0) (size 93.98 91.44)
     (stroke (width 0) (type default))
     (fill (type color) (color 255 255 255 1))
     (effects (font (size 2 2) (thickness 0.254) bold (color 255 0 0 1)) (justify left top))
