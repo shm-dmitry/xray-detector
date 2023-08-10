@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 31,
+    "active_layer": 37,
     "active_layer_preset": "Все слои (кроме Fab)",
     "auto_track_width": true,
     "hidden_netclasses": [],
@@ -22,9 +22,9 @@
       "lockedItems": false,
       "otherItems": false,
       "pads": false,
-      "text": true,
+      "text": false,
       "tracks": true,
-      "vias": true,
+      "vias": false,
       "zones": false
     },
     "visible_items": [
@@ -64,8 +64,8 @@
       39,
       40
     ],
-    "visible_layers": "ffcffff_ffffffff",
-    "zone_display_mode": 1
+    "visible_layers": "0005055_00000000",
+    "zone_display_mode": 0
   },
   "meta": {
     "filename": "xray-v2.kicad_prl",
