@@ -3841,6 +3841,9 @@
   (junction (at 215.9 501.65) (diameter 0) (color 0 0 0 0)
     (uuid 2594064d-f682-4fb0-9d5d-7be98f2ef406)
   )
+  (junction (at 260.35 152.4) (diameter 0) (color 0 0 0 0)
+    (uuid 26b522a4-a848-4ad3-bf92-88d8b6845b6e)
+  )
   (junction (at 306.07 114.3) (diameter 0) (color 0 0 0 0)
     (uuid 27cf1d97-a175-44cb-ba1b-468023abfa31)
   )
@@ -3889,6 +3892,9 @@
   (junction (at 189.23 119.38) (diameter 0) (color 0 0 0 0)
     (uuid 4274cff8-904a-4962-a955-edf84a4a61cc)
   )
+  (junction (at 580.39 269.24) (diameter 0) (color 0 0 0 0)
+    (uuid 4283c867-7f55-4148-a3e1-a9019f9b02a9)
+  )
   (junction (at 157.48 483.87) (diameter 0) (color 0 0 0 0)
     (uuid 47a838ab-9531-4e49-a7a0-86a3255f850e)
   )
@@ -3934,6 +3940,9 @@
   (junction (at 153.67 280.67) (diameter 0) (color 0 0 0 0)
     (uuid 6a3db74b-418d-4c8a-be13-459bba2388f1)
   )
+  (junction (at 580.39 344.17) (diameter 0) (color 0 0 0 0)
+    (uuid 6bb508f4-9199-41ed-8d20-11c814c9c036)
+  )
   (junction (at 72.39 483.87) (diameter 0) (color 0 0 0 0)
     (uuid 6f06e11b-77f1-4668-8030-1d467fce20f8)
   )
@@ -3946,7 +3955,7 @@
   (junction (at 266.7 168.91) (diameter 0) (color 0 0 0 0)
     (uuid 724d2657-2a59-4848-8b90-adfad0e0a8be)
   )
-  (junction (at 72.39 335.28) (diameter 0) (color 0 0 0 0)
+  (junction (at 35.56 334.01) (diameter 0) (color 0 0 0 0)
     (uuid 734cbd93-685e-4fda-b62b-157e4ff72616)
   )
   (junction (at 445.77 300.99) (diameter 0) (color 0 0 0 0)
@@ -4003,6 +4012,9 @@
   (junction (at 96.52 39.37) (diameter 0) (color 0 0 0 0)
     (uuid a134eaaf-45ab-4bb6-b5f6-c0490fcb076f)
   )
+  (junction (at 326.39 68.58) (diameter 0) (color 0 0 0 0)
+    (uuid a7114b81-136c-4a49-b222-00db1d53b368)
+  )
   (junction (at 746.76 229.87) (diameter 0) (color 0 0 0 0)
     (uuid a8066b71-2090-45ea-9005-a1550fd20f8c)
   )
@@ -4045,9 +4057,6 @@
   (junction (at 318.77 111.76) (diameter 0) (color 0 0 0 0)
     (uuid cc5461de-ed58-487f-8543-bf42b80eabf3)
   )
-  (junction (at 139.7 300.99) (diameter 0) (color 0 0 0 0)
-    (uuid cc717e05-b5e8-4404-ab42-5d5991b0e930)
-  )
   (junction (at 207.01 119.38) (diameter 0) (color 0 0 0 0)
     (uuid ce4d0073-2ff6-428d-99ea-482f83dac90d)
   )
@@ -4063,7 +4072,7 @@
   (junction (at 419.1 262.89) (diameter 0) (color 0 0 0 0)
     (uuid d76f621f-cbab-4f26-bf59-19bfd90ed241)
   )
-  (junction (at 80.01 335.28) (diameter 0) (color 0 0 0 0)
+  (junction (at 43.18 334.01) (diameter 0) (color 0 0 0 0)
     (uuid d90e62b4-97da-420f-9cdf-354cd4ad3e62)
   )
   (junction (at 331.47 504.19) (diameter 0) (color 0 0 0 0)
@@ -4120,6 +4129,9 @@
   (junction (at 54.61 491.49) (diameter 0) (color 0 0 0 0)
     (uuid fb94c703-3099-43e7-89da-362508a304ab)
   )
+  (junction (at 128.27 513.08) (diameter 0) (color 0 0 0 0)
+    (uuid fc1a0467-317a-4631-8b53-02a958c06685)
+  )
   (junction (at 293.37 121.92) (diameter 0) (color 0 0 0 0)
     (uuid fdb03e5e-00fd-4903-a78b-00dad05a42d7)
   )
@@ -4131,7 +4143,6 @@
   )
 
   (no_connect (at 186.69 323.85) (uuid 01bfad0b-d5e2-47a1-8441-081eb8bf482d))
-  (no_connect (at 186.69 334.01) (uuid 03194985-2ab2-4921-af04-710ca8c55d0c))
   (no_connect (at 186.69 341.63) (uuid 0c1e2008-ddc4-457f-a334-9d5bf41d768f))
   (no_connect (at 186.69 361.95) (uuid 152405d8-b066-4617-969e-b5b2dbe87cf8))
   (no_connect (at 186.69 351.79) (uuid 1811eec0-4ab4-4b20-889c-d899468311ea))
@@ -4230,7 +4241,7 @@
     (stroke (width 0) (type default))
     (uuid 090ecde8-ff4f-4c20-9d34-963ed7a4d8ac)
   )
-  (wire (pts (xy 133.35 513.08) (xy 139.7 513.08))
+  (wire (pts (xy 123.19 513.08) (xy 128.27 513.08))
     (stroke (width 0) (type default))
     (uuid 092b2217-89ec-44d7-bacf-b03d0382e89e)
   )
@@ -4370,7 +4381,7 @@
     (stroke (width 0) (type default))
     (uuid 1bd693a9-5da5-472a-b364-55dcfffcc961)
   )
-  (wire (pts (xy 80.01 320.04) (xy 86.36 320.04))
+  (wire (pts (xy 43.18 318.77) (xy 49.53 318.77))
     (stroke (width 0) (type default))
     (uuid 1cfc664c-2fa3-4a82-a1dc-29f84a0ca6e5)
   )
@@ -4385,10 +4396,6 @@
   (wire (pts (xy 515.62 314.96) (xy 515.62 320.04))
     (stroke (width 0) (type default))
     (uuid 1e1e2193-5325-4fe4-aca9-add1d0e32867)
-  )
-  (wire (pts (xy 139.7 311.15) (xy 139.7 312.42))
-    (stroke (width 0) (type default))
-    (uuid 1ea6cbc1-4b14-4d9a-9d81-525c5373530f)
   )
   (wire (pts (xy 232.41 492.76) (xy 226.06 492.76))
     (stroke (width 0) (type default))
@@ -4438,7 +4445,7 @@
     (stroke (width 0) (type default))
     (uuid 23af7c3a-a18d-4b56-a657-4a35432b0fef)
   )
-  (wire (pts (xy 154.94 326.39) (xy 161.29 326.39))
+  (wire (pts (xy 158.75 326.39) (xy 161.29 326.39))
     (stroke (width 0) (type default))
     (uuid 248200dd-9c6c-4871-a507-4c7b9f50c8d8)
   )
@@ -4446,7 +4453,7 @@
     (stroke (width 0) (type default))
     (uuid 249c88d5-f44d-43df-a0d2-0567f76c4958)
   )
-  (wire (pts (xy 580.39 256.54) (xy 580.39 303.53))
+  (wire (pts (xy 580.39 256.54) (xy 580.39 269.24))
     (stroke (width 0) (type default))
     (uuid 2513fa8f-6506-4b6a-a9cf-f9fe7cd1d5ad)
   )
@@ -4481,10 +4488,6 @@
   (wire (pts (xy 252.73 165.1) (xy 252.73 168.91))
     (stroke (width 0) (type default))
     (uuid 280b8934-1bf1-4dd9-8fc4-221da0f5a664)
-  )
-  (wire (pts (xy 139.7 300.99) (xy 139.7 303.53))
-    (stroke (width 0) (type default))
-    (uuid 286aa93e-e971-46f5-8b6d-b4bcd216aae7)
   )
   (wire (pts (xy 756.92 77.47) (xy 767.08 77.47))
     (stroke (width 0) (type default))
@@ -4526,10 +4529,6 @@
     (stroke (width 0) (type default))
     (uuid 302dc2a7-0e78-4097-a5e1-3ae429cbe010)
   )
-  (wire (pts (xy 154.94 321.31) (xy 161.29 321.31))
-    (stroke (width 0) (type default))
-    (uuid 3128b66c-f923-46d8-a838-f6340bb3f58d)
-  )
   (wire (pts (xy 571.5 308.61) (xy 571.5 311.15))
     (stroke (width 0) (type default))
     (uuid 31826725-a38b-4287-97f9-603e0959255b)
@@ -4554,7 +4553,7 @@
     (stroke (width 0) (type default))
     (uuid 32e6ef9f-287c-4bbc-a0d0-c9910e30a1a1)
   )
-  (wire (pts (xy 285.75 147.32) (xy 285.75 151.13))
+  (wire (pts (xy 307.34 144.78) (xy 307.34 148.59))
     (stroke (width 0) (type default))
     (uuid 32f54b39-ba54-4f21-8e42-f727b5d58cbd)
   )
@@ -4590,7 +4589,7 @@
     (stroke (width 0) (type default))
     (uuid 351bd25c-a8c9-4c5d-a780-254da4254571)
   )
-  (wire (pts (xy 80.01 327.66) (xy 86.36 327.66))
+  (wire (pts (xy 43.18 326.39) (xy 49.53 326.39))
     (stroke (width 0) (type default))
     (uuid 351fd648-29e2-406b-836f-edc10551b30a)
   )
@@ -4605,6 +4604,10 @@
   (wire (pts (xy 523.24 292.1) (xy 523.24 294.64))
     (stroke (width 0) (type default))
     (uuid 36a5bf08-028b-48cf-832e-c4b11c8063a2)
+  )
+  (wire (pts (xy 326.39 68.58) (xy 330.2 68.58))
+    (stroke (width 0) (type default))
+    (uuid 36cf8e1e-4c0e-42a9-9229-2408e0464cbf)
   )
   (wire (pts (xy 558.8 110.49) (xy 565.15 110.49))
     (stroke (width 0) (type default))
@@ -4642,6 +4645,10 @@
     (stroke (width 0) (type default))
     (uuid 3ab47461-a735-40ec-a151-41145ce85255)
   )
+  (wire (pts (xy 576.58 269.24) (xy 580.39 269.24))
+    (stroke (width 0) (type default))
+    (uuid 3ad538d7-9adc-4174-80a1-129661aac48b)
+  )
   (wire (pts (xy 58.42 73.66) (xy 58.42 74.93))
     (stroke (width 0) (type default))
     (uuid 3aded666-48ab-4934-b26c-2fa5cd72fd2f)
@@ -4657,6 +4664,10 @@
   (wire (pts (xy 345.44 511.81) (xy 345.44 515.62))
     (stroke (width 0) (type default))
     (uuid 3c56f24e-2ee5-4beb-a175-8c28a51e92fe)
+  )
+  (wire (pts (xy 200.66 334.01) (xy 210.82 334.01))
+    (stroke (width 0) (type default))
+    (uuid 3d4f92a0-d0b9-43ee-8aa6-c970e1ed49fe)
   )
   (wire (pts (xy 515.62 320.04) (xy 525.78 320.04))
     (stroke (width 0) (type default))
@@ -4678,11 +4689,11 @@
     (stroke (width 0) (type default))
     (uuid 3df76a3b-2fde-4901-91ed-ca96c354e7d0)
   )
-  (wire (pts (xy 149.86 308.61) (xy 161.29 308.61))
+  (wire (pts (xy 156.21 308.61) (xy 161.29 308.61))
     (stroke (width 0) (type default))
     (uuid 3fd14a44-b973-480e-b7e1-2874edc6efdb)
   )
-  (wire (pts (xy 323.85 68.58) (xy 330.2 68.58))
+  (wire (pts (xy 323.85 68.58) (xy 326.39 68.58))
     (stroke (width 0) (type default))
     (uuid 40df5405-4eb5-4baf-a8d4-1a48732efb53)
   )
@@ -4722,9 +4733,13 @@
     (stroke (width 0) (type default))
     (uuid 47334598-f22c-4525-95ce-fc70e4e34291)
   )
-  (wire (pts (xy 80.01 335.28) (xy 80.01 330.2))
+  (wire (pts (xy 43.18 334.01) (xy 43.18 328.93))
     (stroke (width 0) (type default))
     (uuid 480ee117-19ee-429a-b062-f85ae43fe11f)
+  )
+  (wire (pts (xy 260.35 152.4) (xy 273.05 152.4))
+    (stroke (width 0) (type default))
+    (uuid 489033ee-54fc-423d-9ff8-47b83fb731a4)
   )
   (wire (pts (xy 580.39 82.55) (xy 571.5 82.55))
     (stroke (width 0) (type default))
@@ -4890,6 +4905,10 @@
     (stroke (width 0) (type default))
     (uuid 5ba344b9-4276-4045-b797-3f0d156d2f48)
   )
+  (wire (pts (xy 326.39 64.77) (xy 326.39 68.58))
+    (stroke (width 0) (type default))
+    (uuid 5c0b65f4-8292-49a7-b9cc-6588fcb4dc7c)
+  )
   (wire (pts (xy 90.17 107.95) (xy 90.17 110.49))
     (stroke (width 0) (type default))
     (uuid 5c44763a-4493-4ada-9335-88e4c442ff94)
@@ -4913,6 +4932,10 @@
   (wire (pts (xy 54.61 491.49) (xy 59.69 491.49))
     (stroke (width 0) (type default))
     (uuid 5f0ffe42-cbf4-4aa6-bec6-6b4730ba4ab9)
+  )
+  (wire (pts (xy 58.42 359.41) (xy 69.85 359.41))
+    (stroke (width 0) (type default))
+    (uuid 5f65ff6e-cf4e-40a9-b1c4-8581d860f25e)
   )
   (wire (pts (xy 189.23 119.38) (xy 207.01 119.38))
     (stroke (width 0) (type default))
@@ -4962,6 +4985,10 @@
     (stroke (width 0) (type default))
     (uuid 68386311-85a9-4622-bd80-d212255a916b)
   )
+  (wire (pts (xy 186.69 334.01) (xy 193.04 334.01))
+    (stroke (width 0) (type default))
+    (uuid 68720095-87a1-4cd9-8f29-302fecd604b6)
+  )
   (wire (pts (xy 41.91 68.58) (xy 41.91 74.93))
     (stroke (width 0) (type default))
     (uuid 687d9315-7a9c-4270-bb61-135732e049da)
@@ -4990,6 +5017,10 @@
     (stroke (width 0) (type default))
     (uuid 6ce38dc7-b5ab-47a0-b307-d42dcec50ce4)
   )
+  (wire (pts (xy 158.75 321.31) (xy 161.29 321.31))
+    (stroke (width 0) (type default))
+    (uuid 6cfdf4e2-b595-4f07-9008-b4bb8e2c2b82)
+  )
   (wire (pts (xy 302.26 504.19) (xy 312.42 504.19))
     (stroke (width 0) (type default))
     (uuid 6d06537a-43e4-4eeb-b7b0-0f0add00b3db)
@@ -5014,6 +5045,10 @@
     (stroke (width 0) (type default))
     (uuid 6fe0fa88-c74c-44ec-8d51-f240422f960e)
   )
+  (wire (pts (xy 347.98 153.67) (xy 350.52 153.67))
+    (stroke (width 0) (type default))
+    (uuid 704e15dd-2d2a-4288-94d8-8b75f1c3eef7)
+  )
   (wire (pts (xy 558.8 325.12) (xy 571.5 325.12))
     (stroke (width 0) (type default))
     (uuid 70d20ed8-19a6-42f9-9443-bf32a53a313d)
@@ -5033,6 +5068,10 @@
   (wire (pts (xy 445.77 318.77) (xy 445.77 322.58))
     (stroke (width 0) (type default))
     (uuid 71e7bcc6-4796-45d0-8777-b999a645b73f)
+  )
+  (wire (pts (xy 580.39 269.24) (xy 580.39 303.53))
+    (stroke (width 0) (type default))
+    (uuid 72634036-d212-4d85-a078-0e6e482e2f15)
   )
   (wire (pts (xy 561.34 95.25) (xy 561.34 105.41))
     (stroke (width 0) (type default))
@@ -5077,10 +5116,6 @@
   (wire (pts (xy 626.11 274.32) (xy 636.27 274.32))
     (stroke (width 0) (type default))
     (uuid 78d308ee-3090-48eb-b233-11e1782cfa47)
-  )
-  (wire (pts (xy 139.7 300.99) (xy 149.86 300.99))
-    (stroke (width 0) (type default))
-    (uuid 79c0279c-44c6-47e0-9624-767b021ee1de)
   )
   (wire (pts (xy 561.34 105.41) (xy 558.8 105.41))
     (stroke (width 0) (type default))
@@ -5154,6 +5189,10 @@
     (stroke (width 0) (type default))
     (uuid 826d946e-4cb1-4f6a-8a3b-852116b75639)
   )
+  (wire (pts (xy 575.31 344.17) (xy 580.39 344.17))
+    (stroke (width 0) (type default))
+    (uuid 82965832-6ad6-4f40-999c-89c874ffbf0f)
+  )
   (wire (pts (xy 57.15 48.26) (xy 57.15 50.8))
     (stroke (width 0) (type default))
     (uuid 82fe9cd7-aa8f-44f1-9343-c268f501024f)
@@ -5197,6 +5236,14 @@
   (wire (pts (xy 398.78 273.05) (xy 398.78 262.89))
     (stroke (width 0) (type default))
     (uuid 8a3202d5-ce7d-4f44-840e-0c2d37610ccf)
+  )
+  (wire (pts (xy 77.47 359.41) (xy 87.63 359.41))
+    (stroke (width 0) (type default))
+    (uuid 8a8c2cc9-3ab9-4634-80de-695244c96228)
+  )
+  (wire (pts (xy 350.52 153.67) (xy 350.52 149.86))
+    (stroke (width 0) (type default))
+    (uuid 8ac504fd-7382-4247-9876-bb40ca1d8256)
   )
   (wire (pts (xy 260.35 168.91) (xy 266.7 168.91))
     (stroke (width 0) (type default))
@@ -5257,10 +5304,6 @@
   (wire (pts (xy 67.31 146.05) (xy 82.55 146.05))
     (stroke (width 0) (type default))
     (uuid 8fdfe480-bf76-4fd9-b48c-ae3dcc38ab88)
-  )
-  (wire (pts (xy 149.86 300.99) (xy 149.86 308.61))
-    (stroke (width 0) (type default))
-    (uuid 8ff67597-40da-4167-9005-ce868d080599)
   )
   (wire (pts (xy 273.05 121.92) (xy 279.4 121.92))
     (stroke (width 0) (type default))
@@ -5330,7 +5373,7 @@
     (stroke (width 0) (type default))
     (uuid 95a1cee9-f171-49ba-a427-2c2c0af03ca5)
   )
-  (wire (pts (xy 80.01 325.12) (xy 86.36 325.12))
+  (wire (pts (xy 43.18 323.85) (xy 49.53 323.85))
     (stroke (width 0) (type default))
     (uuid 97b4eb9a-613a-43dc-9ec5-01099224fa9f)
   )
@@ -5398,10 +5441,6 @@
     (stroke (width 0) (type default))
     (uuid a09d9ac1-00dc-4cd4-95f0-064a9885530e)
   )
-  (wire (pts (xy 132.08 300.99) (xy 139.7 300.99))
-    (stroke (width 0) (type default))
-    (uuid a14b19c2-0e7c-4968-abfb-60de2dae9712)
-  )
   (wire (pts (xy 708.66 57.15) (xy 708.66 62.23))
     (stroke (width 0) (type default))
     (uuid a15a5a19-e1fb-4045-a5a3-6c8304acb407)
@@ -5410,9 +5449,13 @@
     (stroke (width 0) (type default))
     (uuid a176fbed-8f34-4f8c-a9e8-16060b9b0122)
   )
-  (wire (pts (xy 119.38 300.99) (xy 124.46 300.99))
+  (wire (pts (xy 143.51 308.61) (xy 148.59 308.61))
     (stroke (width 0) (type default))
     (uuid a22e9f80-5bfc-4936-a558-f694f64454e8)
+  )
+  (wire (pts (xy 128.27 510.54) (xy 128.27 513.08))
+    (stroke (width 0) (type default))
+    (uuid a271a08b-9d6a-4860-8694-c2931686914a)
   )
   (wire (pts (xy 35.56 161.29) (xy 38.1 161.29))
     (stroke (width 0) (type default))
@@ -5570,7 +5613,7 @@
     (stroke (width 0) (type default))
     (uuid b78f8e44-f122-402c-8f68-92d9b9b6c353)
   )
-  (wire (pts (xy 69.85 335.28) (xy 72.39 335.28))
+  (wire (pts (xy 33.02 334.01) (xy 35.56 334.01))
     (stroke (width 0) (type default))
     (uuid b7e42ce9-46dd-4ae2-9073-1ad4d84b9069)
   )
@@ -5642,7 +5685,7 @@
     (stroke (width 0) (type default))
     (uuid c430ce62-e221-40d3-b4ff-fb976fffd330)
   )
-  (wire (pts (xy 154.94 323.85) (xy 161.29 323.85))
+  (wire (pts (xy 158.75 323.85) (xy 161.29 323.85))
     (stroke (width 0) (type default))
     (uuid c4311542-9425-4013-bef5-495bef3607ad)
   )
@@ -5914,6 +5957,10 @@
     (stroke (width 0) (type default))
     (uuid ecb4cbf2-0379-4d89-9ec3-a34719523ca8)
   )
+  (wire (pts (xy 128.27 513.08) (xy 139.7 513.08))
+    (stroke (width 0) (type default))
+    (uuid ecc61d07-af71-45be-ad7a-d27773b1df67)
+  )
   (wire (pts (xy 182.88 483.87) (xy 193.04 483.87))
     (stroke (width 0) (type default))
     (uuid ed5fd584-70d6-4140-97dd-32c98b30fbe4)
@@ -5938,7 +5985,7 @@
     (stroke (width 0) (type default))
     (uuid f0b46d20-cfa2-4099-bafa-ca36b23ed31d)
   )
-  (wire (pts (xy 72.39 335.28) (xy 80.01 335.28))
+  (wire (pts (xy 35.56 334.01) (xy 43.18 334.01))
     (stroke (width 0) (type default))
     (uuid f0deb84c-6d26-4fd6-84e1-11972c30df7e)
   )
@@ -5966,13 +6013,17 @@
     (stroke (width 0) (type default))
     (uuid f320977c-22fb-4417-9b16-0024eeccec50)
   )
-  (wire (pts (xy 580.39 306.07) (xy 580.39 360.68))
+  (wire (pts (xy 580.39 306.07) (xy 580.39 344.17))
     (stroke (width 0) (type default))
     (uuid f36e3da7-7b1e-49c3-a915-fd55982ae9e1)
   )
   (wire (pts (xy 558.8 306.07) (xy 535.94 306.07))
     (stroke (width 0) (type default))
     (uuid f395a3a2-7649-4141-b6c1-e93f744de134)
+  )
+  (wire (pts (xy 580.39 344.17) (xy 580.39 360.68))
+    (stroke (width 0) (type default))
+    (uuid f502e3c5-6353-47b6-9b45-eb24e289c5a0)
   )
   (wire (pts (xy 351.79 280.67) (xy 383.54 280.67))
     (stroke (width 0) (type default))
@@ -6099,10 +6150,10 @@
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
-  (global_label "FLUSH_VBUS" (shape input) (at 154.94 321.31 180) (fields_autoplaced)
+  (global_label "FLUSH_VBUS" (shape input) (at 158.75 321.31 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 06e6353e-b42f-4bee-979d-f299f8872b01)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 140.1014 321.31 0)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 143.9114 321.31 0)
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
@@ -6113,10 +6164,10 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "UV_PWM" (shape input) (at 133.35 513.08 180) (fields_autoplaced)
+  (global_label "UV_PWM" (shape input) (at 123.19 513.08 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 0826e102-83dd-4b5b-8862-ae08cc4cc3cc)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 123.3774 513.0006 0)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 113.2174 513.0006 0)
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
@@ -6127,11 +6178,32 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
+  (global_label "USB_VMID" (shape input) (at 347.98 153.67 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid 0bc04a7d-134e-402c-b3f1-91d6b74ad635)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 335.8024 153.67 0)
+      (effects (font (size 1.27 1.27)) (justify right) hide)
+    )
+  )
+  (global_label "RXD_5V" (shape input) (at 576.58 269.24 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid 188f5d1a-242c-49f2-8b91-b99724e28406)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 566.5796 269.24 0)
+      (effects (font (size 1.27 1.27)) (justify right) hide)
+    )
+  )
   (global_label "SCK" (shape input) (at 740.41 400.05 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 1ac3f27e-ef4c-4ea4-81c3-5fc25d4247cf)
     (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 734.2474 399.9706 0)
       (effects (font (size 1.27 1.27)) (justify right) hide)
+    )
+  )
+  (global_label "FLUSH_VBUS" (shape input) (at 49.53 318.77 0) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid 1bd3a399-75e6-4ad3-b85a-1f6089a2b879)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 64.3686 318.77 0)
+      (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
   (global_label "USB_INT" (shape input) (at 355.6 64.77 180) (fields_autoplaced)
@@ -6225,6 +6297,13 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
+  (global_label "FLUSH_VBUS" (shape input) (at 87.63 359.41 0) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid 3d5d7322-c71a-4e89-8307-468567fe8121)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 102.4686 359.41 0)
+      (effects (font (size 1.27 1.27)) (justify left) hide)
+    )
+  )
   (global_label "RESET" (shape input) (at 445.77 322.58 270) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 3e5925b9-6192-4fd4-9b25-99bfbb1f5c21)
@@ -6232,10 +6311,10 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "FLUSH_D-" (shape input) (at 86.36 327.66 0) (fields_autoplaced)
+  (global_label "FLUSH_D-" (shape input) (at 49.53 326.39 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 4373dd9c-9851-45c7-bf52-a60601936008)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 99.1424 327.66 0)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 62.3124 326.39 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
@@ -6281,10 +6360,10 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "FLUSH_D+" (shape input) (at 154.94 326.39 180) (fields_autoplaced)
+  (global_label "FLUSH_D+" (shape input) (at 158.75 326.39 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 57fe6d73-0cb1-4218-932d-1737f4b8abb3)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 142.1576 326.39 0)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 145.9676 326.39 0)
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
@@ -6295,10 +6374,10 @@
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
-  (global_label "CP2102_VREG" (shape input) (at 119.38 300.99 180) (fields_autoplaced)
+  (global_label "CP2102_VREG" (shape input) (at 143.51 308.61 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 5eff0308-0454-46b3-8754-e5b2f13ba2da)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 103.2716 300.99 0)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 127.4016 308.61 0)
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
@@ -6351,10 +6430,10 @@
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
-  (global_label "TXD" (shape input) (at 193.04 311.15 0) (fields_autoplaced)
+  (global_label "TXD_5V" (shape input) (at 193.04 311.15 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 6f948be5-26be-4f3f-b357-f97c246ec977)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 199.4723 311.15 0)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 202.738 311.15 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
@@ -6456,13 +6535,6 @@
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
-  (global_label "FLUSH_VBUS" (shape input) (at 86.36 320.04 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 86e15135-bc92-471f-b12b-7bc9a0a6dcae)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 101.1986 320.04 0)
-      (effects (font (size 1.27 1.27)) (justify left) hide)
-    )
-  )
   (global_label "USB_IN_VBUS_G" (shape input) (at 260.35 78.74 90) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 87fb0aeb-f271-4dd6-beb0-6ea233b3c1a9)
@@ -6505,10 +6577,10 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "RXD" (shape input) (at 193.04 308.61 0) (fields_autoplaced)
+  (global_label "RXD_5V" (shape input) (at 193.04 308.61 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 92e8f334-9c28-4243-a0fb-5dc232a1381d)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 199.7747 308.61 0)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 203.0404 308.61 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
@@ -6589,6 +6661,13 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
+  (global_label "TXD_5V" (shape input) (at 575.31 344.17 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid a744539f-a53b-4bc1-85e0-11ff61d74153)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 565.612 344.17 0)
+      (effects (font (size 1.27 1.27)) (justify right) hide)
+    )
+  )
   (global_label "ENCODER_CLICK" (shape input) (at 711.2 128.27 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid a9a820c9-e3df-4c08-a76b-9704c961bb0b)
@@ -6624,10 +6703,10 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "FLUSH_D-" (shape input) (at 154.94 323.85 180) (fields_autoplaced)
+  (global_label "FLUSH_D-" (shape input) (at 158.75 323.85 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid b39f7b2e-2579-4f46-b5de-67deea9b6df3)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 142.1576 323.85 0)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 145.9676 323.85 0)
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
@@ -6687,10 +6766,10 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "FLUSH_D+" (shape input) (at 86.36 325.12 0) (fields_autoplaced)
+  (global_label "FLUSH_D+" (shape input) (at 49.53 323.85 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid c72f0182-df69-40b5-a77b-4dcab4935798)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 99.1424 325.12 0)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 62.3124 323.85 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
@@ -6722,10 +6801,10 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "VREG" (shape input) (at 285.75 151.13 270) (fields_autoplaced)
+  (global_label "VREG" (shape input) (at 307.34 148.59 270) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid d4af64e7-709d-4928-81d4-c85c1e5e6093)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 285.8294 158.3207 90)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 307.4194 155.7807 90)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
@@ -6838,7 +6917,7 @@
   (symbol (lib_id "power:PWR_FLAG") (at 72.39 478.79 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 00ff371f-cc00-4557-86e6-0e80d835b30b)
-    (property "Reference" "#FLG09" (at 72.39 476.885 0)
+    (property "Reference" "#FLG02" (at 72.39 476.885 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "PWR_FLAG" (at 72.39 474.98 0)
@@ -6854,7 +6933,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#FLG09") (unit 1)
+          (reference "#FLG02") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -6889,7 +6968,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR05") (unit 1)
+          (reference "#PWR06") (unit 1)
         )
       )
     )
@@ -6898,7 +6977,7 @@
   (symbol (lib_id "My_Library:Display_2.2inch_ili9341") (at 763.27 407.67 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 033749a5-b3cf-4c26-b060-701f4deb8410)
-    (property "Reference" "U7" (at 775.97 405.13 0)
+    (property "Reference" "U9" (at 775.97 405.13 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "Display_2.2inch_ili9341" (at 775.97 407.67 0)
@@ -6922,7 +7001,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "U7") (unit 1)
+          (reference "U9") (unit 1)
         )
       )
     )
@@ -6952,7 +7031,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR018") (unit 1)
+          (reference "#PWR023") (unit 1)
         )
       )
     )
@@ -6989,7 +7068,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "U1") (unit 1)
+          (reference "U8") (unit 1)
         )
       )
     )
@@ -7019,7 +7098,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR08") (unit 1)
+          (reference "#PWR09") (unit 1)
         )
       )
     )
@@ -7051,7 +7130,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q7") (unit 1)
+          (reference "Q6") (unit 1)
         )
       )
     )
@@ -7113,7 +7192,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C12") (unit 1)
+          (reference "C13") (unit 1)
         )
       )
     )
@@ -7148,37 +7227,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "J1") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GND") (at 139.7 312.42 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 080b301e-476f-4217-bba7-03494f43e42c)
-    (property "Reference" "#PWR08" (at 139.7 318.77 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GND" (at 139.7 317.5 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 139.7 312.42 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 139.7 312.42 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid decdfba9-246a-4509-9a39-3cdc828801de))
-    (instances
-      (project "xray"
-        (path "/002cc585-3681-421a-8dca-b0910197d82b"
-          (reference "#PWR08") (unit 1)
-        )
-      )
-      (project "xray-v2"
-        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR080") (unit 1)
+          (reference "J2") (unit 1)
         )
       )
     )
@@ -7208,7 +7257,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR064") (unit 1)
+          (reference "#PWR067") (unit 1)
         )
       )
     )
@@ -7238,7 +7287,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR060") (unit 1)
+          (reference "#PWR073") (unit 1)
         )
       )
     )
@@ -7268,7 +7317,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR061") (unit 1)
+          (reference "#PWR074") (unit 1)
         )
       )
     )
@@ -7298,7 +7347,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR068") (unit 1)
+          (reference "#PWR081") (unit 1)
         )
       )
     )
@@ -7329,7 +7378,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R3") (unit 1)
+          (reference "R24") (unit 1)
         )
       )
     )
@@ -7366,7 +7415,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q1") (unit 1)
+          (reference "Q2") (unit 1)
         )
       )
     )
@@ -7396,7 +7445,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR029") (unit 1)
+          (reference "#PWR031") (unit 1)
         )
       )
     )
@@ -7427,7 +7476,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R14") (unit 1)
+          (reference "R17") (unit 1)
         )
       )
     )
@@ -7458,7 +7507,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C39") (unit 1)
+          (reference "C43") (unit 1)
         )
       )
     )
@@ -7495,7 +7544,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q2") (unit 1)
+          (reference "Q3") (unit 1)
         )
       )
     )
@@ -7525,7 +7574,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR065") (unit 1)
+          (reference "#PWR078") (unit 1)
         )
       )
     )
@@ -7555,7 +7604,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR079") (unit 1)
+          (reference "#PWR018") (unit 1)
         )
       )
     )
@@ -7585,7 +7634,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR051") (unit 1)
+          (reference "#PWR033") (unit 1)
         )
       )
     )
@@ -7616,7 +7665,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C42") (unit 1)
+          (reference "C6") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -7652,38 +7701,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C5") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Device:C") (at 139.7 307.34 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 18a31598-8230-4610-a1f4-32325ab9dd46)
-    (property "Reference" "C25" (at 142.24 306.0699 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "100 nF" (at 142.24 308.61 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Capacitor_SMD:C_0603_1608Metric" (at 140.6652 311.15 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 139.7 307.34 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 0a5dedae-a490-4dde-b190-4da7c3c0247b))
-    (pin "2" (uuid 71dd4e5d-032b-4bdf-a1e7-d733bf6f1eab))
-    (instances
-      (project "xray"
-        (path "/002cc585-3681-421a-8dca-b0910197d82b"
-          (reference "C25") (unit 1)
-        )
-      )
-      (project "xray-v2"
-        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C44") (unit 1)
+          (reference "C7") (unit 1)
         )
       )
     )
@@ -7714,7 +7732,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R33") (unit 1)
+          (reference "R32") (unit 1)
         )
       )
     )
@@ -7744,7 +7762,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#FLG010") (unit 1)
+          (reference "#FLG04") (unit 1)
         )
       )
     )
@@ -7775,7 +7793,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C31") (unit 1)
+          (reference "C36") (unit 1)
         )
       )
     )
@@ -7806,7 +7824,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C14") (unit 1)
+          (reference "C31") (unit 1)
         )
       )
     )
@@ -7870,7 +7888,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C13") (unit 1)
+          (reference "C15") (unit 1)
         )
       )
     )
@@ -7931,7 +7949,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR062") (unit 1)
+          (reference "#PWR065") (unit 1)
         )
       )
     )
@@ -7963,7 +7981,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q5") (unit 1)
+          (reference "Q1") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -8088,7 +8106,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR011") (unit 1)
+          (reference "#PWR015") (unit 1)
         )
       )
     )
@@ -8118,7 +8136,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR063") (unit 1)
+          (reference "#PWR066") (unit 1)
         )
       )
     )
@@ -8186,7 +8204,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C26") (unit 1)
+          (reference "C25") (unit 1)
         )
       )
     )
@@ -8218,7 +8236,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q8") (unit 1)
+          (reference "Q9") (unit 1)
         )
       )
     )
@@ -8250,7 +8268,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q3") (unit 1)
+          (reference "Q5") (unit 1)
         )
       )
     )
@@ -8311,7 +8329,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR054") (unit 1)
+          (reference "#PWR060") (unit 1)
         )
       )
     )
@@ -8343,7 +8361,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q6") (unit 1)
+          (reference "Q12") (unit 1)
         )
       )
     )
@@ -8352,7 +8370,7 @@
   (symbol (lib_id "Device:C") (at 105.41 488.95 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 30a744dd-dd67-4a76-a64a-38ed5e0eb857)
-    (property "Reference" "C41" (at 109.22 488.315 0)
+    (property "Reference" "C5" (at 109.22 488.315 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "22 uF" (at 109.22 490.855 0)
@@ -8369,7 +8387,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C41") (unit 1)
+          (reference "C5") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -8408,7 +8426,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "D5") (unit 1)
+          (reference "D6") (unit 1)
         )
       )
       (project "supply-uv"
@@ -8444,7 +8462,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C3") (unit 1)
+          (reference "C2") (unit 1)
         )
       )
     )
@@ -8474,7 +8492,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR031") (unit 1)
+          (reference "#PWR026") (unit 1)
         )
       )
     )
@@ -8504,7 +8522,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR044") (unit 1)
+          (reference "#PWR054") (unit 1)
         )
       )
     )
@@ -8535,7 +8553,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C43") (unit 1)
+          (reference "C10") (unit 1)
         )
       )
     )
@@ -8594,7 +8612,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR067") (unit 1)
+          (reference "#PWR077") (unit 1)
         )
       )
     )
@@ -8640,7 +8658,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "J3") (unit 1)
+          (reference "J4") (unit 1)
         )
       )
     )
@@ -8707,7 +8725,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR056") (unit 1)
+          (reference "#PWR063") (unit 1)
         )
       )
     )
@@ -8737,7 +8755,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#FLG07") (unit 1)
+          (reference "#FLG09") (unit 1)
         )
       )
     )
@@ -8768,7 +8786,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C20") (unit 1)
+          (reference "C21") (unit 1)
         )
       )
     )
@@ -8798,7 +8816,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR082") (unit 1)
+          (reference "#PWR076") (unit 1)
         )
       )
     )
@@ -8828,7 +8846,33 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR048") (unit 1)
+          (reference "#PWR056") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Jumper:SolderJumper_2_Open") (at 73.66 359.41 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 3c7c9703-fe16-444e-9f90-b921d8b19da9)
+    (property "Reference" "JP2" (at 73.66 353.06 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "USBF_EN" (at 73.66 355.6 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm" (at 73.66 359.41 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 73.66 359.41 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 62f4ab0e-f56b-4de3-aaee-60e5890f651b))
+    (pin "2" (uuid 0a54a26d-6fd4-442c-b43c-2a0ec9fef622))
+    (instances
+      (project "xray-v2"
+        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
+          (reference "JP2") (unit 1)
         )
       )
     )
@@ -8867,7 +8911,7 @@
   (symbol (lib_id "power:GND") (at 105.41 494.03 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 3f528612-2fd7-4cc9-b39e-e89dca5e6d0b)
-    (property "Reference" "#PWR077" (at 105.41 500.38 0)
+    (property "Reference" "#PWR013" (at 105.41 500.38 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 105.41 499.11 0)
@@ -8883,7 +8927,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR077") (unit 1)
+          (reference "#PWR013") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -8894,19 +8938,19 @@
     )
   )
 
-  (symbol (lib_id "Device:R") (at 128.27 300.99 270) (unit 1)
+  (symbol (lib_id "Device:R") (at 152.4 308.61 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 40ca74cb-11ea-4180-918b-bc159a5bb65f)
-    (property "Reference" "R15" (at 128.27 303.53 90)
+    (property "Reference" "R15" (at 152.4 311.15 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "10K" (at 128.27 306.07 90)
+    (property "Value" "1K" (at 152.4 313.69 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 128.27 299.212 90)
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 152.4 306.832 90)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 128.27 300.99 0)
+    (property "Datasheet" "~" (at 152.4 308.61 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid e406a7c8-8225-4de4-830f-2a8adbc7fc6d))
@@ -8919,7 +8963,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R21") (unit 1)
+          (reference "R6") (unit 1)
         )
       )
     )
@@ -8949,7 +8993,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR057") (unit 1)
+          (reference "#PWR068") (unit 1)
         )
       )
     )
@@ -9011,7 +9055,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C6") (unit 1)
+          (reference "C9") (unit 1)
         )
       )
     )
@@ -9042,7 +9086,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R20") (unit 1)
+          (reference "R22") (unit 1)
         )
       )
     )
@@ -9073,7 +9117,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R19") (unit 1)
+          (reference "R18") (unit 1)
         )
       )
     )
@@ -9104,7 +9148,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R27") (unit 1)
+          (reference "R28") (unit 1)
         )
       )
     )
@@ -9135,7 +9179,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R5") (unit 1)
+          (reference "R2") (unit 1)
         )
       )
     )
@@ -9166,7 +9210,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C22") (unit 1)
+          (reference "C23") (unit 1)
         )
       )
     )
@@ -9197,7 +9241,37 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R23") (unit 1)
+          (reference "R19") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GND") (at 210.82 334.01 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 490f1be4-21a7-4d46-a59b-bbbacebdb6c4)
+    (property "Reference" "#PWR08" (at 210.82 340.36 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND" (at 210.82 339.09 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 210.82 334.01 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 210.82 334.01 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 983c6218-abfd-492d-9f6c-ce19fa457ee4))
+    (instances
+      (project "xray"
+        (path "/002cc585-3681-421a-8dca-b0910197d82b"
+          (reference "#PWR08") (unit 1)
+        )
+      )
+      (project "xray-v2"
+        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
+          (reference "#PWR020") (unit 1)
         )
       )
     )
@@ -9227,7 +9301,32 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR030") (unit 1)
+          (reference "#PWR046") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 128.27 510.54 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 4a3a43a5-f98d-4d57-82ae-cd075ca58433)
+    (property "Reference" "TP2" (at 130.81 505.968 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "UV_PWM" (at 130.81 508.508 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "TestPoint:TestPoint_Pad_1.0x1.0mm" (at 133.35 510.54 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 133.35 510.54 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 365bb806-3a71-4e1a-81fe-5992cfcd0a9e))
+    (instances
+      (project "xray-v2"
+        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
+          (reference "TP2") (unit 1)
         )
       )
     )
@@ -9258,7 +9357,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C37") (unit 1)
+          (reference "C41") (unit 1)
         )
       )
     )
@@ -9288,7 +9387,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR015") (unit 1)
+          (reference "#PWR019") (unit 1)
         )
       )
     )
@@ -9297,7 +9396,7 @@
   (symbol (lib_id "Interface_USB:CP2102N-Axx-xQFN28") (at 173.99 336.55 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 4de881e2-c578-40f4-92f4-e4002ca2d414)
-    (property "Reference" "U9" (at 176.1841 369.57 0)
+    (property "Reference" "U2" (at 176.1841 369.57 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "CP2102N-Axx-xQFN28" (at 176.1841 372.11 0)
@@ -9341,7 +9440,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "U9") (unit 1)
+          (reference "U2") (unit 1)
         )
       )
     )
@@ -9372,7 +9471,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C2") (unit 1)
+          (reference "C1") (unit 1)
         )
       )
     )
@@ -9402,7 +9501,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR049") (unit 1)
+          (reference "#PWR057") (unit 1)
         )
       )
     )
@@ -9432,7 +9531,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#FLG04") (unit 1)
+          (reference "#FLG07") (unit 1)
         )
       )
     )
@@ -9532,7 +9631,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "U2") (unit 1)
+          (reference "U3") (unit 1)
         )
       )
     )
@@ -9562,7 +9661,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR052") (unit 1)
+          (reference "#PWR034") (unit 1)
         )
       )
     )
@@ -9571,7 +9670,7 @@
   (symbol (lib_id "power:GND") (at 72.39 494.03 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 543d8ee9-719c-47f5-be8a-b562aaeb3cbd)
-    (property "Reference" "#PWR075" (at 72.39 500.38 0)
+    (property "Reference" "#PWR010" (at 72.39 500.38 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 72.39 499.11 0)
@@ -9587,7 +9686,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR075") (unit 1)
+          (reference "#PWR010") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -9623,7 +9722,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C29") (unit 1)
+          (reference "C28") (unit 1)
         )
       )
     )
@@ -9653,7 +9752,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR017") (unit 1)
+          (reference "#PWR022") (unit 1)
         )
       )
     )
@@ -9684,7 +9783,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C1") (unit 1)
+          (reference "C8") (unit 1)
         )
       )
     )
@@ -9714,7 +9813,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR016") (unit 1)
+          (reference "#PWR036") (unit 1)
         )
       )
     )
@@ -9745,7 +9844,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C33") (unit 1)
+          (reference "C30") (unit 1)
         )
       )
     )
@@ -9775,7 +9874,38 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR06") (unit 1)
+          (reference "#PWR016") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:R") (at 196.85 334.01 270) (unit 1)
+    (in_bom yes) (on_board yes) (dnp yes)
+    (uuid 634311b4-d0fd-41bd-8457-cdb0fb1e56ef)
+    (property "Reference" "R15" (at 196.85 336.55 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "10K" (at 196.85 339.09 90)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 196.85 332.232 90)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 196.85 334.01 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 65219c4e-bef0-4904-95af-4ba8e11f79b6))
+    (pin "2" (uuid a965896a-f859-4ce3-9c9e-1813a985263e))
+    (instances
+      (project "xray"
+        (path "/002cc585-3681-421a-8dca-b0910197d82b"
+          (reference "R15") (unit 1)
+        )
+      )
+      (project "xray-v2"
+        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
+          (reference "R7") (unit 1)
         )
       )
     )
@@ -9807,7 +9937,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q13") (unit 1)
+          (reference "Q14") (unit 1)
         )
       )
     )
@@ -9847,7 +9977,7 @@
   (symbol (lib_id "Regulator_Linear:AMS1117-3.3") (at 90.17 483.87 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 65ceb8d3-1dd2-434a-abdd-3d9b7df00600)
-    (property "Reference" "U8" (at 90.17 477.52 0)
+    (property "Reference" "U1" (at 90.17 477.52 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "AMS1117-3.3" (at 90.17 480.06 0)
@@ -9865,7 +9995,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "U8") (unit 1)
+          (reference "U1") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -9901,7 +10031,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C7") (unit 1)
+          (reference "C37") (unit 1)
         )
       )
     )
@@ -9932,7 +10062,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C23") (unit 1)
+          (reference "C33") (unit 1)
         )
       )
     )
@@ -9941,7 +10071,7 @@
   (symbol (lib_id "power:GND") (at 125.73 494.03 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 67abc843-e51c-4bea-a2ec-9cfdc09741a9)
-    (property "Reference" "#PWR078" (at 125.73 500.38 0)
+    (property "Reference" "#PWR014" (at 125.73 500.38 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 125.73 499.11 0)
@@ -9957,7 +10087,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR078") (unit 1)
+          (reference "#PWR014") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -9993,7 +10123,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C25") (unit 1)
+          (reference "C24") (unit 1)
         )
       )
     )
@@ -10023,7 +10153,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR069") (unit 1)
+          (reference "#PWR079") (unit 1)
         )
       )
     )
@@ -10054,7 +10184,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C27") (unit 1)
+          (reference "C26") (unit 1)
         )
       )
     )
@@ -10084,7 +10214,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR023") (unit 1)
+          (reference "#PWR025") (unit 1)
         )
       )
     )
@@ -10114,7 +10244,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR059") (unit 1)
+          (reference "#PWR072") (unit 1)
         )
       )
     )
@@ -10175,7 +10305,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR09") (unit 1)
+          (reference "#PWR011") (unit 1)
         )
       )
     )
@@ -10237,7 +10367,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C24") (unit 1)
+          (reference "C27") (unit 1)
         )
       )
     )
@@ -10267,7 +10397,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR036") (unit 1)
+          (reference "#PWR037") (unit 1)
         )
       )
     )
@@ -10276,7 +10406,7 @@
   (symbol (lib_id "Switch:SW_Push") (at 243.84 505.46 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6e496e58-26a3-4089-bf34-f81ee5715568)
-    (property "Reference" "SW3" (at 247.65 504.19 90)
+    (property "Reference" "SW1" (at 247.65 504.19 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "SW_Push" (at 247.65 506.73 90)
@@ -10293,7 +10423,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "SW3") (unit 1)
+          (reference "SW1") (unit 1)
         )
       )
     )
@@ -10323,7 +10453,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR021") (unit 1)
+          (reference "#PWR043") (unit 1)
         )
       )
     )
@@ -10354,7 +10484,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R22") (unit 1)
+          (reference "R35") (unit 1)
         )
       )
     )
@@ -10363,7 +10493,7 @@
   (symbol (lib_id "Device:C") (at 72.39 488.95 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 70861d8b-1fb6-408e-af17-7ef618346c06)
-    (property "Reference" "C34" (at 76.2 488.315 0)
+    (property "Reference" "C3" (at 76.2 488.315 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "22 uF" (at 76.2 490.855 0)
@@ -10380,7 +10510,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C34") (unit 1)
+          (reference "C3") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -10422,7 +10552,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "U4") (unit 1)
+          (reference "U5") (unit 1)
         )
       )
     )
@@ -10452,7 +10582,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR034") (unit 1)
+          (reference "#PWR032") (unit 1)
         )
       )
     )
@@ -10484,7 +10614,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q12") (unit 1)
+          (reference "Q13") (unit 1)
         )
       )
     )
@@ -10518,7 +10648,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "J2") (unit 1)
+          (reference "J3") (unit 1)
         )
       )
     )
@@ -10548,7 +10678,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR053") (unit 1)
+          (reference "#PWR024") (unit 1)
         )
       )
     )
@@ -10664,7 +10794,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "J4") (unit 1)
+          (reference "J5") (unit 1)
         )
       )
     )
@@ -10694,7 +10824,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR032") (unit 1)
+          (reference "#PWR047") (unit 1)
         )
       )
     )
@@ -10724,7 +10854,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR04") (unit 1)
+          (reference "#PWR05") (unit 1)
         )
       )
     )
@@ -10755,7 +10885,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R26") (unit 1)
+          (reference "R29") (unit 1)
         )
       )
     )
@@ -10785,7 +10915,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR07") (unit 1)
+          (reference "#PWR08") (unit 1)
         )
       )
     )
@@ -10816,7 +10946,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C10") (unit 1)
+          (reference "C11") (unit 1)
         )
       )
     )
@@ -10877,7 +11007,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR028") (unit 1)
+          (reference "#PWR030") (unit 1)
         )
       )
     )
@@ -10914,7 +11044,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "U5") (unit 1)
+          (reference "U6") (unit 1)
         )
       )
     )
@@ -10944,7 +11074,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR040") (unit 1)
+          (reference "#PWR050") (unit 1)
         )
       )
     )
@@ -10974,7 +11104,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR019") (unit 1)
+          (reference "#PWR041") (unit 1)
         )
       )
     )
@@ -11004,7 +11134,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR026") (unit 1)
+          (reference "#PWR027") (unit 1)
         )
       )
     )
@@ -11034,7 +11164,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR033") (unit 1)
+          (reference "#PWR048") (unit 1)
         )
       )
     )
@@ -11064,7 +11194,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#FLG08") (unit 1)
+          (reference "#FLG010") (unit 1)
         )
       )
     )
@@ -11095,7 +11225,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C40") (unit 1)
+          (reference "C42") (unit 1)
         )
       )
     )
@@ -11126,7 +11256,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R7") (unit 1)
+          (reference "R25") (unit 1)
         )
       )
     )
@@ -11157,7 +11287,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R34") (unit 1)
+          (reference "R33") (unit 1)
         )
       )
     )
@@ -11187,7 +11317,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#FLG02") (unit 1)
+          (reference "#FLG03") (unit 1)
         )
       )
     )
@@ -11217,7 +11347,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR050") (unit 1)
+          (reference "#PWR058") (unit 1)
         )
       )
     )
@@ -11226,7 +11356,7 @@
   (symbol (lib_id "power:GND") (at 90.17 494.03 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 91cd1e46-f3d0-47fa-a71e-4d0a968f5ada)
-    (property "Reference" "#PWR076" (at 90.17 500.38 0)
+    (property "Reference" "#PWR012" (at 90.17 500.38 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (at 90.17 499.11 0)
@@ -11242,12 +11372,37 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR076") (unit 1)
+          (reference "#PWR012") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
         (path "/b85f6918-e034-4f12-822c-01e06dbc45b0"
           (reference "#PWR010") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 273.05 152.4 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 925ea52d-88ea-43f2-abf2-70a4382062a2)
+    (property "Reference" "TP3" (at 275.59 147.828 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "L_PWM" (at 275.59 150.368 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "TestPoint:TestPoint_Pad_1.0x1.0mm" (at 278.13 152.4 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 278.13 152.4 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 9c16bd87-cc39-426f-a4d4-e9b264ea7135))
+    (instances
+      (project "xray-v2"
+        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
+          (reference "TP3") (unit 1)
         )
       )
     )
@@ -11277,7 +11432,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR013") (unit 1)
+          (reference "#PWR064") (unit 1)
         )
       )
     )
@@ -11308,7 +11463,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R17") (unit 1)
+          (reference "R10") (unit 1)
         )
       )
     )
@@ -11339,7 +11494,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C19") (unit 1)
+          (reference "C20") (unit 1)
         )
       )
     )
@@ -11369,7 +11524,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR055") (unit 1)
+          (reference "#PWR062") (unit 1)
         )
       )
     )
@@ -11429,7 +11584,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#FLG03") (unit 1)
+          (reference "#FLG08") (unit 1)
         )
       )
     )
@@ -11460,7 +11615,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C16") (unit 1)
+          (reference "C18") (unit 1)
         )
       )
     )
@@ -11490,7 +11645,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR071") (unit 1)
+          (reference "#PWR083") (unit 1)
         )
       )
     )
@@ -11551,7 +11706,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "U3") (unit 1)
+          (reference "U4") (unit 1)
         )
       )
     )
@@ -11581,7 +11736,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR037") (unit 1)
+          (reference "#PWR049") (unit 1)
         )
       )
     )
@@ -11642,7 +11797,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR010") (unit 1)
+          (reference "#PWR059") (unit 1)
         )
       )
     )
@@ -11672,7 +11827,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR02") (unit 1)
+          (reference "#PWR017") (unit 1)
         )
       )
     )
@@ -11681,7 +11836,7 @@
   (symbol (lib_id "power:VCC") (at 43.18 483.87 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a97b9b0e-0a16-4703-ac20-36151f497e29)
-    (property "Reference" "#PWR038" (at 43.18 487.68 0)
+    (property "Reference" "#PWR04" (at 43.18 487.68 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "VCC" (at 43.18 480.06 0)
@@ -11697,7 +11852,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR038") (unit 1)
+          (reference "#PWR04") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -11733,7 +11888,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C11") (unit 1)
+          (reference "C17") (unit 1)
         )
       )
     )
@@ -11763,7 +11918,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR074") (unit 1)
+          (reference "#PWR075") (unit 1)
         )
       )
     )
@@ -11793,7 +11948,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR012") (unit 1)
+          (reference "#PWR061") (unit 1)
         )
       )
     )
@@ -11855,7 +12010,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C21") (unit 1)
+          (reference "C22") (unit 1)
         )
       )
     )
@@ -11885,7 +12040,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR03") (unit 1)
+          (reference "#PWR02") (unit 1)
         )
       )
     )
@@ -11894,7 +12049,7 @@
   (symbol (lib_id "Device:R") (at 118.11 483.87 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b26a0ce9-6776-4c48-96e1-cb8dad94d2a1)
-    (property "Reference" "R18" (at 118.11 478.79 90)
+    (property "Reference" "R4" (at 118.11 478.79 90)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "68" (at 118.11 481.33 90)
@@ -11911,7 +12066,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R18") (unit 1)
+          (reference "R4") (unit 1)
         )
       )
       (project "xray-board-1.0-uv-stab-addon"
@@ -11947,7 +12102,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R32") (unit 1)
+          (reference "R31") (unit 1)
         )
       )
     )
@@ -11978,7 +12133,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R31") (unit 1)
+          (reference "R27") (unit 1)
         )
       )
     )
@@ -12008,36 +12163,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR039") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Mechanical:MountingHole") (at 596.9 539.75 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid b5fc63a2-a1e3-47e6-9e46-3ea49e243bc9)
-    (property "Reference" "H3" (at 599.44 538.4799 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "MountingHole" (at 599.44 541.0199 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "MountingHole:MountingHole_2.2mm_M2" (at 596.9 539.75 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 596.9 539.75 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "xray"
-        (path "/002cc585-3681-421a-8dca-b0910197d82b"
-          (reference "H3") (unit 1)
-        )
-      )
-      (project "xray-v2"
-        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "H7") (unit 1)
+          (reference "#PWR038") (unit 1)
         )
       )
     )
@@ -12068,7 +12194,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C35") (unit 1)
+          (reference "C39") (unit 1)
         )
       )
     )
@@ -12158,25 +12284,25 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C30") (unit 1)
+          (reference "C35") (unit 1)
         )
       )
     )
   )
 
-  (symbol (lib_id "power:GND") (at 80.01 335.28 0) (unit 1)
+  (symbol (lib_id "power:GND") (at 43.18 334.01 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid b94ac1dd-0d35-429e-bad6-f3961445a937)
-    (property "Reference" "#PWR04" (at 80.01 341.63 0)
+    (property "Reference" "#PWR04" (at 43.18 340.36 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "GND" (at 80.01 340.36 0)
+    (property "Value" "GND" (at 43.18 339.09 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 80.01 335.28 0)
+    (property "Footprint" "" (at 43.18 334.01 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "" (at 80.01 335.28 0)
+    (property "Datasheet" "" (at 43.18 334.01 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 1f4bf761-638b-428b-a49b-64cc22e260f0))
@@ -12188,7 +12314,32 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR081") (unit 1)
+          (reference "#PWR03") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 350.52 149.86 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid baaf6cc7-75f5-4bff-a2a6-8e9a61e5da2b)
+    (property "Reference" "TP5" (at 353.06 145.288 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "VMID" (at 353.06 147.828 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "TestPoint:TestPoint_Pad_1.0x1.0mm" (at 355.6 149.86 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 355.6 149.86 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 48b8c78e-9623-41cb-a75f-5b730a1a2e7c))
+    (instances
+      (project "xray-v2"
+        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
+          (reference "TP5") (unit 1)
         )
       )
     )
@@ -12219,7 +12370,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C8") (unit 1)
+          (reference "C12") (unit 1)
         )
       )
     )
@@ -12278,7 +12429,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR083") (unit 1)
+          (reference "#PWR082") (unit 1)
         )
       )
     )
@@ -12315,7 +12466,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "U6") (unit 1)
+          (reference "U7") (unit 1)
         )
       )
     )
@@ -12346,7 +12497,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C36") (unit 1)
+          (reference "C40") (unit 1)
         )
       )
     )
@@ -12378,7 +12529,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q10") (unit 1)
+          (reference "Q11") (unit 1)
         )
       )
     )
@@ -12409,7 +12560,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R13") (unit 1)
+          (reference "R15") (unit 1)
         )
       )
     )
@@ -12418,10 +12569,10 @@
   (symbol (lib_id "Jumper:Jumper_2_Open") (at 54.61 501.65 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid c54f5f4c-b50a-48bc-9fc1-fccc16491c0e)
-    (property "Reference" "JP2" (at 55.88 500.38 90)
+    (property "Reference" "JP1" (at 55.88 500.38 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Value" "Jumper_2_Open" (at 55.88 502.92 90)
+    (property "Value" "UV_EN" (at 55.88 502.92 90)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Footprint" "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" (at 54.61 501.65 0)
@@ -12435,7 +12586,7 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "JP2") (unit 1)
+          (reference "JP1") (unit 1)
         )
       )
     )
@@ -12496,7 +12647,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R35") (unit 1)
+          (reference "R34") (unit 1)
         )
       )
     )
@@ -12527,7 +12678,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C9") (unit 1)
+          (reference "C14") (unit 1)
         )
       )
     )
@@ -12558,7 +12709,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C17") (unit 1)
+          (reference "C32") (unit 1)
         )
       )
     )
@@ -12588,7 +12739,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR020") (unit 1)
+          (reference "#PWR042") (unit 1)
         )
       )
     )
@@ -12622,7 +12773,37 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "SW1") (unit 1)
+          (reference "SW3") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:+5V") (at 58.42 359.41 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid cc1fc451-f7ac-48d4-b2f5-6029babce293)
+    (property "Reference" "#PWR055" (at 58.42 363.22 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "+5V" (at 58.42 354.33 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 58.42 359.41 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 58.42 359.41 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid c7c58943-9660-4f53-8f03-7dc627f60947))
+    (instances
+      (project "xray"
+        (path "/002cc585-3681-421a-8dca-b0910197d82b"
+          (reference "#PWR055") (unit 1)
+        )
+      )
+      (project "xray-v2"
+        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
+          (reference "#PWR07") (unit 1)
         )
       )
     )
@@ -12653,7 +12834,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R6") (unit 1)
+          (reference "R3") (unit 1)
         )
       )
     )
@@ -12683,7 +12864,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR047") (unit 1)
+          (reference "#PWR040") (unit 1)
         )
       )
     )
@@ -12692,7 +12873,7 @@
   (symbol (lib_id "My_Library:Radiation_Detector") (at 302.26 494.03 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid cd35af48-25bc-4683-8561-8ccf08faa0de)
-    (property "Reference" "V2" (at 307.34 494.03 0)
+    (property "Reference" "V1" (at 307.34 494.03 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "SBT11A" (at 311.15 496.57 0)
@@ -12710,25 +12891,25 @@
     (instances
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "V2") (unit 1)
+          (reference "V1") (unit 1)
         )
       )
     )
   )
 
-  (symbol (lib_id "Mechanical:MountingHole") (at 596.9 546.1 0) (unit 1)
+  (symbol (lib_id "Mechanical:MountingHole") (at 596.9 539.75 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid cef0b383-8254-4d26-84b9-29714affbaef)
-    (property "Reference" "H3" (at 599.44 544.8299 0)
+    (property "Reference" "H3" (at 599.44 538.4799 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "MountingHole" (at 599.44 547.3699 0)
+    (property "Value" "MountingHole" (at 599.44 541.0199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "MountingHole:MountingHole_2.2mm_M2" (at 596.9 546.1 0)
+    (property "Footprint" "MountingHole:MountingHole_2.2mm_M2" (at 596.9 539.75 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 596.9 546.1 0)
+    (property "Datasheet" "~" (at 596.9 539.75 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (instances
@@ -12739,7 +12920,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "H8") (unit 1)
+          (reference "H7") (unit 1)
         )
       )
     )
@@ -12769,7 +12950,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR072") (unit 1)
+          (reference "#PWR084") (unit 1)
         )
       )
     )
@@ -12800,7 +12981,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R2") (unit 1)
+          (reference "R23") (unit 1)
         )
       )
     )
@@ -12859,25 +13040,25 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR024") (unit 1)
+          (reference "#PWR044") (unit 1)
         )
       )
     )
   )
 
-  (symbol (lib_id "power:PWR_FLAG") (at 285.75 147.32 0) (unit 1)
+  (symbol (lib_id "power:PWR_FLAG") (at 307.34 144.78 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d73c68d2-dea0-4205-bb5d-68c41deb266a)
-    (property "Reference" "#FLG05" (at 285.75 145.415 0)
+    (property "Reference" "#FLG05" (at 307.34 142.875 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Value" "PWR_FLAG" (at 285.75 142.24 0)
+    (property "Value" "PWR_FLAG" (at 307.34 139.7 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "" (at 285.75 147.32 0)
+    (property "Footprint" "" (at 307.34 144.78 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 285.75 147.32 0)
+    (property "Datasheet" "~" (at 307.34 144.78 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 5968221c-a43b-48cd-92f0-86f5f57db932))
@@ -12920,7 +13101,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R25") (unit 1)
+          (reference "R20") (unit 1)
         )
       )
     )
@@ -12951,7 +13132,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R11") (unit 1)
+          (reference "R12") (unit 1)
         )
       )
     )
@@ -13013,7 +13194,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R29") (unit 1)
+          (reference "R30") (unit 1)
         )
       )
     )
@@ -13075,7 +13256,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R10") (unit 1)
+          (reference "R11") (unit 1)
         )
       )
     )
@@ -13105,7 +13286,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR027") (unit 1)
+          (reference "#PWR028") (unit 1)
         )
       )
     )
@@ -13136,7 +13317,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "JP1") (unit 1)
+          (reference "JP4") (unit 1)
         )
       )
     )
@@ -13168,7 +13349,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q11") (unit 1)
+          (reference "Q8") (unit 1)
         )
       )
     )
@@ -13199,7 +13380,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C15") (unit 1)
+          (reference "C16") (unit 1)
         )
       )
     )
@@ -13230,7 +13411,32 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C18") (unit 1)
+          (reference "C19") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:TestPoint") (at 326.39 64.77 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid e4cedfe4-0890-4441-b882-e2124aedb587)
+    (property "Reference" "TP4" (at 328.93 60.198 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "VREG" (at 328.93 62.738 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "TestPoint:TestPoint_Pad_1.0x1.0mm" (at 331.47 64.77 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 331.47 64.77 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 7add778b-bbce-4877-9073-c36da6be6156))
+    (instances
+      (project "xray-v2"
+        (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
+          (reference "TP4") (unit 1)
         )
       )
     )
@@ -13262,7 +13468,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q14") (unit 1)
+          (reference "Q10") (unit 1)
         )
       )
     )
@@ -13292,7 +13498,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR042") (unit 1)
+          (reference "#PWR052") (unit 1)
         )
       )
     )
@@ -13322,7 +13528,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR066") (unit 1)
+          (reference "#PWR069") (unit 1)
         )
       )
     )
@@ -13352,7 +13558,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR058") (unit 1)
+          (reference "#PWR071") (unit 1)
         )
       )
     )
@@ -13382,7 +13588,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR045") (unit 1)
+          (reference "#PWR055") (unit 1)
         )
       )
     )
@@ -13413,7 +13619,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R24") (unit 1)
+          (reference "R21") (unit 1)
         )
       )
     )
@@ -13425,7 +13631,7 @@
     (property "Reference" "JP3" (at 200.66 314.96 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "SolderJumper_2_Open" (at 200.66 317.5 0)
+    (property "Value" "USBF_RST_EN" (at 200.66 317.5 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_TrianglePad1.0x1.5mm" (at 200.66 321.31 0)
@@ -13469,7 +13675,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR043") (unit 1)
+          (reference "#PWR053") (unit 1)
         )
       )
     )
@@ -13500,7 +13706,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R15") (unit 1)
+          (reference "R14") (unit 1)
         )
       )
     )
@@ -13531,7 +13737,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R4") (unit 1)
+          (reference "R5") (unit 1)
         )
       )
     )
@@ -13562,7 +13768,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R30") (unit 1)
+          (reference "R26") (unit 1)
         )
       )
     )
@@ -13622,7 +13828,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "D6") (unit 1)
+          (reference "D5") (unit 1)
         )
       )
     )
@@ -13652,7 +13858,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR073") (unit 1)
+          (reference "#PWR080") (unit 1)
         )
       )
     )
@@ -13683,7 +13889,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C28") (unit 1)
+          (reference "C34") (unit 1)
         )
       )
     )
@@ -13713,7 +13919,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR046") (unit 1)
+          (reference "#PWR039") (unit 1)
         )
       )
     )
@@ -13743,7 +13949,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR025") (unit 1)
+          (reference "#PWR045") (unit 1)
         )
       )
     )
@@ -13774,7 +13980,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "C32") (unit 1)
+          (reference "C29") (unit 1)
         )
       )
     )
@@ -13841,7 +14047,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR014") (unit 1)
+          (reference "#PWR021") (unit 1)
         )
       )
     )
@@ -13872,7 +14078,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "R12") (unit 1)
+          (reference "R13") (unit 1)
         )
       )
     )
@@ -13904,7 +14110,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "Q9") (unit 1)
+          (reference "Q7") (unit 1)
         )
       )
     )
@@ -13934,7 +14140,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR041") (unit 1)
+          (reference "#PWR051") (unit 1)
         )
       )
     )
@@ -13971,19 +14177,19 @@
     )
   )
 
-  (symbol (lib_id "Connector:USB_B_Micro") (at 72.39 325.12 0) (unit 1)
+  (symbol (lib_id "Connector:USB_B_Micro") (at 35.56 323.85 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid fb326128-daa8-4f44-a2dd-57b303c8ba9a)
-    (property "Reference" "J1" (at 72.39 312.42 0)
+    (property "Reference" "J1" (at 35.56 311.15 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "USB_B_Micro" (at 72.39 314.96 0)
+    (property "Value" "USB_B_Micro" (at 35.56 313.69 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Library:USB_Micro-B" (at 76.2 326.39 0)
+    (property "Footprint" "Library:USB_Micro-B" (at 39.37 325.12 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 76.2 326.39 0)
+    (property "Datasheet" "~" (at 39.37 325.12 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 09d8fd04-24eb-4055-b918-733506cdbd89))
@@ -14000,7 +14206,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "J5") (unit 1)
+          (reference "J1") (unit 1)
         )
       )
     )
@@ -14030,7 +14236,7 @@
       )
       (project "xray-v2"
         (path "/41c926b9-3ecb-4e5f-9a53-cebe2d97cbdc"
-          (reference "#PWR022") (unit 1)
+          (reference "#PWR029") (unit 1)
         )
       )
     )
