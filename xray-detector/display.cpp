@@ -74,23 +74,23 @@ bool display_is_on() {
 }
 
 #if DISPLAY_TYOE_ILI9341_ADAFRUIT or DISPLAY_TYPE_ST7335_ADAFRUIT
-void display_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+void display_fill_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
   display_tft->fillRect(x, y, w, h, color);
 }
 
-void display_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+void display_draw_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
   display_tft->drawRect(x, y, w, h, color);
 }
 
-void display_draw_bitmap(uint8_t x, uint8_t y, const uint8_t bitmap[], uint8_t w, uint8_t h, uint16_t color) {
+void display_draw_bitmap(uint16_t x, uint16_t y, const uint8_t bitmap[], uint8_t w, uint8_t h, uint16_t color) {
   display_tft->drawBitmap(x, y, bitmap, w, h, color);
 }
 
-void display_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color) {
+void display_draw_line(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color) {
   display_tft->drawLine(x0, y0, x1, y1, color);
 }
 
-void display_set_cursor(uint8_t x, uint8_t y) {
+void display_set_cursor(uint16_t x, uint16_t y) {
   display_tft->setCursor(x, y);
 }
 
@@ -122,31 +122,31 @@ void display_print32(uint32_t value) {
   display_tft->print(value);
 }
 
-uint8_t display_get_cursor_x() {
+uint16_t display_get_cursor_x() {
   return display_tft->getCursorX();
 }
 
-uint8_t display_get_cursor_y() {
+uint16_t display_get_cursor_y() {
   return display_tft->getCursorY();
 }
 #elif DISPLAY_TYPE_ILI9341_CUSTOM or DISPLAY_TYPE_ST7335_CUSTOM
-void display_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+void display_fill_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
   display_spi_fill_rect(x, y, w, h, color);
 }
 
-void display_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+void display_draw_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
   display_spi_draw_rect(x, y, w, h, color);
 }
 
-void display_draw_bitmap(uint8_t x, uint8_t y, const uint8_t bitmap[], uint8_t w, uint8_t h, uint16_t color) {
+void display_draw_bitmap(uint16_t x, uint16_t y, const uint8_t bitmap[], uint8_t w, uint8_t h, uint16_t color) {
   display_spi_draw_bitmap(x, y, bitmap, w, h, color);
 }
 
-void display_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color) {
+void display_draw_line(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color) {
   display_spi_draw_line(x0, y0, x1, y1, color);
 }
 
-void display_set_cursor(uint8_t x, uint8_t y) {
+void display_set_cursor(uint16_t x, uint16_t y) {
   display_spi_set_cursor(x, y);
 }
 
@@ -178,11 +178,11 @@ void display_print32(uint32_t value) {
   display_spi_print32(value);
 }
 
-uint8_t display_get_cursor_x() {
+uint16_t display_get_cursor_x() {
   return display_spi_get_cursor_x();
 }
 
-uint8_t display_get_cursor_y() {
+uint16_t display_get_cursor_y() {
   return display_spi_get_cursor_y();
 }
 #endif

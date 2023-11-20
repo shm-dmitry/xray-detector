@@ -3,5 +3,6 @@ xray-detector/*.hex
 schematics/xray-board-1.0-uv-stab-addon/xray-board-1.0-uv-stab-addon-backups
 schematics/W2-PD(IP).v1.0/W2-PD(IP).v1.0-backups/
 schematics/xray-v2/xray-v2-backups/
+schematics/xray-v2/*.lck
 xray-detector/build/
 3d/*.gcode

@@ -16,9 +16,9 @@ This code based on projects:
 #define SPI_WRITE16(x) \
   SPI.transfer(x >> 8); \
   SPI.transfer(x);
-#define SWAP_INT8_T(x, y) \
+#define SWAP_INT16_T(x, y) \
 { \
-  uint8_t a = x; \
+  uint16_t a = x; \
   x = y; \
   y = a; \
 }
@@ -43,20 +43,20 @@ SPISettings settings;
 
 inline void display_spi_start_write();
 inline void display_spi_end_write();
-void display_spi_write_fill_rect_preclipped(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color);
+void display_spi_write_fill_rect_preclipped(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
 void display_spi_write_command(uint8_t cmd);
 void display_spi_write_color(uint16_t color, uint16_t count);
-void display_spi_write_pixel(uint8_t x, uint8_t y, uint16_t color);
-void display_spi_set_addr_window(uint8_t x, uint8_t y, uint8_t w, uint8_t h);
-void display_spi_write_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color);
+void display_spi_write_pixel(uint16_t x, uint16_t y, uint16_t color);
+void display_spi_set_addr_window(uint16_t x, uint16_t y, uint16_t w, uint16_t h);
+void display_spi_write_line(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
 void display_spi_write_char(char c);
 
-uint8_t  display_spi_cursor_x;
-uint8_t  display_spi_cursor_y;
+uint16_t  display_spi_cursor_x;
+uint16_t  display_spi_cursor_y;
 uint16_t display_spi_cursor_color;
 uint8_t  display_spi_cursor_size;
 
-void display_spi_set_cursor(uint8_t x, uint8_t y) {
+void display_spi_set_cursor(uint16_t x, uint16_t y) {
   display_spi_cursor_x = x;
   display_spi_cursor_y = y;
 }
@@ -101,7 +101,7 @@ void display_spi_send_command(uint8_t command, const uint8_t * data, uint8_t dat
   SPI.endTransaction();
 }
 
-void display_spi_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+void display_spi_fill_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
   if (!w || !h) {
     return;
   }
@@ -135,13 +135,13 @@ inline void display_spi_end_write() {
   SPI.endTransaction();
 }
 
-void display_spi_write_fill_rect_preclipped(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+void display_spi_write_fill_rect_preclipped(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
   display_spi_set_addr_window(x, y, w, h);
-  display_spi_write_color(color, (uint16_t) w * (uint16_t) h);
+  display_spi_write_color(color, w * h);
 }
 
-void display_spi_set_addr_window(uint8_t x, uint8_t y, uint8_t w, uint8_t h) {
-  uint8_t tmp = x + w - 1;
+void display_spi_set_addr_window(uint16_t x, uint16_t y, uint16_t w, uint16_t h) {
+  uint16_t tmp = x + w - 1;
 
   display_spi_write_command(DISPLAY_SPI_CASET);
   SPI_WRITE16(x);
@@ -175,7 +175,7 @@ void display_spi_write_color(uint16_t color, uint16_t count) {
   }
 }
 
-void display_spi_draw_bitmap(uint8_t x, uint8_t y, const uint8_t bitmap[], uint8_t w, uint8_t h, uint16_t color) {
+void display_spi_draw_bitmap(uint16_t x, uint16_t y, const uint8_t bitmap[], uint8_t w, uint8_t h, uint16_t color) {
   uint8_t b = 0;
   uint8_t byteWidth = (w + 7) / 8;
   
@@ -189,21 +189,21 @@ void display_spi_draw_bitmap(uint8_t x, uint8_t y, const uint8_t bitmap[], uint8
       }
 
       if (b & 0x80) {
-        display_spi_write_pixel(x + i, y, color);
+        display_spi_write_pixel(x + (uint16_t) i, y, color);
       }
     }
   }
   display_spi_end_write();
 }
 
-void display_spi_write_pixel(uint8_t x, uint8_t y, uint16_t color) {
+void display_spi_write_pixel(uint16_t x, uint16_t y, uint16_t color) {
   if ((x < DISPLAY_WIDTH) && (y < DISPLAY_HEIGHT)) {
     display_spi_set_addr_window(x, y, 1, 1);
     SPI_WRITE16(color);
   }
 }
 
-void display_spi_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color) {
+void display_spi_draw_line(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color) {
   if (x0 == x1) {
     display_spi_fill_rect(x0, y0, 1, y1 - y0 + 1, color);
   } else if (y0 == y1) {
@@ -215,23 +215,23 @@ void display_spi_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint1
   }
 }
 
-void display_spi_write_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color) {
+void display_spi_write_line(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color) {
   bool steep = abs(y1 - y0) > abs(x1 - x0);
   if (steep) {
-    SWAP_INT8_T(x0, y0);
-    SWAP_INT8_T(x1, y1);
+    SWAP_INT16_T(x0, y0);
+    SWAP_INT16_T(x1, y1);
   }
 
   if (x0 > x1) {
-    SWAP_INT8_T(x0, x1);
-    SWAP_INT8_T(y0, y1);
+    SWAP_INT16_T(x0, x1);
+    SWAP_INT16_T(y0, y1);
   }
 
-  uint8_t dx = x1 - x0;
-  uint8_t dy = abs(y1 - y0);
+  uint16_t dx = x1 - x0;
+  uint16_t dy = abs(y1 - y0);
 
-  int8_t err = dx / 2;
-  int8_t ystep;
+  int16_t err = dx / 2;
+  uint16_t ystep;
 
   if (y0 < y1) {
     ystep = 1;
@@ -253,7 +253,7 @@ void display_spi_write_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint
   }
 }
 
-void display_spi_draw_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
+void display_spi_draw_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
   display_spi_fill_rect(x, y, w, 1, color);
   display_spi_fill_rect(x, y + h - 1, w, 1, color);
   display_spi_fill_rect(x, y, 1, h, color);
@@ -311,10 +311,10 @@ void display_spi_print32(uint32_t value) {
   display_spi_prints(buffer);
 }
 
-uint8_t display_spi_get_cursor_x() {
+uint16_t display_spi_get_cursor_x() {
   return display_spi_cursor_x;
 }
 
-uint8_t display_spi_get_cursor_y() {
+uint16_t display_spi_get_cursor_y() {
   return display_spi_cursor_y;
 }

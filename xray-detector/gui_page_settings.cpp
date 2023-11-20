@@ -447,7 +447,7 @@ bool gui_settings_page_on_move(uint8_t data) {
   }
 }
 
-bool gui_settings_page_on_click(uint8_t data) {
+bool gui_settings_page_on_click(uint8_t) {
   if (menu_actual == SETTINGS_PAGE_UV_FREQ) {
     if (menu_change_value == SETTINGS_PAGE_UNCHANGED) {
       menu_change_value = eeprom_control_get_freq();
@@ -537,7 +537,7 @@ bool gui_settings_page_on_click(uint8_t data) {
   return true;
 }
 
-bool gui_settings_page_onwakeup(uint8_t data) {
+bool gui_settings_page_onwakeup(uint8_t) {
   menu_actual_prev   = SETTINGS_PAGE_MINVAL;
   menu_actual        = SETTINGS_PAGE_MINVAL;
   menu_change_value  = SETTINGS_PAGE_UNCHANGED;

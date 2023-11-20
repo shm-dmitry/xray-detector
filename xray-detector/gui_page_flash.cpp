@@ -130,7 +130,7 @@ bool gui_flash_page_on_move(uint8_t data) {
   return true;
 }
 
-bool gui_flash_page_on_click(uint8_t data) {
+bool gui_flash_page_on_click(uint8_t) {
   gui_flash_editing = !gui_flash_editing;
 
   if (gui_flash_pc == 0x00 && gui_flash_editing) {
@@ -141,7 +141,7 @@ bool gui_flash_page_on_click(uint8_t data) {
   return true;
 }
 
-bool gui_flash_page_onwakeup(uint8_t data) {
+bool gui_flash_page_onwakeup(uint8_t) {
   gui_flash_pc = 0x00;
   gui_flash_prev_pc = 0x00;
   gui_flash_editing = false;

@@ -224,7 +224,7 @@ bool gui_rad_page_betta_check_measure_done() {
   return false;
 }
 
-bool gui_rad_page_betta_onclick(uint8_t data) {
+bool gui_rad_page_betta_onclick(uint8_t) {
   if (gui_rad_page_betta_stage == GUI_RAD_PAGE_BETTA_STAGE_INITP) {
     gui_rad_page_betta_stage = GUI_RAD_PAGE_BETTA_STAGE_MEASURE1;
     rad_control_user_counter_startstop(true);
@@ -242,7 +242,7 @@ bool gui_rad_page_betta_onclick(uint8_t data) {
   return true;
 }
 
-bool gui_rad_page_betta_onwakeup(uint8_t data) {
+bool gui_rad_page_betta_onwakeup(uint8_t) {
   rad_control_user_counter_startstop(false);
   gui_rad_page_betta_usercounter_stage1 = RAD_CONTROL_USER_COUNTER_DISABLED;
   gui_rad_page_betta_usercounter_stage2 = RAD_CONTROL_USER_COUNTER_DISABLED;

@@ -253,7 +253,7 @@ void gui_rad_page_draw_dose(uint32_t dose) {
   gui_rad_page_draw_dose_text(dose, true);
 }
 
-bool gui_rad_page_onclick(uint8_t data) {
+bool gui_rad_page_onclick(uint8_t) {
   if (rad_page_mode == RAD_PAGE_MODE_STARTUP || rad_page_mode == RAD_PAGE_MODE_STARTUP_FULLREFRESH) {
     rad_page_mode = RAD_PAGE_MODE_HISTORY_FULLREFRESH;
   } else {
@@ -263,7 +263,7 @@ bool gui_rad_page_onclick(uint8_t data) {
   return false;
 }
 
-bool gui_rad_page_onwakeup(uint8_t data) {
+bool gui_rad_page_onwakeup(uint8_t) {
   rad_page_dose = 0;
   rad_page_accum = 0;
   rad_page_mode = RAD_PAGE_MODE_STARTUP;

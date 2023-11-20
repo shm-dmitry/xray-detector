@@ -109,7 +109,7 @@ bool gui_bat_page_refresh(uint8_t data) {
   return true;
 }
 
-bool gui_bat_page_onwakeup(uint8_t data) {
+bool gui_bat_page_onwakeup(uint8_t) {
   memset(&gui_bat_prev_data, 0, sizeof(t_charger_data));
   return true;
 }
