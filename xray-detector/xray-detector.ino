@@ -58,7 +58,6 @@ void loop() {
     return;
   }
   
-  uv_control_on_main_loop();
   charger_control_on_main_loop();
   svf_control_on_main_loop();
   rad_history_on_main_loop();

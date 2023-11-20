@@ -2,7 +2,6 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define IP5328_DUMP_BUTTON_PIN A2
 #define IP5328_DUMP_INT_PIN    9
 #define IP5328_DUMP_I2C_ADDR   0x75
 
@@ -22,9 +21,6 @@ uint8_t ip5328_dump_read_byte(uint8_t address) {
 }
 
 void ip5328_dump_init() {
-  pinMode(IP5328_DUMP_BUTTON_PIN, OUTPUT);
-  digitalWrite(IP5328_DUMP_BUTTON_PIN, LOW);
-
   pinMode(IP5328_DUMP_INT_PIN, INPUT);
 
   Wire.begin();

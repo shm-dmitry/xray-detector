@@ -5,8 +5,6 @@
 #include "powersave.h"
 #include "clock.h"
 
-#define CHARGER_BUTTON_PIN A2
-
 #define CHARGER_I2C_ADDR 0x75
 
 #define CHARGER_I2C_REG_VOLTAGE_1 0x64
@@ -64,9 +62,6 @@ uint8_t charger_read_byte(uint8_t address) {
 }
 
 void charger_control_init() {
-  pinMode(CHARGER_BUTTON_PIN, OUTPUT);
-  digitalWrite(CHARGER_BUTTON_PIN, LOW);
-
   pinMode(CHARGER_INT_PIN, INPUT);
 
   if (digitalRead(CHARGER_INT_PIN) == HIGH) {
@@ -147,13 +142,6 @@ bool charger_control_get_data(t_charger_data & data) {
     }
 
     charger_control_last_wake_up = clock_millis();
-
-#if CHARGER_CONTROL_ALLOW_WAKE_UP    
-    // wake up charge controller
-    digitalWrite(CHARGER_BUTTON_PIN, HIGH);
-    clock_delay(100);
-    digitalWrite(CHARGER_BUTTON_PIN, LOW);
-#endif
 
     for (uint8_t i = 0; i<5; i++) {
       // await some time to make sure charger wakes up

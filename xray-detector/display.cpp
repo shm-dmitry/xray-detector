@@ -8,14 +8,14 @@
 #include <Adafruit_ILI9341.h>
 #elif DISPLAY_TYPE_ST7335_ADAFRUIT
 #include <Adafruit_ST7735.h>
-#elif DISPLAY_TYPE_SIMIL_CUSTOM
+#elif DISPLAY_TYPE_ILI9341_CUSTOM
 #include "display_ili9341.h"
 #elif DISPLAY_TYPE_ST7335_CUSTOM
 #include "display_st7735.h"
 #endif
 
 #define DISPLAY_DC_PIN      A3
-#define DISPLAY_ENABLE_PIN  A1
+#define DISPLAY_ENABLE_PIN  A2
 
 #if DISPLAY_TYOE_SIMUL_ADAFRUIT
 Adafruit_ILI9341 * display_tft = NULL;
@@ -32,23 +32,25 @@ void display_init() {
 }
 
 void display_on() {
+#if SYSTEM_SERIAL_ENABLED
   Serial.println("display_on");
+#endif
 
   if (display_is_on()) {
     return;
   }
 
   digitalWrite(DISPLAY_ENABLE_PIN, LOW);
-  clock_delay(100); // await for a power up
+  clock_delay(10); // await for a power up
 
-#if DISPLAY_TYOE_SIMUL_ADAFRUIT
+#if DISPLAY_TYOE_ILI9341_ADAFRUIT
   display_tft = new Adafruit_ILI9341(-1, DISPLAY_DC_PIN, -1);
   display_tft->begin();
 #elif DISPLAY_TYPE_ST7335_ADAFRUIT
   display_tft = new Adafruit_ST7735(-1, DISPLAY_DC_PIN, -1);
   display_tft->initR(INITR_BLACKTAB);
   display_tft->setRotation(3);
-#elif DISPLAY_TYPE_SIMIL_CUSTOM
+#elif DISPLAY_TYPE_ILI9341_CUSTOM
   display_ili9341_init(DISPLAY_DC_PIN);
 #elif DISPLAY_TYPE_ST7335_CUSTOM
   display_st7735_init(DISPLAY_DC_PIN);
@@ -61,7 +63,7 @@ void display_off() {
   digitalWrite(DISPLAY_ENABLE_PIN, HIGH);
   digitalWrite(DISPLAY_DC_PIN, LOW);
   clock_delay(100);
-#if DISPLAY_TYOE_SIMUL_ADAFRUIT or DISPLAY_TYPE_ST7335_ADAFRUIT
+#if DISPLAY_TYOE_ILI9341_ADAFRUIT or DISPLAY_TYPE_ST7335_ADAFRUIT
   delete display_tft;
   display_tft = NULL;
 #endif
@@ -71,7 +73,7 @@ bool display_is_on() {
   return digitalRead(DISPLAY_ENABLE_PIN) == LOW;
 }
 
-#if DISPLAY_TYOE_SIMUL_ADAFRUIT or DISPLAY_TYPE_ST7335_ADAFRUIT
+#if DISPLAY_TYOE_ILI9341_ADAFRUIT or DISPLAY_TYPE_ST7335_ADAFRUIT
 void display_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
   display_tft->fillRect(x, y, w, h, color);
 }
@@ -127,7 +129,7 @@ uint8_t display_get_cursor_x() {
 uint8_t display_get_cursor_y() {
   return display_tft->getCursorY();
 }
-#elif DISPLAY_TYPE_SIMIL_CUSTOM or DISPLAY_TYPE_ST7335_CUSTOM
+#elif DISPLAY_TYPE_ILI9341_CUSTOM or DISPLAY_TYPE_ST7335_CUSTOM
 void display_fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
   display_spi_fill_rect(x, y, w, h, color);
 }

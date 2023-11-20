@@ -14,9 +14,6 @@ bool uv_control_is_on();
 void uv_control_set_working_mode(uint8_t mode);
 
 void uv_control_change_pwm_with_testrun_freq(uint8_t freq, uint8_t duty);
-void uv_control_change_pwm_with_testrun_approx();
-
-void uv_control_on_main_loop();
 
 uint8_t uv_control_seconds_between_uv_on();
 

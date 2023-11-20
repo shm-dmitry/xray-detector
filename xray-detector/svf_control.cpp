@@ -5,9 +5,9 @@
 #include "svf_control_vibro_models.h"
 #include "svf_control_speaker_models.h"
 
-// 10 == PB2
-#define PIN_SPEAKER   10
-#define PIN_VIBRO     6
+// 3 == PD3
+#define PIN_SPEAKER   3
+#define PIN_VIBRO     A1
 #define PIN_FLASH     5
 
 #define SVF_CONTROL_SPEAKER_VOLUME 30
@@ -54,18 +54,18 @@ void svf_control_init() {
   pinMode(PIN_FLASH, OUTPUT);
   digitalWrite(PIN_FLASH, LOW);
 
-  TCCR1A = _BV(WGM11) | _BV(WGM10);
+  TCCR2A = _BV(WGM20);
   svf_control_timer_stop();
-  OCR1A  = 0;
-  OCR1B  = 0;
+  OCR2A  = 0;
+  OCR2B  = 0;
 }
 
 inline void svf_control_timer_stop() {
-  TCCR1B = 0;
+  TCCR2B = 0;
 }
 
 inline void svf_control_timer_start() {
-  TCCR1B = _BV(WGM13) | _BV(CS12);
+  TCCR2B = _BV(WGM22) | _BV(CS22) | _BV(CS21);
 }
 
 inline void svf_control_vibro_stop() {
@@ -77,7 +77,7 @@ inline void svf_control_vibro_play() {
 }
 
 inline void svf_control_speaker_stop() {
-  TCCR1A &= ~(_BV(COM1B1));
+  TCCR2A &= ~(_BV(COM2B1));
   digitalWrite(PIN_SPEAKER, LOW);
   svf_control_timer_stop();
 }
@@ -85,10 +85,10 @@ inline void svf_control_speaker_stop() {
 inline void svf_control_speaker_freq(uint16_t freq) {
   svf_control_speaker_stop();
   if (freq > 0) {
-    OCR1A = F_CPU / 2 / 256 / freq;
-    OCR1B = ((uint32_t)OCR1A * (uint32_t)SVF_CONTROL_SPEAKER_VOLUME) / 100;
+    OCR2A = F_CPU / 2 / 256 / freq;
+    OCR2B = ((uint32_t)OCR2A * (uint32_t)SVF_CONTROL_SPEAKER_VOLUME) / 100;
     
-    TCCR1A |= _BV(COM1B1);
+    TCCR2A |= _BV(COM2B1);
     svf_control_timer_start();
   }
 }
