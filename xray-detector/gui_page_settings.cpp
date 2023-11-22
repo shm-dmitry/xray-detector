@@ -33,6 +33,8 @@
 #define SETTINGS_PAGE_EDIT_DATETIME_HOUR      4
 #define SETTINGS_PAGE_EDIT_DATETIME_MINUTE    5
 
+#define SETTINGS_PAGE_Y_OFFSET 33
+
 uint8_t menu_actual_prev   = SETTINGS_PAGE_MINVAL;
 uint8_t menu_actual        = SETTINGS_PAGE_MINVAL;
 uint8_t menu_change_value  = SETTINGS_PAGE_UNCHANGED;
@@ -50,9 +52,9 @@ bool gui_settings_page_refresh(uint8_t data) {
     return false;
   }
 
-  display_set_cursor(0, 18);
+  display_set_cursor(0, SETTINGS_PAGE_Y_OFFSET);
   display_set_textcolor(DISPLAY_WHITE);
-  display_set_textsize(1);
+  display_set_textsize(2);
 
   if (data) {
     if (data == USERINPUT_MOVE_LEFT) {
@@ -75,8 +77,8 @@ bool gui_settings_page_refresh(uint8_t data) {
   }
 
   if (menu_actual_prev != menu_actual || data) {
-    display_draw_bitmap(3, 18 + 8 * menu_actual_prev, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_BLACK);
-    display_draw_bitmap(3, 18 + 8 * menu_actual, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_YELLOW);
+    display_draw_bitmap(6, SETTINGS_PAGE_Y_OFFSET + 16 * menu_actual_prev, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_BLACK);
+    display_draw_bitmap(6, SETTINGS_PAGE_Y_OFFSET + 16 * menu_actual, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_YELLOW);
     menu_actual_prev = menu_actual;
   }
 
@@ -111,8 +113,8 @@ void gui_settings_page_print_onimpulse_type(uint8_t value) {
 }
 
 void gui_settings_page_print_alarm_onimpulse(uint8_t index) {
-  display_set_cursor(80, 18 + 8 * index);
-  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
+  display_set_cursor(160, SETTINGS_PAGE_Y_OFFSET + 16 * index);
+  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 160, 16, DISPLAY_BLACK);
 
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     display_set_textcolor(DISPLAY_YELLOW);
@@ -126,8 +128,8 @@ void gui_settings_page_print_alarm_onimpulse(uint8_t index) {
 }
 
 void gui_settings_page_print(uint8_t index, uint8_t value, const char * text) {
-  display_set_cursor(80, 18 + 8 * index);
-  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
+  display_set_cursor(160, SETTINGS_PAGE_Y_OFFSET + 16 * index);
+  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 160, 16, DISPLAY_BLACK);
 
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     display_set_textcolor(DISPLAY_YELLOW);
@@ -149,8 +151,8 @@ void gui_settings_page_print(uint8_t index, uint8_t value, const char * text) {
 }
 
 void gui_settings_page_print_date(uint8_t index) {
-  display_set_cursor(80, 18 + 8 * index);
-  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
+  display_set_cursor(160, SETTINGS_PAGE_Y_OFFSET + 16 * index);
+  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 160, 16, DISPLAY_BLACK);
   
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     if (menu_edit_datetime == SETTINGS_PAGE_EDIT_DATETIME_YEAR) {
@@ -213,8 +215,8 @@ void gui_settings_page_print_date(uint8_t index) {
 }
 
 void gui_settings_page_print_time(uint8_t index) {
-  display_set_cursor(80, 18 + 8 * index);
-  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
+  display_set_cursor(160, SETTINGS_PAGE_Y_OFFSET + 16 * index);
+  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 160, 16, DISPLAY_BLACK);
   
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     if (menu_edit_datetime == SETTINGS_PAGE_EDIT_DATETIME_HOUR) {
@@ -263,8 +265,8 @@ void gui_settings_page_print_time(uint8_t index) {
 }
 
 void gui_settings_page_print_onoff(uint8_t index, bool value) {
-  display_set_cursor(80, 18 + 8 * index);
-  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 80, 8, DISPLAY_BLACK);
+  display_set_cursor(160, SETTINGS_PAGE_Y_OFFSET + 16 * index);
+  display_fill_rect(display_get_cursor_x(), display_get_cursor_y(), 160, 16, DISPLAY_BLACK);
   
   if (menu_actual == index && menu_change_value != SETTINGS_PAGE_UNCHANGED) {
     display_set_textcolor(DISPLAY_YELLOW);

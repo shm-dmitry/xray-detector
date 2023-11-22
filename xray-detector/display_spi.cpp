@@ -8,6 +8,7 @@ This code based on projects:
 
 #include "Arduino.h"
 #include "display_spi.h"
+#include "display.h"
 #include "display_spi_font.h"
 #include "SPI.h"
 
@@ -31,9 +32,6 @@ This code based on projects:
 uint8_t display_spi_dc;
 SPISettings settings;
 
-#define DISPLAY_WIDTH 160
-#define DISPLAY_HEIGHT 128
-
 #define DISPLAY_SPI_CASET 0x2A ///< Column Address Set
 #define DISPLAY_SPI_PASET 0x2B ///< Page Address Set
 #define DISPLAY_SPI_RAMWR 0x2C ///< Memory Write
@@ -45,7 +43,7 @@ inline void display_spi_start_write();
 inline void display_spi_end_write();
 void display_spi_write_fill_rect_preclipped(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
 void display_spi_write_command(uint8_t cmd);
-void display_spi_write_color(uint16_t color, uint16_t count);
+void display_spi_write_color(uint16_t color, uint32_t count);
 void display_spi_write_pixel(uint16_t x, uint16_t y, uint16_t color);
 void display_spi_set_addr_window(uint16_t x, uint16_t y, uint16_t w, uint16_t h);
 void display_spi_write_line(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color);
@@ -139,7 +137,7 @@ inline void display_spi_end_write() {
 
 void display_spi_write_fill_rect_preclipped(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
   display_spi_set_addr_window(x, y, w, h);
-  display_spi_write_color(color, w * h);
+  display_spi_write_color(color, (uint32_t)w * (uint32_t)h);
 }
 
 void display_spi_set_addr_window(uint16_t x, uint16_t y, uint16_t w, uint16_t h) {
@@ -163,7 +161,7 @@ void display_spi_write_command(uint8_t cmd) {
   digitalWrite(display_spi_dc, HIGH);
 }
 
-void display_spi_write_color(uint16_t color, uint16_t count) {
+void display_spi_write_color(uint16_t color, uint32_t count) {
   if (!count) {
     return;
   }
@@ -296,7 +294,7 @@ void display_spi_prints(const char * text) {
 void display_spi_println(const char * text) {
   display_spi_prints(text);
   display_spi_cursor_x = 0;
-  display_spi_cursor_y += 8;
+  display_spi_cursor_y += display_spi_cursor_size*8;
 }
 
 void display_spi_print8(uint8_t value) {

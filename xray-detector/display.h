@@ -10,6 +10,9 @@
 #define DISPLAY_YELLOW 0xFFE0
 #define DISPLAY_GRAY   0xC659
 
+#define DISPLAY_WIDTH 320
+#define DISPLAY_HEIGHT 240
+
 void display_init();
 void display_on();
 void display_off();

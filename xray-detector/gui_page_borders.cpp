@@ -6,7 +6,7 @@
 #include "gui_images.h"
 #include "rad_control.h"
 
-#define PAGE_BORDERS_BAT_PX       20
+#define PAGE_BORDERS_BAT_PX       40
 #define PAGE_BORDERS_BAT_HIGH     ((70 * PAGE_BORDERS_BAT_PX) / 100)
 #define PAGE_BORDERS_BAT_MEDIUM   ((30 * PAGE_BORDERS_BAT_PX) / 100)
 
@@ -45,7 +45,7 @@ void gui_borders_refresh(uint8_t currentpage, uint8_t pagescount) {
 
   uint8_t dose = alarm_manager_dose2level(rad_control_dose());
 
-  uint8_t voltagepc = charger_control_get_voltage_pc() * PAGE_BORDERS_BAT_PX / 100;
+  uint8_t voltagepc = (uint8_t)(((uint16_t)charger_control_get_voltage_pc() * (uint16_t)PAGE_BORDERS_BAT_PX) / (uint16_t)100);
 
   if (gui_borders_check_calchash(year, month, day, hour, minute)) {
     gui_borders_show_date(year, month, day, hour, minute);
@@ -69,9 +69,9 @@ void gui_borders_refresh(uint8_t currentpage, uint8_t pagescount) {
 
 void gui_borders_show_date(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute) {
   display_set_cursor(0, 0);
-  display_fill_rect(0, 0, 16*6, 7, DISPLAY_BLACK);
+  display_fill_rect(0, 0, 16*6*2, 7*2, DISPLAY_BLACK);
   display_set_textcolor(DISPLAY_WHITE);
-  display_set_textsize(1);
+  display_set_textsize(2);
 
   if (hour <= 9) {
     display_prints("0");
@@ -107,11 +107,11 @@ void gui_borders_show_date(uint16_t year, uint8_t month, uint8_t day, uint8_t ho
 
 void gui_borders_show_tab(uint8_t currentpage, uint8_t pagescount) {
   for (uint8_t i = 0; i<pagescount; i++) {
-    display_draw_bitmap(15 + i * 30, 128-8, IMG_ICONS[i].img, IMG_ICONS[i].w, IMG_ICONS[i].h, i == currentpage ? DISPLAY_GREEN : DISPLAY_WHITE);
+    display_draw_bitmap(30 + i * 60, DISPLAY_HEIGHT-8*2, IMG_ICONS[i].img, IMG_ICONS[i].w, IMG_ICONS[i].h, i == currentpage ? DISPLAY_GREEN : DISPLAY_WHITE);
     if (i != pagescount - 1) {
-      display_set_cursor(15 + i * 30 + 16, 128-8);
+      display_set_cursor(30 + i * 60 + 32, DISPLAY_HEIGHT-8*2);
       display_set_textcolor(DISPLAY_WHITE);
-      display_set_textsize(1);
+      display_set_textsize(2);
       display_prints("|");
     }
   }
@@ -121,24 +121,24 @@ void gui_borders_show_bat_pc(uint8_t voltagepc) {
   uint16_t color = voltagepc >= PAGE_BORDERS_BAT_HIGH ? DISPLAY_GREEN : 
                   (voltagepc >= PAGE_BORDERS_BAT_MEDIUM ? DISPLAY_WHITE : DISPLAY_RED);
 
-  if (voltagepc == 19) {
-    voltagepc = 20;
+  if (voltagepc == 38) {
+    voltagepc = 40;
   }
 
   if (voltagepc > 0) {
-    display_fill_rect(160-20-2, 0, voltagepc, 8, color);
+    display_fill_rect(DISPLAY_WIDTH-40-4, 0, voltagepc, 16, color);
   }
 
-  if (voltagepc < 19) {
-    display_fill_rect(160-20-2 + voltagepc, 0, 20 - voltagepc, 8, DISPLAY_BLACK);
-    display_draw_rect(160-20-2 + voltagepc, 0, 20 - voltagepc, 8, color);
+  if (voltagepc < 38) {
+    display_fill_rect(DISPLAY_WIDTH-40-4 + voltagepc, 0, 40 - voltagepc, 16, DISPLAY_BLACK);
+    display_draw_rect(DISPLAY_WIDTH-40-4 + voltagepc, 0, 40 - voltagepc, 16, color);
   }
   
-  display_fill_rect(160-2, 2, 2, 4, color);
+  display_fill_rect(DISPLAY_WIDTH-4, 4, 4, 8, color);
 }
 
 void gui_borders_show_dose_flag(uint8_t doseflag) {
-  display_draw_bitmap(115, 0, IMG_XRAY_SMALL, IMG_XRAY_SMALL_W, IMG_XRAY_SMALL_H, doseflag == 0 ? DISPLAY_GREEN : (doseflag == 1 ? DISPLAY_YELLOW : DISPLAY_RED));
+  display_draw_bitmap(230, 0, IMG_XRAY_SMALL, IMG_XRAY_SMALL_W, IMG_XRAY_SMALL_H, doseflag == 0 ? DISPLAY_GREEN : (doseflag == 1 ? DISPLAY_YELLOW : DISPLAY_RED));
 }
 
 void gui_borders_onwakeup() {

@@ -56,7 +56,7 @@ void display_on() {
   display_st7735_init(DISPLAY_DC_PIN);
 #endif
 
-  display_fill_rect(0, 0, 160, 128, DISPLAY_BLACK);
+  display_fill_rect(0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT, DISPLAY_BLACK);
 }
 
 void display_off() {

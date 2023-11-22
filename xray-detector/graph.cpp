@@ -115,19 +115,19 @@ void graph_draw_one_column(uint8_t xbase, uint8_t ybase, uint8_t colwidth, uint8
   }
 
   if (height > 0) {
-    display_fill_rect(xbase + (RAD_HISTORY_STORE_MINUTE_POINTS  - index - 1) * colwidth, 
-                      ybase + GRAPH_MAX_HEIGHT - height, 
+    display_fill_rect(xbase + (RAD_HISTORY_STORE_MINUTE_POINTS  - index - 1) * colwidth * 2, 
+                      ybase + (GRAPH_MAX_HEIGHT - height)  *2, 
                       
-                      colwidth, 
-                      height,
+                      colwidth * 2, 
+                      height * 2,
                       
                       color);
   } else {
-    display_fill_rect(xbase + (RAD_HISTORY_STORE_MINUTE_POINTS  - index - 1) * colwidth, 
+    display_fill_rect(xbase + (RAD_HISTORY_STORE_MINUTE_POINTS  - index - 1) * colwidth * 2, 
                       ybase, 
                       
-                      colwidth, 
-                      -height,
+                      colwidth * 2, 
+                      -height * 2,
                       
                       color);
   }

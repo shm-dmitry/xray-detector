@@ -80,7 +80,7 @@ void gui_manager_on_main_loop() {
 
   if (fullrefresh) {
     if (display_is_on()) {
-      display_fill_rect(0, 8, 160, 128-8*2, DISPLAY_BLACK);
+      display_fill_rect(0, 16, DISPLAY_WIDTH, DISPLAY_HEIGHT-16*2, DISPLAY_BLACK);
     }
   }
 

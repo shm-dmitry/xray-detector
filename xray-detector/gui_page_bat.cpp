@@ -23,26 +23,26 @@ bool gui_bat_page_refresh(uint8_t data) {
     }
   }
 
-  display_set_textsize(1);
+  display_set_textsize(2);
 
   if (data) {
     memset(&gui_bat_prev_data, 0, sizeof(gui_bat_prev_data));
 
     display_set_textcolor(DISPLAY_WHITE);
 
-    display_set_cursor(20, 30);
+    display_set_cursor(40, 60);
     display_prints("Vbat     = ");
 
-    display_set_cursor(20, 30 + 8);
+    display_set_cursor(40, 60 + 16);
     display_prints("Icharger = ");
 
-    display_set_cursor(20, 30 + 8*2);
+    display_set_cursor(40, 60 + 16*2);
     display_prints("Source   = ");
   }
 
   if (data || charger_data.bat_voltage_x100 != gui_bat_prev_data.bat_voltage_x100) {
     display_set_textcolor(DISPLAY_BLACK);
-    display_set_cursor(100, 30);
+    display_set_cursor(200, 60);
     display_print8(gui_bat_prev_data.bat_voltage_x100 / 100);
     if (gui_bat_prev_data.bat_voltage_x100 % 100 < 10) {
       display_prints(".0");
@@ -55,7 +55,7 @@ bool gui_bat_page_refresh(uint8_t data) {
     uint8_t pc = charger_control_get_voltage_pc();
 
     display_set_textcolor(pc > GUI_PAGE_BAT_HIGH ? DISPLAY_GREEN : (pc > GUI_PAGE_BAT_MEDIUM ? DISPLAY_WHITE : DISPLAY_RED));
-    display_set_cursor(100, 30);
+    display_set_cursor(200, 60);
     display_print8(charger_data.bat_voltage_x100 / 100);
     if (charger_data.bat_voltage_x100 % 100 < 10) {
       display_prints(".0");
@@ -70,14 +70,14 @@ bool gui_bat_page_refresh(uint8_t data) {
 
   if (data || charger_data.bat_current_x10 != gui_bat_prev_data.bat_current_x10) {
     display_set_textcolor(DISPLAY_BLACK);
-    display_set_cursor(100, 30+8);
+    display_set_cursor(200, 60+16);
     display_print8(gui_bat_prev_data.bat_current_x10 / 10);
     display_prints(".");
     display_print8(gui_bat_prev_data.bat_current_x10 % 10);
     display_prints("A");
 
     display_set_textcolor(DISPLAY_WHITE);
-    display_set_cursor(100, 30+8);
+    display_set_cursor(200, 60+16);
     display_print8(charger_data.bat_current_x10 / 10);
     display_prints(".");
     display_print8(charger_data.bat_current_x10 % 10);
@@ -88,7 +88,7 @@ bool gui_bat_page_refresh(uint8_t data) {
 
   if (data || charger_data.i2c_in_use != gui_bat_prev_data.i2c_in_use) {
     display_set_textcolor(DISPLAY_BLACK);
-    display_set_cursor(100, 30+8*2);
+    display_set_cursor(200, 60+16*2);
     if (gui_bat_prev_data.i2c_in_use) {
       display_prints("Charger");
     } else {
@@ -96,7 +96,7 @@ bool gui_bat_page_refresh(uint8_t data) {
     }
 
     display_set_textcolor(charger_data.i2c_in_use ? DISPLAY_GREEN : DISPLAY_YELLOW);
-    display_set_cursor(100, 30+8*2);
+    display_set_cursor(200, 60+16*2);
     if (charger_data.i2c_in_use) {
       display_prints("Charger");
     } else {

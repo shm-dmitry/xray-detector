@@ -1,0 +1,109 @@
+<circuit version="1.0.0-SR0" rev="1320" stepSize="1000000" stepsPS="1000000" NLsteps="100000" reaStep="1000000" animate="0" >
+
+<item itemtype="Ground" CircId="Ground-138" mainComp="false" Show_id="false" Show_Val="false" Pos="-140,-168" rotation="0" hflip="1" vflip="1" label="Ground-6" idLabPos="-16,8" labelrot="0" valLabPos="0,0" valLabRot="0" />
+
+<item itemtype="Resistor" CircId="Resistor-596" mainComp="false" ShowProp="Resistance" Show_id="false" Show_Val="true" Pos="-336,-308" rotation="-90" hflip="1" vflip="1" label="Resistor-596" idLabPos="-12,-20" labelrot="0" valLabPos="-16,6" valLabRot="0" Resistance="10 kΩ" />
+
+<item itemtype="Ili9341" CircId="Ili9341-2" mainComp="false" Show_id="true" Show_Val="false" Pos="-408,-596" rotation="-360" hflip="1" vflip="1" label="Ili9341-2" idLabPos="-32,-180" labelrot="0" valLabPos="0,0" valLabRot="0" />
+
+<item itemtype="Clock" CircId="Clock-527" mainComp="false" Show_id="false" Show_Val="true" Pos="-108,-448" rotation="0" hflip="1" vflip="1" label="Clock-527" idLabPos="-64,-24" labelrot="0" valLabPos="-16,8" valLabRot="0" Out="false" Running="false" Voltage="5 V" Freq="5 Hz" Always_On="false" />
+
+<item itemtype="Fixed Voltage" CircId="Fixed Voltage-601" mainComp="false" Show_id="false" Show_Val="true" Pos="-352,-340" rotation="0" hflip="1" vflip="1" label="Fixed Voltage-209" idLabPos="-64,-24" labelrot="0" valLabPos="-16,8" valLabRot="0" Out="true" Voltage="5 V" />
+
+<item itemtype="TextComponent" CircId="TextComponent-360" mainComp="false" Show_id="false" Show_Val="false" Pos="-784,52" rotation="0" hflip="1" vflip="1" label="TextComponent-360" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Margin="5 _Pixels" Border="1 _Pixels" Opacity="1" Font="Helvetica [Cronyx]" Font_Size="10 _Pixels" Fixed_Width="false" Text="left" />
+
+<item itemtype="TextComponent" CircId="TextComponent-362" mainComp="false" Show_id="false" Show_Val="false" Pos="-744,-100" rotation="0" hflip="1" vflip="1" label="TextComponent-362" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Margin="5 _Pixels" Border="1 _Pixels" Opacity="1" Font="Helvetica [Cronyx]" Font_Size="10 _Pixels" Fixed_Width="true" Text="charger&#xa;ready" />
+
+<item itemtype="Fixed Voltage" CircId="Fixed Voltage-288" mainComp="false" Show_id="false" Show_Val="true" Pos="-588,296" rotation="0" hflip="1" vflip="1" label="Fixed Voltage-209" idLabPos="-64,-24" labelrot="0" valLabPos="-16,8" valLabRot="0" Out="true" Voltage="5 V" />
+
+<item itemtype="Subcircuit" CircId="Uno-1" mainComp="false" Show_id="true" Show_Val="false" Pos="-692,-344" rotation="0" hflip="1" vflip="1" label="Arduino Uno-1" idLabPos="100,-21" labelrot="0" valLabPos="0,0" valLabRot="0" Logic_Symbol="false">
+<mainCompProps itemtype="MCU" CircId="1_mega328-109" mainComp="true" Show_id="false" Show_Val="false" Pos="20,20" rotation="0" hflip="1" vflip="1" label="1_mega328-109" idLabPos="0,-20" labelrot="0" valLabPos="-16,20" valLabRot="0" eeprom="1,100,19,1,0,12,255,211,0,255,255,255,255,255,255,98,0,230,3,183,0,255,128,83,52,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,0,0,113,1,92,17,0,0,0,0,114,1,192,17,0,0,0,0,115,1,36,18,0,0,0,0,116,1,136,18,0,0,0,0,117,1,236,18,0,0,0,0,118,1,80,19,0,0,0,0,119,1,180,19,0,0,0,0," Frequency="16 MHz" Program="xray-detector/build/GyverCore.avr.nano/xray-detector.ino.with_bootloader.hex" Auto_Load="true" Rst_enabled="true" Ext_Osc="true" Wdt_enabled="false" />
+</item>
+
+<item itemtype="Ground" CircId="Ground-6" mainComp="false" Show_id="false" Show_Val="false" Pos="-680,208" rotation="0" hflip="1" vflip="1" label="Ground-6" idLabPos="-16,8" labelrot="0" valLabPos="0,0" valLabRot="0" />
+
+<item itemtype="TextComponent" CircId="TextComponent-546" mainComp="false" Show_id="false" Show_Val="false" Pos="-316,-240" rotation="0" hflip="1" vflip="1" label="TextComponent-362" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Margin="5 _Pixels" Border="1 _Pixels" Opacity="1" Font="Helvetica [Cronyx]" Font_Size="10 _Pixels" Fixed_Width="true" Text="wakeup" />
+
+<item itemtype="Push" CircId="Push-136" mainComp="false" Show_id="false" Show_Val="false" Pos="-292,-272" rotation="0" hflip="1" vflip="1" label="Push-3" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Norm_Close="false" Poles="1 _Poles" />
+
+<item itemtype="Ground" CircId="Ground-65" mainComp="false" Show_id="false" Show_Val="false" Pos="-508,256" rotation="0" hflip="1" vflip="1" label="Ground-65" idLabPos="-16,8" labelrot="0" valLabPos="0,0" valLabRot="0" />
+
+<item itemtype="TextComponent" CircId="TextComponent-361" mainComp="false" Show_id="false" Show_Val="false" Pos="-524,44" rotation="0" hflip="1" vflip="1" label="TextComponent-361" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Margin="5 _Pixels" Border="1 _Pixels" Opacity="1" Font="Helvetica [Cronyx]" Font_Size="10 _Pixels" Fixed_Width="false" Text="right" />
+
+<item itemtype="Push" CircId="Push-4" mainComp="false" Show_id="false" Show_Val="false" Pos="-488,8" rotation="0" hflip="1" vflip="1" label="Push-4" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Norm_Close="false" Poles="1 _Poles" />
+
+<item itemtype="Push" CircId="Push-5" mainComp="false" Show_id="false" Show_Val="false" Pos="-616,-36" rotation="0" hflip="1" vflip="1" label="Push-5" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Norm_Close="false" Poles="1 _Poles" />
+
+<item itemtype="Led" CircId="Led-549" mainComp="false" Show_id="false" Show_Val="false" Pos="-292,-148" rotation="0" hflip="1" vflip="1" label="Led-549" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Color="Yellow" Grounded="false" Threshold="2.4 V" MaxCurrent="0.03 A" Resistance="0.6 Ω" />
+
+<item itemtype="TextComponent" CircId="TextComponent-358" mainComp="false" Show_id="false" Show_Val="false" Pos="20,-356" rotation="0" hflip="1" vflip="1" label="TextComponent-358" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Margin="5 _Pixels" Border="1 _Pixels" Opacity="1" Font="Helvetica [Cronyx]" Font_Size="10 _Pixels" Fixed_Width="true" Text="rad impulse" />
+
+<item itemtype="TextComponent" CircId="TextComponent-359" mainComp="false" Show_id="false" Show_Val="false" Pos="-624,-8" rotation="0" hflip="1" vflip="1" label="TextComponent-359" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Margin="5 _Pixels" Border="1 _Pixels" Opacity="1" Font="Helvetica [Cronyx]" Font_Size="10 _Pixels" Fixed_Width="true" Text="click" />
+
+<item itemtype="Push" CircId="Push-77" mainComp="false" Show_id="false" Show_Val="false" Pos="60,-400" rotation="0" hflip="1" vflip="1" label="Push-77" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Norm_Close="false" Poles="1 _Poles" />
+
+<item itemtype="Ground" CircId="Ground-79" mainComp="false" Show_id="false" Show_Val="false" Pos="140,-344" rotation="0" hflip="1" vflip="1" label="Ground-65" idLabPos="-16,8" labelrot="0" valLabPos="0,0" valLabRot="0" />
+
+<item itemtype="Push" CircId="Push-3" mainComp="false" Show_id="false" Show_Val="false" Pos="-752,20" rotation="0" hflip="1" vflip="1" label="Push-3" idLabPos="-16,-24" labelrot="0" valLabPos="0,0" valLabRot="0" Norm_Close="false" Poles="1 _Poles" />
+
+<item itemtype="Node" CircId="Node-9" mainComp="false" Pos="-680,76" />
+
+<item itemtype="Node" CircId="Node-44" mainComp="false" Pos="-680,148" />
+
+<item itemtype="Node" CircId="Node-529" mainComp="false" Pos="-88,-400" />
+
+<item itemtype="Node" CircId="Node-552" mainComp="false" Pos="-140,-200" />
+
+<item itemtype="Node" CircId="Node-598" mainComp="false" Pos="-336,-272" />
+
+<item itemtype="Connector" uid="connector-602" startpinid="Ground-65-Gnd" endpinid="Ili9341-2-PinCS" pointList="-508,240,-464,240,-464,-412" />
+
+<item itemtype="Connector" uid="connector-603" startpinid="Ili9341-2-PinSck" endpinid="Uno-1-13" pointList="-432,-412,-432,-216,-684,-216" />
+
+<item itemtype="Connector" uid="connector-604" startpinid="Uno-1-A1" endpinid="Led-549-lPin" pointList="-540,-296,-364,-296,-364,-148,-308,-148" />
+
+<item itemtype="Connector" uid="connector-605" startpinid="Node-552-2" endpinid="Push-136-switch0pinN" pointList="-140,-200,-140,-272,-276,-272" />
+
+<item itemtype="Connector" uid="connector-606" startpinid="Node-529-2" endpinid="Uno-1-2" pointList="-88,-400,-684,-400,-684,-312" />
+
+<item itemtype="Connector" uid="connector-607" startpinid="Ili9341-2-PinMosi" endpinid="Uno-1-11" pointList="-440,-412,-440,-224,-560,-224,-560,-232,-684,-232" />
+
+<item itemtype="Connector" uid="connector-608" startpinid="Ground-138-Gnd" endpinid="Node-552-0" pointList="-140,-184,-140,-200" />
+
+<item itemtype="Connector" uid="connector-609" startpinid="Push-5-pinP0" endpinid="Node-44-1" pointList="-632,-36,-632,148,-680,148" />
+
+<item itemtype="Connector" uid="connector-610" startpinid="Ili9341-2-PinDC" endpinid="Uno-1-6" pointList="-448,-412,-448,-280,-684,-280" />
+
+<item itemtype="Connector" uid="connector-611" startpinid="Led-549-rPin" endpinid="Node-552-1" pointList="-276,-148,-276,-200,-140,-200" />
+
+<item itemtype="Connector" uid="connector-612" startpinid="Node-9-2" endpinid="Node-44-0" pointList="-680,76,-680,148" />
+
+<item itemtype="Connector" uid="connector-613" startpinid="Push-3-pinP0" endpinid="Uno-1-4" pointList="-768,20,-768,-296,-684,-296" />
+
+<item itemtype="Connector" uid="connector-614" startpinid="Clock-527-outnod" endpinid="Node-529-1" pointList="-92,-448,-92,-400,-88,-400" />
+
+<item itemtype="Connector" uid="connector-615" startpinid="Ground-79-Gnd" endpinid="Push-77-switch0pinN" pointList="140,-360,140,-400,76,-400" />
+
+<item itemtype="Connector" uid="connector-616" startpinid="Push-77-pinP0" endpinid="Node-529-0" pointList="44,-400,-88,-400" />
+
+<item itemtype="Connector" uid="connector-617" startpinid="Push-4-pinP0" endpinid="Uno-1-A0" pointList="-504,8,-504,-288,-540,-288" />
+
+<item itemtype="Connector" uid="connector-618" startpinid="Fixed Voltage-288-outnod" endpinid="Ili9341-2-PinRst" pointList="-572,296,-456,296,-456,-412" />
+
+<item itemtype="Connector" uid="connector-619" startpinid="Push-4-switch0pinN" endpinid="Node-9-1" pointList="-472,8,-472,76,-680,76" />
+
+<item itemtype="Connector" uid="connector-620" startpinid="Push-5-switch0pinN" endpinid="Uno-1-8" pointList="-600,-36,-600,-256,-684,-256" />
+
+<item itemtype="Connector" uid="connector-621" startpinid="Resistor-596-lPin" endpinid="Node-598-1" pointList="-336,-292,-336,-272" />
+
+<item itemtype="Connector" uid="connector-622" startpinid="Node-44-2" endpinid="Ground-6-Gnd" pointList="-680,148,-680,192" />
+
+<item itemtype="Connector" uid="connector-623" startpinid="Fixed Voltage-601-outnod" endpinid="Resistor-596-rPin" pointList="-336,-340,-336,-324" />
+
+<item itemtype="Connector" uid="connector-624" startpinid="Node-598-2" endpinid="Push-136-pinP0" pointList="-336,-272,-308,-272" />
+
+<item itemtype="Connector" uid="connector-625" startpinid="Push-3-switch0pinN" endpinid="Node-9-0" pointList="-736,20,-680,20,-680,76" />
+
+<item itemtype="Connector" uid="connector-626" startpinid="Uno-1-7" endpinid="Node-598-0" pointList="-684,-272,-336,-272" />
+
+</circuit>

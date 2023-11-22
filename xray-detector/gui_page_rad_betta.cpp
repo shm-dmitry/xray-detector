@@ -16,7 +16,7 @@
 #define GUI_RAD_PAGE_BETTA_MIN_IMPL       100
 #define GUI_RAD_PAGE_BETTA_MAX_IMPL       0xFF00
 #define GUI_RAD_PAGE_BETTA_MIN_TIME       30
-#define GUI_RAD_PAGE_BETTA_MAX_TIME       200
+#define GUI_RAD_PAGE_BETTA_MAX_TIME       40
 
 #define GUI_RAD_PAGE_BETTA_CALC_IPH(counter, secs) (((uint32_t)counter * (uint32_t)60 * (uint32_t)60) / (uint32_t)secs)
 
@@ -36,48 +36,48 @@ bool gui_rad_page_betta_refresh(uint8_t data) {
   }
 
   if (gui_rad_page_betta_stage == GUI_RAD_PAGE_BETTA_STAGE_INITR) {
-    display_fill_rect(0, 8, 160, 128-8*2, DISPLAY_BLACK);
+    display_fill_rect(0, 16, DISPLAY_WIDTH, DISPLAY_HEIGHT-32, DISPLAY_BLACK);
     gui_rad_page_betta_stage = GUI_RAD_PAGE_BETTA_STAGE_INIT;
     gui_rad_page_betta_onwakeup(0);
   } 
   
   if (gui_rad_page_betta_stage == GUI_RAD_PAGE_BETTA_STAGE_INIT) {
-    display_set_cursor(10, 20);
-    display_set_textsize(1);
+    display_set_cursor(20, 40);
+    display_set_textsize(2);
     display_set_textcolor(DISPLAY_WHITE);
     display_prints("Close protection cup");
-    display_set_cursor(10, 20+16);
+    display_set_cursor(20, 40+32);
     display_prints("and click to start");
     gui_rad_page_betta_stage = GUI_RAD_PAGE_BETTA_STAGE_INITP;
   } else if (gui_rad_page_betta_stage == GUI_RAD_PAGE_BETTA_STAGE_MEASURE1) {
     uint16_t value = rad_control_user_counter_getvalue();
     if (value != gui_rad_page_betta_usercounter_stage1) {
       if (gui_rad_page_betta_usercounter_stage1 == RAD_CONTROL_USER_COUNTER_DISABLED) {
-        display_set_cursor(10, 20);
-        display_set_textsize(1);
+        display_set_cursor(20, 40);
+        display_set_textsize(2);
         display_set_textcolor(DISPLAY_BLACK);
         display_prints("Close protection cup");
-        display_set_cursor(10, 20+16);
+        display_set_cursor(20, 40+32);
         display_prints("and click to start");
 
         display_set_textcolor(DISPLAY_WHITE);
 
-        display_set_cursor(10, 20);
+        display_set_cursor(20, 40);
         display_set_textcolor(DISPLAY_YELLOW);
         display_prints("Gamma only");
 
         display_set_textcolor(DISPLAY_WHITE);
-        display_set_cursor(20, 20+8);
+        display_set_cursor(40, 40+16);
         display_prints("Impulses:");
-        display_set_cursor(20, 20+8+8);
+        display_set_cursor(40, 40+16*2);
         display_prints("Time:");
       } 
 
-      display_set_cursor(20+10*6, 20+8);
+      display_set_cursor(40+20*6, 40+16);
       display_set_textcolor(DISPLAY_BLACK);
       display_print16(gui_rad_page_betta_usercounter_stage1);
 
-      display_set_cursor(20+10*6, 20+8);
+      display_set_cursor(40+20*6, 40+16);
       display_set_textcolor(DISPLAY_WHITE);
       display_print16(value);
 
@@ -87,12 +87,12 @@ bool gui_rad_page_betta_refresh(uint8_t data) {
     uint8_t passed = (clock_millis() - gui_rad_page_betta_start_measurement) / 1000;
 
     if (passed != gui_rad_page_betta_prev_time) {
-      display_set_cursor(20+10*6, 20+8+8);
+      display_set_cursor(40+20*6, 40+16*2);
       display_set_textcolor(DISPLAY_BLACK);
       display_print16(gui_rad_page_betta_prev_time);
       display_prints(" sec");
 
-      display_set_cursor(20+10*6, 20+8+8);
+      display_set_cursor(40+20*6, 40+16*2);
       display_set_textcolor(DISPLAY_WHITE);
       display_print16(passed);
       display_prints(" sec");
@@ -105,47 +105,47 @@ bool gui_rad_page_betta_refresh(uint8_t data) {
       gui_rad_page_betta_stage = GUI_RAD_PAGE_BETTA_STAGE_AWAIT2;
       gui_rad_page_betta_stage1_time = gui_rad_page_betta_prev_time;
 
-      display_set_cursor(20, 20+8+8+8);
+      display_set_cursor(40, 40+16*3);
       display_set_textcolor(DISPLAY_WHITE);
       display_prints("Result: ");
       display_print32(GUI_RAD_PAGE_BETTA_CALC_IPH(gui_rad_page_betta_usercounter_stage1, gui_rad_page_betta_stage1_time));
       display_prints(" impl/hour");
     } 
   } else if (gui_rad_page_betta_stage == GUI_RAD_PAGE_BETTA_STAGE_AWAIT2) {
-    display_set_cursor(10, 20+8+8+8+8+16);
-    display_set_textsize(1);
+    display_set_cursor(20, 40+16*4+32);
+    display_set_textsize(2);
     display_set_textcolor(DISPLAY_WHITE);
     display_prints("Open protection cup");
-    display_set_cursor(10, 20+8+8+8+8+16+16);
+    display_set_cursor(40, 40+16*4+32*2);
     display_prints("and click to start");
     gui_rad_page_betta_stage = GUI_RAD_PAGE_BETTA_STAGE_AWAIT2P;
   } else if (gui_rad_page_betta_stage == GUI_RAD_PAGE_BETTA_STAGE_MEASURE2) {
     uint16_t value = rad_control_user_counter_getvalue();
     if (value != gui_rad_page_betta_usercounter_stage2) {
       if (gui_rad_page_betta_usercounter_stage2 == RAD_CONTROL_USER_COUNTER_DISABLED) {
-        display_set_cursor(10, 20+8+8+8+8+16);
-        display_set_textsize(1);
+        display_set_cursor(20, 40+16*4+32);
+        display_set_textsize(2);
         display_set_textcolor(DISPLAY_BLACK);
         display_prints("Open protection cup");
-        display_set_cursor(10, 20+8+8+8+8+16+16);
+        display_set_cursor(40, 40+16*4+32*2);
         display_prints("and click to start");
 
         display_set_textcolor(DISPLAY_YELLOW);
-        display_set_cursor(10, 20+8+8+8+8);
+        display_set_cursor(20, 40+16*4);
         display_prints("Gamma plus Betta");
 
         display_set_textcolor(DISPLAY_WHITE);
-        display_set_cursor(20, 20+8+8+8+8+8);
+        display_set_cursor(40, 40+16*5);
         display_prints("Impulses:");
-        display_set_cursor(20, 20+8+8+8+8+8+8);
+        display_set_cursor(40, 40+16*6);
         display_prints("Time:");
       } 
       
-      display_set_cursor(20+10*6, 20+8+8+8+8+8);
+      display_set_cursor(40+20*6, 40+16*5);
       display_set_textcolor(DISPLAY_BLACK);
       display_print16(gui_rad_page_betta_usercounter_stage2);
 
-      display_set_cursor(20+10*6, 20+8+8+8+8+8);
+      display_set_cursor(40+20*6, 40+16*5);
       display_set_textcolor(DISPLAY_WHITE);
       display_print16(value);
 
@@ -155,12 +155,12 @@ bool gui_rad_page_betta_refresh(uint8_t data) {
     uint8_t passed = (clock_millis() - gui_rad_page_betta_start_measurement) / 1000;
 
     if (passed != gui_rad_page_betta_prev_time) {
-      display_set_cursor(20+10*6, 20+8+8+8+8+8+8);
+      display_set_cursor(40+20*6, 40+16*6);
       display_set_textcolor(DISPLAY_BLACK);
       display_print16(gui_rad_page_betta_prev_time);
       display_prints(" sec");
 
-      display_set_cursor(20+10*6, 20+8+8+8+8+8+8);
+      display_set_cursor(40+20*6, 40+16*6);
       display_set_textcolor(DISPLAY_WHITE);
       display_print16(passed);
       display_prints(" sec");
@@ -172,15 +172,15 @@ bool gui_rad_page_betta_refresh(uint8_t data) {
       rad_control_user_counter_startstop(false);
       gui_rad_page_betta_stage = GUI_RAD_PAGE_BETTA_STAGE_DONE;
 
-      display_set_cursor(20, 20+8+8+8+8+8+8+8);
+      display_set_cursor(40, 40+16*7);
       display_set_textcolor(DISPLAY_WHITE);
       display_prints("Result: ");
       display_print32(GUI_RAD_PAGE_BETTA_CALC_IPH(gui_rad_page_betta_usercounter_stage2, gui_rad_page_betta_prev_time));
       display_prints(" impl/hour");
     }
   } else if (gui_rad_page_betta_stage == GUI_RAD_PAGE_BETTA_STAGE_DONE) {
-    display_set_cursor(5, 20+8+8+8+8+8+8+8+20);
-    display_set_textsize(1);
+    display_set_cursor(10, 40+16*7+40);
+    display_set_textsize(2);
     display_set_textcolor(DISPLAY_GREEN);
     uint32_t stage1 = GUI_RAD_PAGE_BETTA_CALC_IPH(gui_rad_page_betta_usercounter_stage1, gui_rad_page_betta_stage1_time);
     uint32_t stage2 = GUI_RAD_PAGE_BETTA_CALC_IPH(gui_rad_page_betta_usercounter_stage2, gui_rad_page_betta_prev_time);
