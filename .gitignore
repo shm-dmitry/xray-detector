@@ -6,3 +6,5 @@ schematics/xray-v2/xray-v2-backups/
 schematics/xray-v2/*.lck
 xray-detector/build/
 3d/*.gcode
+3d/*.FCBak
+

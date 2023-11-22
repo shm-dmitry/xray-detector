@@ -4,7 +4,7 @@
 #include "clock.h"
 #include "config.h"
 
-#if DISPLAY_TYOE_SIMUL_ADAFRUIT
+#if DISPLAY_TYOE_ILI9341_ADAFRUIT
 #include <Adafruit_ILI9341.h>
 #elif DISPLAY_TYPE_ST7335_ADAFRUIT
 #include <Adafruit_ST7735.h>
@@ -15,9 +15,9 @@
 #endif
 
 #define DISPLAY_DC_PIN      A3
-#define DISPLAY_ENABLE_PIN  A2
+#define DISPLAY_ENABLE_PIN  6
 
-#if DISPLAY_TYOE_SIMUL_ADAFRUIT
+#if DISPLAY_TYOE_ILI9341_ADAFRUIT
 Adafruit_ILI9341 * display_tft = NULL;
 #elif DISPLAY_TYPE_ST7335_ADAFRUIT
 Adafruit_ST7735 * display_tft = NULL;

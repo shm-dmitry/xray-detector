@@ -88,6 +88,8 @@ void powersave_enter_light_sleep() {
     svf_control_stop();
     userinput_on_start_sleep();
 
+    pinMode(MOSI, INPUT);
+
 #if POWERSAVE_LIGHTSLEEP_DISABLE_IO
     PRR = _BV(PRTWI) |
           _BV(PRTIM1) |

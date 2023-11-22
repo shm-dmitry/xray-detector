@@ -74,6 +74,8 @@ void display_spi_init(uint8_t dc) {
   pinMode(display_spi_dc, OUTPUT);
   digitalWrite(display_spi_dc, HIGH);
 
+  pinMode(MOSI, OUTPUT);
+
   SPI.begin();
 
   settings = SPISettings(SPI_DEFAULT_FREQ, MSBFIRST, SPI_MODE0);

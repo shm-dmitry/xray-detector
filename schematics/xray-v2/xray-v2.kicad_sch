@@ -11672,7 +11672,7 @@
     (property "Reference" "R1" (at 246.38 491.49 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Value" "100" (at 246.38 494.03 0)
+    (property "Value" "510" (at 246.38 494.03 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 245.618 492.76 90)

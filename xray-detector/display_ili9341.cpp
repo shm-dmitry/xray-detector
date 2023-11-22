@@ -20,6 +20,13 @@
 #define ILI9341_GMCTRN1 0xE1 ///< Negative Gamma Correction
 #define ILI9341_SLPOUT 0x11 ///< Sleep Out
 #define ILI9341_DISPON 0x29   ///< Display ON
+#define ILI9341_MADCTL_MY 0x80  ///< Bottom to top
+#define ILI9341_MADCTL_MX 0x40  ///< Right to left
+#define ILI9341_MADCTL_MV 0x20  ///< Reverse Mode
+#define ILI9341_MADCTL_ML 0x10  ///< LCD refresh Bottom to top
+#define ILI9341_MADCTL_RGB 0x00 ///< Red-Green-Blue pixel order
+#define ILI9341_MADCTL_BGR 0x08 ///< Blue-Green-Red pixel order
+#define ILI9341_MADCTL_MH 0x04  ///< LCD refresh right to left
 
 static const uint8_t PROGMEM ILI9341_INIT_CMD[] = {
   0xEF, 3, 0x03, 0x80, 0x02,
@@ -66,5 +73,8 @@ void display_ili9341_init(uint8_t dc) {
       clock_delay(150);
     }
   }
+
+  uint8_t madctl = ILI9341_MADCTL_MX | ILI9341_MADCTL_MY | ILI9341_MADCTL_MV | ILI9341_MADCTL_BGR;
+  display_spi_send_command(ILI9341_MADCTL, &madctl, 1);
 }
 
