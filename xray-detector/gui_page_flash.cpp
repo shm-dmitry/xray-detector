@@ -16,52 +16,52 @@ bool gui_flash_page_refresh(uint8_t data) {
   }
 
   if (data) {
-    display_draw_rect(20, 40, 50, 20, DISPLAY_WHITE);
-    display_draw_line(20+50, 40-1, 20+50+10, 40-5-1, DISPLAY_WHITE);
-    display_draw_line(20+50, 40+20, 20+50+10, 40+20+5, DISPLAY_WHITE);
-    display_draw_line(20+50+10, 40-5, 20+50+10, 40+20+5, DISPLAY_WHITE);
+    display_draw_rect(2*20, 2*40, 2*50, 2*20, DISPLAY_WHITE); // rect
+    display_draw_line(2*(20+50), 2*40-1, 2*(20+50+10), 2*(40-5)-1, DISPLAY_WHITE); // /
+    display_draw_line(2*(20+50), 2*(40+20), 2*(20+50+10), 2*(40+20+5), DISPLAY_WHITE); // b/
+    display_draw_line(2*(20+50+10), 2*(40-5), 2*(20+50+10), 2*(40+20+5), DISPLAY_WHITE); // |
     
-    display_draw_bitmap(20+50/2-4, 40+6, IMG_CIRCLE, IMG_CIRCLE_H, IMG_CIRCLE_W, DISPLAY_GRAY);
-    display_draw_bitmap(20+50/2-4, 40+6, IMG_CIRCLE_LOW, IMG_CIRCLE_LOW_H, IMG_CIRCLE_LOW_W, DISPLAY_BLACK);
+    display_draw_bitmap(2*(20+50/2-4), 2*(40+6), IMG_CIRCLE, IMG_CIRCLE_H, IMG_CIRCLE_W, DISPLAY_GRAY);
+    display_draw_bitmap(2*(20+50/2-4), 2*(40+6), IMG_CIRCLE_LOW, IMG_CIRCLE_LOW_H, IMG_CIRCLE_LOW_W, DISPLAY_BLACK);
 
-    display_draw_bitmap(20+50+2, 40+6, IMG_TRIANGLE, IMG_TRIANGLE_H, IMG_TRIANGLE_W, DISPLAY_GRAY);
+    display_draw_bitmap(2*(20+50+2), 2*(40+6), IMG_TRIANGLE, IMG_TRIANGLE_H, IMG_TRIANGLE_W, DISPLAY_GRAY);
   }
 
   if (gui_flash_prev_pc != gui_flash_pc || gui_flash_editing_prev != gui_flash_editing || data) {
     if (gui_flash_pc == 0x00) {
-      display_draw_bitmap(20+50+2, 40+6, IMG_TRIANGLE, IMG_TRIANGLE_H, IMG_TRIANGLE_W, DISPLAY_GRAY);
+      display_draw_bitmap(2*(20+50+2), 2*(40+6), IMG_TRIANGLE, IMG_TRIANGLE_H, IMG_TRIANGLE_W, DISPLAY_GRAY);
   
-      display_draw_bitmap(20+50/2-4, 40+6, IMG_CIRCLE, IMG_CIRCLE_H, IMG_CIRCLE_W, DISPLAY_GRAY);
-      display_draw_bitmap(20+50/2-4, 40+6, IMG_CIRCLE_LOW, IMG_CIRCLE_LOW_H, IMG_CIRCLE_LOW_W, DISPLAY_BLACK);
+      display_draw_bitmap(2*(20+50/2-4), 2*(40+6), IMG_CIRCLE, IMG_CIRCLE_H, IMG_CIRCLE_W, DISPLAY_GRAY);
+      display_draw_bitmap(2*(20+50/2-4), 2*(40+6), IMG_CIRCLE_LOW, IMG_CIRCLE_LOW_H, IMG_CIRCLE_LOW_W, DISPLAY_BLACK);
 
-      display_fill_rect(29, 40+20+20, 102, 10, DISPLAY_BLACK);
+      display_fill_rect(2*29, 2*(40+20+20), 2*102, 2*10, DISPLAY_BLACK);
       if (gui_flash_editing) {
-        display_draw_rect(29, 40+20+20, 102, 10, DISPLAY_WHITE);
+        display_draw_rect(2*29, 2*(40+20+20), 2*102, 2*10, DISPLAY_WHITE);
       }
     } else {
-      display_draw_bitmap(20+50+2, 40+6, IMG_TRIANGLE, IMG_TRIANGLE_H, IMG_TRIANGLE_W, DISPLAY_YELLOW);
+      display_draw_bitmap(2*(20+50+2), 2*(40+6), IMG_TRIANGLE, IMG_TRIANGLE_H, IMG_TRIANGLE_W, DISPLAY_YELLOW);
 
-      display_draw_bitmap(20+50/2-4, 40+6, IMG_CIRCLE, IMG_CIRCLE_H, IMG_CIRCLE_W, DISPLAY_WHITE);
-      display_draw_bitmap(20+50/2-4, 40+6, IMG_CIRCLE_LOW, IMG_CIRCLE_LOW_H, IMG_CIRCLE_LOW_W, DISPLAY_GREEN);
+      display_draw_bitmap(2*(20+50/2-4), 2*(40+6), IMG_CIRCLE, IMG_CIRCLE_H, IMG_CIRCLE_W, DISPLAY_WHITE);
+      display_draw_bitmap(2*(20+50/2-4), 2*(40+6), IMG_CIRCLE_LOW, IMG_CIRCLE_LOW_H, IMG_CIRCLE_LOW_W, DISPLAY_GREEN);
 
       if (gui_flash_editing) {
         if (!gui_flash_editing_prev) {
-          display_draw_rect(29, 40+20+20, 102, 10, DISPLAY_WHITE);
-          display_fill_rect(29+1, 40+20+20+1, gui_flash_prev_pc, 8, DISPLAY_YELLOW);
+          display_draw_rect(2*29, 2*(40+20+20), 2*102, 2*10, DISPLAY_WHITE);
+          display_fill_rect(2*29+1, 2*(40+20+20)+1, 2*gui_flash_prev_pc, 8, DISPLAY_YELLOW);
         }
 
         if (gui_flash_prev_pc < gui_flash_pc) {
-          display_fill_rect(29+1+gui_flash_prev_pc, 40+20+20+1, gui_flash_pc - gui_flash_prev_pc, 8, DISPLAY_YELLOW);
+          display_fill_rect(2*29+1+2*gui_flash_prev_pc, 2*(40+20+20)+1, 2*(gui_flash_pc - gui_flash_prev_pc), 2*8, DISPLAY_YELLOW);
         } else {
-          display_fill_rect(29+1+gui_flash_pc, 40+20+20+1, gui_flash_prev_pc - gui_flash_pc, 8, DISPLAY_BLACK);
+          display_fill_rect(2*29+1+2*gui_flash_pc, 2*(40+20+20)+1, 2*(gui_flash_prev_pc - gui_flash_pc), 2*8, DISPLAY_BLACK);
         }
       } else if (gui_flash_editing_prev) {
-        display_fill_rect(29, 40+20+20, 102, 10, DISPLAY_BLACK);
+        display_fill_rect(2*29, 2*(40+20+20), 2*102, 2*10, DISPLAY_BLACK);
       }
     }
 
-    display_set_cursor(20+50+30, 40+3);
-    display_set_textsize(2);
+    display_set_cursor(2*(20+50+30), 2*(40+3));
+    display_set_textsize(4);
     display_set_textcolor(DISPLAY_BLACK);
     if (gui_flash_prev_pc == 0) {
       display_prints(" OFF");
@@ -72,7 +72,7 @@ bool gui_flash_page_refresh(uint8_t data) {
       }
       display_prints("%");
     }
-    display_set_cursor(20+50+30, 40+3);
+    display_set_cursor(2*(20+50+30), 2*(40+3));
     display_set_textcolor(DISPLAY_WHITE);
     if (gui_flash_pc == 0) {
       display_prints(" OFF");

@@ -41,7 +41,7 @@ void display_on() {
   }
 
   digitalWrite(DISPLAY_ENABLE_PIN, LOW);
-  clock_delay(10); // await for a power up
+  clock_delay(30); // await for a power up
 
 #if DISPLAY_TYOE_ILI9341_ADAFRUIT
   display_tft = new Adafruit_ILI9341(-1, DISPLAY_DC_PIN, -1);

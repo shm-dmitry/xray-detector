@@ -3,7 +3,7 @@
 
 #include "stdint.h"
 
-#define EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS  12
+#define EEPROM_CONTROL_ACCUMULATED_DOSE_STORE_POINTS  11
 
 void eeprom_control_init();
 void eeprom_control_init_default();

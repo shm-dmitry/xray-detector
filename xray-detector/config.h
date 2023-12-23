@@ -1,7 +1,7 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#define SYSTEM_SERIAL_ENABLED false
+#define SYSTEM_SERIAL_ENABLED true
 #define SYSTEM_SERIAL_FREQ    9600
 
 #define POWERSAVE_LIGHTSLEEP_DISABLE_IO true

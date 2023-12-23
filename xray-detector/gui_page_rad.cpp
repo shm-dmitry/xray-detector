@@ -37,7 +37,7 @@ bool gui_rad_page_refresh(uint8_t data) {
   if (rad_page_mode == RAD_PAGE_MODE_STARTUP_FULLREFRESH || rad_page_mode == RAD_PAGE_MODE_HISTORY_FULLREFRESH) {
     data = 0x01;
     rad_page_mode = ((rad_page_mode == RAD_PAGE_MODE_STARTUP_FULLREFRESH) ? RAD_PAGE_MODE_STARTUP : RAD_PAGE_MODE_HISTORY);
-    display_fill_rect(0, 16, DISPLAY_WIDTH, DISPLAY_HEIGHT-8*2, DISPLAY_BLACK);
+    display_fill_rect(0, 16, DISPLAY_WIDTH, DISPLAY_HEIGHT-16*2, DISPLAY_BLACK);
   }
 
   if (data) {
