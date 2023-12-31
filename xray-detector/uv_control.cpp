@@ -10,11 +10,12 @@
 #define UV_CONTROL_PIN_PWM    PD3
 #define UV_CONTROL_ENABLE     A2
 
-#define UV_CONTROL_REFILL_EVERY 50
-#define UV_CONTROL_REFILL_REQ   250
-#define UV_CONTROL_REFILL_REQRS 251
-#define UV_CONTROL_REFILL_DUR   1
-#define UV_CONTROL_REFILL_INIT  10
+#define UV_CONTROL_REFILL_EVERY       50
+#define UV_CONTROL_REFILL_REQ         250
+#define UV_CONTROL_REFILL_REQRS       251
+#define UV_CONTROL_REFILL_DUR         2
+#define UV_CONTROL_REFILL_INIT        10
+#define UV_CONTROL_REFILL_EVERY_MSECS ((uint32_t)180 * (uint32_t)1000)
 
 #define UV_CONTROL_TESTRUN_DUR  5
 
@@ -125,6 +126,8 @@ void isrcall_uv_control_on_timer() {
         uv_control_refill_sec--;
       }
     }
+  } else if (clock_is_elapsed(uv_control_last_run_uv, UV_CONTROL_REFILL_EVERY_MSECS, true)) {
+    uv_control_impulses = UV_CONTROL_REFILL_REQ;
   }
 }
 
