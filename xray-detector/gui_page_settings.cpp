@@ -77,8 +77,8 @@ bool gui_settings_page_refresh(uint8_t data) {
   }
 
   if (menu_actual_prev != menu_actual || data) {
-    display_draw_bitmap(6, SETTINGS_PAGE_Y_OFFSET + 16 * menu_actual_prev, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_BLACK);
-    display_draw_bitmap(6, SETTINGS_PAGE_Y_OFFSET + 16 * menu_actual, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_YELLOW);
+    display_draw_bitmap(6, SETTINGS_PAGE_Y_OFFSET + 16 * menu_actual_prev + 5, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_BLACK);
+    display_draw_bitmap(6, SETTINGS_PAGE_Y_OFFSET + 16 * menu_actual + 5, IMG_ARROW, IMG_ARROW_W, IMG_ARROW_H, DISPLAY_YELLOW);
     menu_actual_prev = menu_actual;
   }
 
