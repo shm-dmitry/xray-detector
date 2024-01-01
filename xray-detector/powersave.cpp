@@ -92,7 +92,7 @@ void powersave_enter_light_sleep() {
 
 #if POWERSAVE_LIGHTSLEEP_DISABLE_IO
     PRR = _BV(PRTWI) |
-          _BV(PRTIM1) |
+          _BV(PRTIM2) |
           _BV(PRSPI)  |
           _BV(PRADC)  |
           _BV(PRUSART0);
