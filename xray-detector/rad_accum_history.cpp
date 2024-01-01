@@ -60,18 +60,18 @@ uint32_t rad_accum_get_daily_dose_usv() {
   }
 
   uint64_t value = (rad_accum_hour_dose / (uint64_t) rad_accum_hour_dose_count / 60) * (uint64_t) minutes;
-  if (value > 0xFFFFFFFF) {
-    return 0xFFFFFFFF;
+  if (value > (uint32_t)0xFFFFFFFF) {
+    return (uint32_t)0xFFFFFFFF;
   }
 
   if (rad_accum_daily_dose == 0 && value == 0) {
     return RAD_ACCUM__R2SV(0);
   }
 
-  if (rad_accum_daily_dose + (uint32_t) value > rad_accum_daily_dose) {
+  if (((uint32_t)0xFFFFFFFF - rad_accum_daily_dose) > (uint32_t) value) {
     return RAD_ACCUM__R2SV(rad_accum_daily_dose + (uint32_t) value);
   } else {
-    return 0xFFFFFFFF;    
+    return (uint32_t)0xFFFFFFFF;    
   }
 }
 
