@@ -12,6 +12,8 @@
 #include "Arduino.h"
 #include <avr/sleep.h>
 
+#define POWERSAVE_ALLOW_STANDBY           true
+
 #define POWERSAVE_WORK_MODES_NORMAL       0
 #define POWERSAVE_WORK_MODES_LIGHTSLEEP   1
 #define POWERSAVE_WORK_MODES_STANDBY      2
@@ -176,7 +178,11 @@ bool powersave_check_can_go_standby() {
     return false;
   }
 
-  return true;
+  if (uv_control_is_on()) {
+    return false;
+  }
+
+  return POWERSAVE_ALLOW_STANDBY;
 }
 
 void isrcall_powersave_leave_standby() {
