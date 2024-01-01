@@ -11,6 +11,7 @@ Features:
 - flashlight :-)
 - powerbank
 - long battery life (about half-year) without recharging
+- Simple upgrade firmware - Flushing USB port can be accessed with-out unboxing
 
 ![photo_2023-12-31_12-20-42](https://github.com/shm-dmitry/xray-detector/assets/19342331/48f92045-1e57-4b5b-b893-22ee76104b33)
 ![photo_2023-12-31_12-21-00](https://github.com/shm-dmitry/xray-detector/assets/19342331/c2fc3f9b-ea27-4476-b1b0-9dec07d3ea5e)
