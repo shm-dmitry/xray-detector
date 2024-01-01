@@ -46,7 +46,7 @@ bool gui_rad_page_refresh(uint8_t data) {
     graph_reset();
 
     if (rad_page_mode == RAD_PAGE_MODE_STARTUP) {
-      display_draw_rect(2, 87, 200 + 1, 2*GRAPH_MAX_HEIGHT + 1, DISPLAY_WHITE);
+      display_draw_rect(2, 86, 200 + 2, 2*GRAPH_MAX_HEIGHT + 2, DISPLAY_WHITE);
     }
   }
 
@@ -60,7 +60,7 @@ bool gui_rad_page_refresh(uint8_t data) {
 
     if (rad_history_was_minute_buffer_changed()) {
       graph_refresh_from_history();
-      graph_write_delta(3, 88, 100 / RAD_HISTORY_STORE_MINUTE_POINTS, DISPLAY_GREEN, DISPLAY_YELLOW, DISPLAY_RED, DISPLAY_BLACK);
+      graph_write_delta(3, 87, 100 / RAD_HISTORY_STORE_MINUTE_POINTS, DISPLAY_GREEN, DISPLAY_YELLOW, DISPLAY_RED, DISPLAY_BLACK);
       uint32_t maxvalue = graph_get_maxvalue(false);
       if (maxvalue > 0 && (maxvalue != graph_get_maxvalue(true) || data)) {
         display_set_cursor(6 + 200 + 4, 104);
@@ -148,11 +148,11 @@ void gui_rad_page_draw_accum_list_item(uint32_t value) {
 }
 
 void gui_rad_page_draw_accum(uint32_t dose_usv) {
-  display_set_cursor(6 + 200 + 14, 170);
+  display_set_cursor(6 + 200 + 14, 160);
   display_set_textcolor(DISPLAY_BLACK);
   gui_rad_page_draw_accum_text(rad_page_accum);
 
-  display_set_cursor(6 + 200 + 14, 170);
+  display_set_cursor(6 + 200 + 14, 160);
   display_set_textcolor(DISPLAY_WHITE);
   gui_rad_page_draw_accum_text(dose_usv);
 }
@@ -171,17 +171,17 @@ void gui_rad_page_draw_accum_text(uint32_t dose_usv) {
     display_print16(dose_usv / 1000000);
     display_prints(".");
     display_print16((dose_usv % 1000000) / 100000);
-    display_set_cursor(x, display_get_cursor_y() + 10);
+    display_set_cursor(x, display_get_cursor_y() + 16);
     display_prints("Sv");
   } else if (dose_usv > 1000) {
     display_print16(dose_usv / 1000);
     display_prints(".");
     display_print16((dose_usv % 1000) / 100);
-    display_set_cursor(x, display_get_cursor_y() + 10);
+    display_set_cursor(x, display_get_cursor_y() + 16);
     display_prints("mSv");
   } else {
     display_print16(dose_usv);
-    display_set_cursor(x, display_get_cursor_y() + 10);
+    display_set_cursor(x, display_get_cursor_y() + 16);
     display_prints("uSv");
   }
 }
