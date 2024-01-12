@@ -54,18 +54,20 @@ void svf_control_init() {
   pinMode(PIN_FLASH, OUTPUT);
   digitalWrite(PIN_FLASH, LOW);
 
-  TCCR2A = _BV(WGM20);
   svf_control_timer_stop();
+}
+
+inline void svf_control_timer_stop() {
+  TCCR2A = 0;
+  TCCR2B = 0;
   OCR2A  = 0;
   OCR2B  = 0;
 }
 
-inline void svf_control_timer_stop() {
-  TCCR2B = 0;
-}
-
 inline void svf_control_timer_start() {
+  TCCR2A = _BV(WGM20);
   TCCR2B = _BV(WGM22) | _BV(CS22) | _BV(CS21);
+  TCNT2  = 0;
 }
 
 inline void svf_control_vibro_stop() {

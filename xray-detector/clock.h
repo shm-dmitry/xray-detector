@@ -23,7 +23,7 @@ uint32_t clock_millis(bool inisr = false);
 uint32_t clock_calc_delay(uint32_t base, uint32_t delta, bool & ovf);
 bool clock_is_elapsed(uint32_t base, uint32_t delta, bool inisr = false);
 
-bool clock_enter_sleep_mode();
+void clock_enter_sleep_mode();
 void clock_leave_sleep_mode();
 
 #endif /* CLOCK_H_ */

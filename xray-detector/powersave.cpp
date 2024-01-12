@@ -135,16 +135,19 @@ void powersave_enter_extended_standby() {
     return;
   }
 
-  if (clock_enter_sleep_mode()) {
-    set_sleep_mode(SLEEP_MODE_EXT_STANDBY);
-    sleep_enable();
+  PRR &= ~(_BV(PRTIM2));
 
-    powersave_mode = POWERSAVE_WORK_MODES_STANDBY;
-  }
+  clock_enter_sleep_mode();
+
+  set_sleep_mode(SLEEP_MODE_EXT_STANDBY);
+  sleep_enable();
+
+  powersave_mode = POWERSAVE_WORK_MODES_STANDBY;
 }
 
 void powersave_leave_extended_standby() {
   clock_leave_sleep_mode();
+  PRR |= _BV(PRTIM2);
 
   sleep_disable();
 
