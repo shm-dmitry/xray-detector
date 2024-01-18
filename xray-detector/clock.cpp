@@ -11,8 +11,8 @@
 
 #define CLOCK_MAX_UINT32_T    0xFFFFFFFF
 #define CLOCK_OVF_MILLIS_FIX         296
-#define CLOCK_TIMER2_TOP             (250)
-#define CLOCK_TIMER2_EXEC_EVERY_MS   (1000/(8000000/1024)*CLOCK_TIMER2_TOP)
+#define CLOCK_TIMER2_TOP             (250 - 1)
+#define CLOCK_TIMER2_EXEC_EVERY_MS   1000/((uint32_t)F_CPU / (uint32_t)(CLOCK_TIMER2_TOP + 1) / (uint32_t)1024)
 
 #define CLOCK_ON_ONE_SECOND_CALLBACKS \
   isrcall_rad_control_on_timer(); \
@@ -31,7 +31,6 @@
 #define CLOCK_START_TIMER_COUNTER0  \
   TCCR0B  = _BV(WGM02) | _BV(CS00) | _BV(CS01)
 
-volatile bool clock_t2_counter_enabled = false;
 volatile uint32_t clock_millis_value = 0;
 volatile uint8_t clock_year    = 22;
 volatile uint8_t clock_month   = 12;
@@ -60,17 +59,15 @@ ISR(TIMER0_COMPA_vect) {
 }
 
 ISR(TIMER2_COMPA_vect) {
-  if (clock_t2_counter_enabled) {
-    volatile uint32_t temp = clock_millis_value;
-    clock_millis_value += CLOCK_TIMER2_EXEC_EVERY_MS;
+  volatile uint32_t temp = clock_millis_value;
+  clock_millis_value += CLOCK_TIMER2_EXEC_EVERY_MS;
 
-    if (clock_millis_value < temp) {
-      clock_millis_value += CLOCK_OVF_MILLIS_FIX; 
-    }
+  if (clock_millis_value < temp) {
+    clock_millis_value += CLOCK_OVF_MILLIS_FIX; 
+  }
 
-    if ((clock_millis_value % 1000) != (temp % 1000)) {
-      clock_on_one_second();
-    }
+  if ((clock_millis_value / 1000) != (temp / 1000)) {
+    clock_on_one_second();
   }
 }
 
@@ -142,6 +139,9 @@ void clock_init() {
   OCR0A = F_CPU / 64 / 1000 - 1;
   
   TIMSK0 |= _BV(OCIE0A);   
+
+  Serial.print("CLOCK_TIMER2_EXEC_EVERY_MS = ");
+  Serial.println(CLOCK_TIMER2_EXEC_EVERY_MS);
 }
 
 uint16_t clock_get_component(uint8_t component) {
@@ -300,13 +300,14 @@ void clock_enter_sleep_mode() {
   uint8_t oldSREG = SREG;
   cli();
 
+  TCCR2A = 0;
+  TCCR2B = 0;
   TCNT2  = 0;
-  TCCR2A = _BV(WGM21);
-  TCCR2B = _BV(CS22) | _BV(CS21) | _BV(CS20);
+  TCCR2A = _BV(WGM21) | _BV(WGM20);
+  TCCR2B = _BV(CS22) | _BV(CS21) | _BV(CS20) | _BV(WGM22);
   OCR2A  = CLOCK_TIMER2_TOP;
+  TIMSK2 = _BV(OCIE2A);
 
-  clock_t2_counter_enabled = true;
-  
   SREG = oldSREG;
 }
 
@@ -323,9 +324,8 @@ void clock_leave_sleep_mode() {
   TCCR2B = 0;
   OCR2A  = 0;
   TCNT2  = 0;
+  TIMSK2 = 0;
   
-  clock_t2_counter_enabled = false;
-
   CLOCK_START_TIMER_COUNTER0;
 
   SREG = oldSREG;

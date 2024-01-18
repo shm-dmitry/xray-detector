@@ -94,7 +94,7 @@ void powersave_enter_light_sleep() {
 
 #if POWERSAVE_LIGHTSLEEP_DISABLE_IO
     PRR = _BV(PRTWI) |
-          _BV(PRTIM2) |
+//          _BV(PRTIM2) |
           _BV(PRSPI)  |
           _BV(PRADC)  |
           _BV(PRUSART0);
@@ -135,7 +135,7 @@ void powersave_enter_extended_standby() {
     return;
   }
 
-  PRR &= ~(_BV(PRTIM2));
+//  PRR &= ~(_BV(PRTIM2));
 
   clock_enter_sleep_mode();
 
@@ -147,7 +147,7 @@ void powersave_enter_extended_standby() {
 
 void powersave_leave_extended_standby() {
   clock_leave_sleep_mode();
-  PRR |= _BV(PRTIM2);
+//  PRR |= _BV(PRTIM2);
 
   sleep_disable();
 
