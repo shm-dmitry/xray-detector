@@ -308,6 +308,8 @@ void clock_enter_sleep_mode() {
   OCR2A  = CLOCK_TIMER2_TOP;
   TIMSK2 = _BV(OCIE2A);
 
+  TCCR0B = 0;
+
   SREG = oldSREG;
 }
 
