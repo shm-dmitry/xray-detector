@@ -8,6 +8,7 @@
 #include "svf_control.h"
 #include "gui_manager.h"
 #include "clock.h"
+#include "config.h"
 
 #define ALARM_MANAGER_OPEN_RAD_PAGE_EVERY   30000
 #define ALARM_MANAGER_CHECK_MINDOSE2_EVERY  2000
@@ -121,10 +122,12 @@ void isrcall_alarm_manager_onimpulse() {
 }
 
 void isrcall_alarm_manager_onminute() {
+  #if ALARM_EVERY_MINUTE_ENABLED
   if (clock_millis(true) - alarm_manager_last_impulse > alarm_manager_no_impulse_seconds * 1000) {
     svf_control_play_sound__alarm3();
     svf_control_play_vibro__alarm3();
   }
+  #endif
 }
 
 void isrcall_alarm_manager_onresetmillis() {

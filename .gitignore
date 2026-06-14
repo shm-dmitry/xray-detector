@@ -7,4 +7,6 @@ schematics/xray-v2/*.lck
 xray-detector/build/
 3d/*.gcode
 3d/*.FCBak
-
+schematics/xray-v2/.history
+schematics/xray-v3/.history
+schematics/xray-v3/.history_trim

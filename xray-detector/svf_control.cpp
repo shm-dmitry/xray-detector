@@ -180,15 +180,15 @@ void svf_control_play_vibro__impuls() {
 }
 
 void svf_control_play_vibro__alarm1() {
-  svf_control_play_vibro(SVF_VIBRO_ALARM1);
+  //svf_control_play_vibro(SVF_VIBRO_ALARM1);
 }
 
 void svf_control_play_vibro__alarm2() {
-  svf_control_play_vibro(SVF_VIBRO_ALARM2);
+  //svf_control_play_vibro(SVF_VIBRO_ALARM2);
 }
 
 void svf_control_play_vibro__alarm3() {
-  svf_control_play_vibro(SVF_VIBRO_ALARM3);
+  //svf_control_play_vibro(SVF_VIBRO_ALARM3);
 }
 
 void svf_control_mute(volatile t_data_sample & obj) {
