@@ -1,3 +1,6 @@
+V3 version in progress.
+V2 version details:
+
 xray-detector, based on SBT-11A sensor, combined with powerbank futures.
 
 At this moment project finished. Everething works, but with several UI-bugs :)
