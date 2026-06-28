@@ -19,6 +19,12 @@ void setup() {
   bat_state_init();
   user_input_init();
   uart_ctrl_init();
+
+  display_on();
+  display_set_cursor(20, 20);
+  display_set_textcolor(DISPLAY_RED);
+  display_set_textsize(2);
+  display_prints("I'm working!");
 }
 
 void loop() {
