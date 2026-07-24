@@ -18403,6 +18403,16 @@
 	)
 	(wire
 		(pts
+			(xy 575.31 168.91) (xy 579.12 168.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70c5fc6a-67c6-4d4b-b2f1-6d39ae033e1d")
+	)
+	(wire
+		(pts
 			(xy 566.42 45.72) (xy 576.58 45.72)
 		)
 		(stroke
@@ -21113,16 +21123,6 @@
 	)
 	(wire
 		(pts
-			(xy 586.74 168.91) (xy 596.9 168.91)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cbd73824-6386-4dc1-a194-772ba4e20339")
-	)
-	(wire
-		(pts
 			(xy 542.29 49.53) (xy 542.29 45.72)
 		)
 		(stroke
@@ -21850,6 +21850,16 @@
 			(type default)
 		)
 		(uuid "e3d49f95-30ba-40c6-9456-8f235b70335c")
+	)
+	(wire
+		(pts
+			(xy 586.74 168.91) (xy 596.9 168.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e41ce64a-53a7-476e-abd2-062294459773")
 	)
 	(wire
 		(pts
@@ -23142,7 +23152,7 @@
 		(uuid "3ce5ee62-d7f7-4479-b7eb-d2c910caa0aa")
 	)
 	(label "WAKEUP_BUTTON"
-		(at 586.74 168.91 180)
+		(at 575.31 168.91 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -34337,7 +34347,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "51K"
+		(property "Value" "22K"
 			(at 476.25 52.0699 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -37616,6 +37626,87 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 582.93 168.91 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6729b56c-751e-4205-9bb7-a983043110e5")
+		(property "Reference" "R72"
+			(at 581.025 172.085 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "510K"
+			(at 581.025 174.625 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+			(at 582.93 167.132 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 582.93 168.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 582.93 168.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "5154fc2a-bc53-4fe1-ab3f-463ca2300df9")
+		)
+		(pin "2"
+			(uuid "1b60eb44-046f-4c42-8578-692afe97cb89")
+		)
+		(instances
+			(project "xray-v3"
+				(path "/dd8f4371-6f2d-42cc-9067-2496b53ad747"
+					(reference "R72")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 673.1 439.42 0)
 		(unit 1)
@@ -38985,7 +39076,7 @@
 		(dnp no)
 		(uuid "6fa5bf2f-8f10-4ba9-a8fa-16ae65d352e6")
 		(property "Reference" "Q4"
-			(at 631.19 142.24 0)
+			(at 614.172 137.668 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -38996,7 +39087,7 @@
 			)
 		)
 		(property "Value" "IRLML5203"
-			(at 631.19 144.78 0)
+			(at 614.172 140.208 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -42338,7 +42429,7 @@
 				)
 			)
 		)
-		(property "Value" "16K"
+		(property "Value" "6K8"
 			(at 485.902 53.34 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -51016,7 +51107,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "500"
+		(property "Value" "680"
 			(at 628.65 85.0899 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -53080,7 +53171,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "d7c9ccaa-bc93-4723-8edf-3f514cd8936b")
 		(property "Reference" "C1"
 			(at 52.324 547.878 0)
@@ -56854,7 +56945,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10K"
+		(property "Value" "15K"
 			(at 628.65 74.9299 0)
 			(show_name no)
 			(do_not_autoplace no)
