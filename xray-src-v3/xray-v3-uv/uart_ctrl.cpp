@@ -90,11 +90,8 @@ void uart_process_command() {
         Serial.print(F("UV duty : "));
         Serial.println(status.duty);  
 
-        Serial.print(F("UV :fb_counter "));
+        Serial.print(F("UV fb_counter : "));
         Serial.println(status.fb_counter);  
-
-        Serial.print(F("UV gen_counter : "));
-        Serial.println(status.gen_counter);  
 
         Serial.print(F("UV fb_int_calls : "));
         Serial.println(status.fb_int_calls);  

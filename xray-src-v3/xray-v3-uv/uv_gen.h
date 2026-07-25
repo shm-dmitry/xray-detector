@@ -5,7 +5,6 @@
 typedef struct {
   uint8_t status;
   uint8_t duty;
-  uint8_t gen_counter;
   uint8_t fb_counter;
   uint8_t fb_int_calls;
 } t_uv_status_struct;
