@@ -33,6 +33,7 @@
 #define ST77XX_MADCTL_MX 0x40
 #define ST77XX_MADCTL_MV 0x20
 #define ST77XX_MADCTL_RGB 0x00
+#define ST77XX_MADCTL_BGR 0x08
 
 #define ST77XX_INVON      0x21
 
@@ -58,7 +59,7 @@ static const uint8_t PROGMEM
       0,             //     YSTART = 0
       320>>8,
       320&0xFF,  //     YEND = 320
-    ST77XX_INVON  ,   ST_CMD_DELAY,  //  7: hack
+    ST77XX_INVOFF  ,   ST_CMD_DELAY,  //  7: hack
       10,
     ST77XX_NORON  ,   ST_CMD_DELAY, //  8: Normal display on, no args, w/delay
       10,                           //     10 ms delay
@@ -73,7 +74,7 @@ void display_st7789_init(uint8_t dc) {
 
   display_st7789_run_command_list(generic_st7789);
 
-  uint8_t madctl = ST77XX_MADCTL_MX | ST77XX_MADCTL_MY | ST77XX_MADCTL_RGB;
+  uint8_t madctl = ST77XX_MADCTL_MV | ST77XX_MADCTL_MX | ST77XX_MADCTL_MY | ST77XX_MADCTL_BGR;
   display_spi_send_command(ST77XX_MADCTL, &madctl, 1);
 }
 

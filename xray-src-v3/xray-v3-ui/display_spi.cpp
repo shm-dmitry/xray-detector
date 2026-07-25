@@ -10,33 +10,40 @@ This code based on projects:
 #include "display_spi.h"
 #include "display.h"
 #include "display_spi_font.h"
-#include "SPI.h"
 
-#define SPI_DEFAULT_FREQ 8000000L
-/*
-#define AVR_WRITESPI(x) do { \
-    while (!(SPI0.INTFLAGS & SPI_DREIF_bm));  \
-    SPI0.DATA = (x); \
-    while (!(SPI0.INTFLAGS & SPI_IF_bm)); \
-} while(0)*/
-#define AVR_WRITESPI(x) SPI.transfer(x);;
-#define SPI_WRITE16(x) \
-  SPI.transfer(x >> 8); \
-  SPI.transfer(x);
 #define SWAP_INT16_T(x, y) \
 { \
   uint16_t a = x; \
   x = y; \
   y = a; \
 }
-#define SPI_WRITE32(x) \
-  SPI.transfer(x >> 24); \
-  SPI.transfer(x >> 16); \
-  SPI.transfer(x >> 8); \
-  SPI.transfer(x);
 
-uint8_t display_spi_dc;
-SPISettings settings;
+#define SPI_WRITE_8(x) do { \
+  SPI0.DATA = (x); \
+  while (!(SPI0.INTFLAGS & SPI_IF_bm)); \
+  (void)SPI0.DATA; \
+} while(0)
+
+#define SPI_WRITE_16(x) do { \
+  uint16_t _temp = (x); \
+  SPI_WRITE_8((uint8_t)(_temp >> 8)); \
+  SPI_WRITE_8((uint8_t)(_temp)); \
+} while(0)
+
+#define SPI_WRITE_32(x) do { \
+  uint32_t _temp = (x); \
+  SPI_WRITE_8((uint8_t)(_temp >> 24)); \
+  SPI_WRITE_8((uint8_t)(_temp >> 16)); \
+  SPI_WRITE_8((uint8_t)(_temp >> 8)); \
+  SPI_WRITE_8((uint8_t)(_temp)); \
+} while(0)
+
+#define DC_HIGH()  do { *dc_port_outset = dc_pin_mask; } while(0)
+#define DC_LOW()   do { *dc_port_outclr = dc_pin_mask; } while(0)
+
+volatile uint8_t *dc_port_outset;
+volatile uint8_t *dc_port_outclr;
+uint8_t dc_pin_mask;
 
 #define DISPLAY_SPI_CASET 0x2A ///< Column Address Set
 #define DISPLAY_SPI_PASET 0x2B ///< Page Address Set
@@ -45,8 +52,6 @@ SPISettings settings;
 #define ST77XX_RASET 0x2B
 #define ST77XX_RAMWR 0x2C
 
-inline void display_spi_start_write();
-inline void display_spi_end_write();
 void display_spi_write_fill_rect_preclipped(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color);
 void display_spi_write_command(uint8_t cmd);
 void display_spi_write_color(uint16_t color, uint32_t count);
@@ -73,38 +78,40 @@ void display_spi_set_textsize(uint8_t size) {
   display_spi_cursor_size = size;
 }
 
-void display_spi_init(uint8_t dc) {
-  display_spi_dc = dc;
-  pinMode(display_spi_dc, OUTPUT);
-  digitalWrite(display_spi_dc, HIGH);
+void display_spi_init(uint8_t dc_pin) {
+  pinMode(dc_pin, OUTPUT);
+  digitalWriteFast(dc_pin, HIGH);
 
-  pinMode(MOSI, OUTPUT);
+  dc_pin_mask = digitalPinToBitMask(dc_pin);
+  PORT_t *port = (PORT_t *)digitalPinToPortStruct(dc_pin);
+  dc_port_outset = &(port->OUTSET);
+  dc_port_outclr = &(port->OUTCLR);
 
-  SPI.begin();
+  pinMode(PIN_PA1, OUTPUT);
+  digitalWrite(PIN_PA1, LOW);
+  pinMode(PIN_PA3, OUTPUT);
+  digitalWrite(PIN_PA3, LOW);
 
-  settings = SPISettings(SPI_DEFAULT_FREQ, MSBFIRST, SPI_MODE0);
+  SPI0.CTRLB = SPI_SSD_bm | SPI_MODE_0_gc;
+  SPI0.CTRLA = SPI_MASTER_bm | SPI_CLK2X_bm | SPI_PRESC_DIV4_gc  | SPI_ENABLE_bm;
 }
 
 void display_spi_send_command_pgm(uint8_t command, const uint8_t * data, uint8_t datasize) {
-  SPI.beginTransaction(settings);
-  digitalWrite(display_spi_dc, LOW);
-  AVR_WRITESPI(command);
-  digitalWrite(display_spi_dc, HIGH);
+  DC_LOW();
+  SPI_WRITE_8(command);
+  DC_HIGH();
   for (uint8_t i = 0; i<datasize; i++) {
-    AVR_WRITESPI(pgm_read_byte(data++));
+    SPI_WRITE_8(pgm_read_byte(data++));
   }
-  SPI.endTransaction();
 }
 
 void display_spi_send_command(uint8_t command, const uint8_t * data, uint8_t datasize) {
-  SPI.beginTransaction(settings);
-  digitalWrite(display_spi_dc, LOW);
-  AVR_WRITESPI(command);
-  digitalWrite(display_spi_dc, HIGH);
+  DC_LOW();
+  SPI_WRITE_8(command);
+  DC_HIGH();
   for (uint8_t i = 0; i<datasize; i++) {
-    AVR_WRITESPI(data[i]);
+    SPI_WRITE_8(data[i]);
   }
-  SPI.endTransaction();
 }
 
 void display_spi_fill_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
@@ -128,17 +135,7 @@ void display_spi_fill_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint1
     h = DISPLAY_HEIGHT - y;
   }
 
-  display_spi_start_write();
   display_spi_write_fill_rect_preclipped(x, y, w, h, color);
-  display_spi_end_write();
-}
-
-inline void display_spi_start_write() {
-  SPI.beginTransaction(settings);
-}
-
-inline void display_spi_end_write() {
-  SPI.endTransaction();
 }
 
 void display_spi_write_fill_rect_preclipped(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
@@ -150,21 +147,36 @@ void display_spi_set_addr_window(uint16_t x, uint16_t y, uint16_t w, uint16_t h)
   uint16_t tmp = x + w - 1;
 
   display_spi_write_command(DISPLAY_SPI_CASET);
-  SPI_WRITE16(x);
-  SPI_WRITE16(tmp);
+  SPI_WRITE_16(x);
+  SPI_WRITE_16(tmp);
 
   tmp = y + h - 1;
   display_spi_write_command(DISPLAY_SPI_PASET);
-  SPI_WRITE16(y);
-  SPI_WRITE16(tmp);
+  SPI_WRITE_16(y);
+  SPI_WRITE_16(tmp);
 
   display_spi_write_command(DISPLAY_SPI_RAMWR);
 }
 
 void display_spi_write_command(uint8_t cmd) {
-  digitalWrite(display_spi_dc, LOW);
-  SPI.transfer(cmd);
-  digitalWrite(display_spi_dc, HIGH);
+  DC_LOW();
+  SPI_WRITE_8(cmd);
+  DC_HIGH();
+}
+
+void display_spi_write_block_fast(uint8_t hi, uint8_t lo, uint8_t blocksize) {
+  SPI0.DATA = hi;
+  while (!(SPI0.INTFLAGS & SPI_IF_bm)); 
+  SPI0.DATA = lo; 
+  blocksize--;
+  while(blocksize--) { 
+    while (!(SPI0.INTFLAGS & SPI_IF_bm)); 
+    SPI0.DATA = hi; 
+    while (!(SPI0.INTFLAGS & SPI_IF_bm)); 
+    SPI0.DATA = lo; 
+  }
+  while (!(SPI0.INTFLAGS & SPI_IF_bm)); 
+  (void)SPI0.DATA;
 }
 
 void display_spi_write_color(uint16_t color, uint32_t count) {
@@ -175,9 +187,16 @@ void display_spi_write_color(uint16_t color, uint32_t count) {
   uint8_t hi = color >> 8;
   uint8_t lo = color;
 
-  while (count--) {
-    AVR_WRITESPI(hi);
-    AVR_WRITESPI(lo);
+  uint16_t blocks = count / 250;
+  uint8_t remainder = count & 250;
+
+  while (blocks--) {
+    display_spi_write_block_fast(hi, lo, 250);
+  }
+
+  while (remainder--) {
+    SPI_WRITE_8(hi);
+    SPI_WRITE_8(lo);
   }
 }
 
@@ -185,7 +204,6 @@ void display_spi_draw_bitmap(uint16_t x, uint16_t y, const uint8_t bitmap[], uin
   uint8_t b = 0;
   uint8_t byteWidth = (w + 7) / 8;
   
-  display_spi_start_write();
   for (uint8_t j = 0; j < h; j++, y++) {
     for (uint8_t i = 0; i < w; i++) {
       if (i & 7) {
@@ -199,13 +217,12 @@ void display_spi_draw_bitmap(uint16_t x, uint16_t y, const uint8_t bitmap[], uin
       }
     }
   }
-  display_spi_end_write();
 }
 
 void display_spi_write_pixel(uint16_t x, uint16_t y, uint16_t color) {
   if ((x < DISPLAY_WIDTH) && (y < DISPLAY_HEIGHT)) {
     display_spi_set_addr_window(x, y, 1, 1);
-    SPI_WRITE16(color);
+    SPI_WRITE_16(color);
   }
 }
 
@@ -215,9 +232,7 @@ void display_spi_draw_line(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, u
   } else if (y0 == y1) {
     display_spi_fill_rect(x0, y0, x1 - x0 + 1, 1, color);
   } else {
-    display_spi_start_write();
     display_spi_write_line(x0, y0, x1, y1, color);
-    display_spi_end_write();
   }
 }
 
@@ -267,8 +282,6 @@ void display_spi_draw_rect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint1
 }
 
 void display_spi_write_char(char c) {
-  display_spi_start_write();
-
   for (uint8_t i = 0; i < 5; i++) { // Char bitmap = 5 columns
     uint8_t line = pgm_read_byte(&DISPLAY_FONT[c * 5 + i]);
     for (uint8_t j = 0; j < 8; j++, line >>= 1) {
@@ -284,8 +297,6 @@ void display_spi_write_char(char c) {
       }
     }
   }
-
-  display_spi_end_write();
 
   display_spi_cursor_x += display_spi_cursor_size * 6;
 }

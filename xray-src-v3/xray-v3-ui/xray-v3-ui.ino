@@ -23,7 +23,7 @@ void setup() {
   display_on();
   display_set_cursor(20, 20);
   display_set_textcolor(DISPLAY_RED);
-  display_set_textsize(2);
+  display_set_textsize(3);
   display_prints("I'm working!");
 }
 
