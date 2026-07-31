@@ -4,8 +4,11 @@
 #include <string.h>
 
 #include "uv_gen.h"
+#include "rad_data.h"
+#include "rad_control.h"
 
 #define MAX_COMMAND_LENGTH 32
+
 char uart_buffer[MAX_COMMAND_LENGTH + 1];
 uint8_t uart_buffer_idx = 0;
 
@@ -37,6 +40,10 @@ void uart_ctrl_changestate(bool enable) {
     pinMode(PIN_PB2, PIN_INPUT_DISABLE);
     pinMode(PIN_PB3, PIN_INPUT_DISABLE);
   }
+}
+
+bool isrcall__uart_is_active() {
+  return uart_ctrl_enabled || uart_ctrl_pin_changed;
 }
 
 void uart_ctrl_on_main_loop() {
@@ -77,15 +84,18 @@ void uart_process_command() {
     } 
     else if (strcmp(uart_buffer, "uv start") == 0) {
         uv_gen_start();
-        Serial.println(F("Started"));
+        Serial.println(F("Start allowed"));
     } 
-    else if (strcmp(uart_buffer, "uv get") == 0) {
+    else if (strcmp(uart_buffer, "uv run") == 0) {
+        if (uv_gen_recharge(false)) {
+          Serial.println(F("Recharge started"));
+
         t_uv_status_struct status;
         memset(&status, 0, sizeof(t_uv_status_struct));
         uv_get_getstatus(&status);
 
         Serial.print(F("UV status : "));
-        Serial.println(status.status, HEX);  
+        Serial.println(status.status, BIN);  
 
         Serial.print(F("UV duty : "));
         Serial.println(status.duty);  
@@ -95,12 +105,85 @@ void uart_process_command() {
 
         Serial.print(F("UV fb_int_calls : "));
         Serial.println(status.fb_int_calls);  
+
+        Serial.print(F("UV charge : "));
+        Serial.println(status.charge_counter);  
+
+        } else {
+          Serial.println(F("Start not allowed"));
+        }
+    } 
+    else if (strcmp(uart_buffer, "uv get") == 0) {
+        t_uv_status_struct status;
+        memset(&status, 0, sizeof(t_uv_status_struct));
+        uv_get_getstatus(&status);
+
+        Serial.print(F("UV status : "));
+        Serial.println(status.status, BIN);  
+
+        Serial.print(F("UV duty : "));
+        Serial.println(status.duty);  
+
+        Serial.print(F("UV fb_counter : "));
+        Serial.println(status.fb_counter);  
+
+        Serial.print(F("UV fb_int_calls : "));
+        Serial.println(status.fb_int_calls);  
+
+        Serial.print(F("UV charge : "));
+        Serial.println(status.charge_counter);  
     } 
     else if (strcmp(uart_buffer, "uv search") == 0) {
         uv_gen_start_search();
-        Serial.println(F("S started"));
+        Serial.println(F("Search started"));
     } 
-    else {
-        Serial.println(F("Bad command"));
+#if NRAD_COMMAND_ACTIVE
+    else if (strcmp(uart_buffer, "nrad") == 0) {
+      bool reset = strcmp(uart_buffer, "reset") > 0;
+
+      uint32_t sbt9 = 0;
+      uint32_t sbm20 = 0;
+
+      rad_control_get_total_counters(&sbt9, &sbm20, reset);
+
+      Serial.print(F("SBT9: "));
+      Serial.println(sbt9);
+
+      Serial.print(F("SBM20: "));
+      Serial.println(sbm20);
     }
+#endif
+    else if (strcmp(uart_buffer, "rad") == 0) {
+        uint32_t sbt9 = 0;
+        uint32_t sbm20 = 0;
+        uint8_t decimals = 0;
+        
+        rad_data_getlast(&sbt9, &sbm20, &decimals);
+
+        if (isrcall__rad_data_is_alert()) {
+          Serial.println(F("!!! ALERT !!!"));
+        }
+
+        Serial.print(F("SBT9: "));
+        Serial.print(sbt9 / decimals);
+        Serial.print(".");
+        Serial.print(sbt9 % decimals);
+        Serial.println(" uR/H");
+
+        Serial.print(F("SBM20: "));
+        Serial.print(sbm20 / decimals);
+        Serial.print(".");
+        Serial.print(sbm20 % decimals);
+        Serial.println(" uR/H");
+    } 
 }
+
+#if DEBUG__PRINT_IMPL
+void uart_ctrl_print_impl(uint32_t sbt9, uint32_t sbm20) {
+  Serial.print("ONIMPL: sbt9 = ");
+  Serial.print(sbt9);
+  Serial.print("; sbm20 = ");
+  Serial.println(sbm20);
+}
+#endif
+

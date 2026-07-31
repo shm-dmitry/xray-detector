@@ -13,9 +13,8 @@
 void display_init() {
   pinMode(DISPLAY_ENABLE_PIN, OUTPUT);
   digitalWrite(DISPLAY_ENABLE_PIN, HIGH);
-  delay(1000);
 
-  display_on();
+  display_off();
 }
 
 void display_on() {
@@ -36,7 +35,6 @@ void display_on() {
 void display_off() {
   digitalWrite(DISPLAY_ENABLE_PIN, HIGH);
   digitalWrite(DISPLAY_DC_PIN, LOW);
-  delay(100);
 }
 
 bool display_is_on() {
