@@ -35,6 +35,7 @@ uint32_t rad_history_sbt9[RAD_HISTORY_BUFFER_SIZE];
 
 volatile uint8_t rad_data_seconds = 0;
 volatile bool rad_data_alert = false;
+bool rad_data_alert_enabled = true;
 
 volatile rad_data_struct_t rad_data_sbt9;
 volatile rad_data_struct_t rad_data_sbm20;
@@ -122,10 +123,14 @@ void rad_data_on_main_loop() {
     bool sbm20_updated = recalculate_buffer(&sbm20, rad_history_sbm20, SBM20_PULSES_PER_MR, SBM20_MIN_COUNTER_TO_CALC);
 
     bool wasAlert = rad_data_alert;
-    rad_data_alert = 
-        rad_history_sbt9[0] >= RAD_HISTORY_ALLERT ||
-        (sbm20_updated && rad_history_sbm20[0] == 0) ||
-        rad_history_sbm20[0] >= RAD_HISTORY_ALLERT;
+    if (rad_data_alert_enabled) {
+      rad_data_alert = 
+          rad_history_sbt9[0] >= RAD_HISTORY_ALLERT ||
+          (sbm20_updated && rad_history_sbm20[0] == 0) ||
+          rad_history_sbm20[0] >= RAD_HISTORY_ALLERT;
+    } else {
+      rad_data_alert = false;
+    }
 
     if (rad_data_alert && !wasAlert) {
       digitalWrite(PIN_PB4, LOW);
@@ -212,3 +217,8 @@ uint8_t isrcall__rad_data_buffer_pointer(bool sbt9, uint8_t index, uint8_t maxel
 bool isrcall__rad_data_allow_sleep() {
   return !rad_data_alert && !rad_data_updated && !rad_data_reset_period;
 }
+
+void rad_data_alertcontrol(bool enabled) {
+  rad_data_alert_enabled = enabled;
+}
+

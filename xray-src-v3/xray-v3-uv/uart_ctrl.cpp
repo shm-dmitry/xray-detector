@@ -135,7 +135,7 @@ void uart_process_command() {
         Serial.println(F("UV manual/continuus"));
     } 
 #if NRAD_COMMAND_ACTIVE
-    else if (strcmp(uart_buffer, "nrad") == 0) {
+    else if (strncmp(uart_buffer, "nrad", 4) == 0) {
       bool reset = strcmp(uart_buffer, "reset") > 0;
 
       uint32_t sbt9 = 0;
@@ -172,7 +172,15 @@ void uart_process_command() {
         Serial.print(".");
         Serial.print(sbm20 % decimals);
         Serial.println(" uR/H");
-    } 
+    }
+    else if (strcmp(uart_buffer, "alert off") == 0) {
+      rad_data_alertcontrol(false);
+      Serial.println("Alerts disabled");
+    }
+    else if (strcmp(uart_buffer, "alert on") == 0) {
+      rad_data_alertcontrol(true);
+      Serial.println("Alerts enabled");
+    }
 }
 
 #if DEBUG__PRINT_IMPL

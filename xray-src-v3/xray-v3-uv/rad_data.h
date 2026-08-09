@@ -21,4 +21,4 @@ void isrcall__rad_data_set_mask(uint8_t mask);
 bool isrcall__rad_data_allow_sleep();
 
 void rad_data_getlast(uint32_t * sbt9, uint32_t * sbm20, uint8_t * decimals);
-
+void rad_data_alertcontrol(bool enabled);
