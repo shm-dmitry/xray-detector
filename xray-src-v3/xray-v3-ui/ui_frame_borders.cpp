@@ -78,13 +78,13 @@ void ui_botders_display_uv(uint8_t value, bool hide) {
   } else {
     if (value == UV_GEN_STATUS_IDLE) {
       display_set_textcolor(DISPLAY_GRAY);
-    } else if (value & UV_GEN_STATUS_NOFB) {
+    } else if (value == UV_GEN_STATUS_NOFB || value == UV_GEN_STATUS_BAD_VOLTAGE) {
       display_set_textcolor(DISPLAY_RED);
     } else if (value == UV_GEN_STATUS_STOPPED) {
       display_set_textcolor(DISPLAY_RED);
-    } else if (value & UV_GEN_STATUS_SEARCH_RUN) {
+    } else if (value & UV_GEN_STATUS_MANUAL) {
       display_set_textcolor(DISPLAY_YELLOW);
-    } else if (value > 0 && value <= UV_GEN_STATUS_CHARGING) {
+    } else if (value & UV_GEN_STATUS_CHARGING) {
       display_set_textcolor(DISPLAY_GREEN);
     } else {
       display_set_textcolor(DISPLAY_WHITE);
@@ -96,13 +96,15 @@ void ui_botders_display_uv(uint8_t value, bool hide) {
 
   if (value == UV_GEN_STATUS_IDLE) {
     display_prints("IDLE");
-  } else if (value & UV_GEN_STATUS_NOFB) {
+  } else if (value == UV_GEN_STATUS_NOFB) {
     display_prints("NOFB");
+  } else if (value == UV_GEN_STATUS_BAD_VOLTAGE) {
+    display_prints("BAD V");
   } else if (value == UV_GEN_STATUS_STOPPED) {
     display_prints("STOP");
-  } else if (value & UV_GEN_STATUS_SEARCH_RUN) {
+  } else if (value & UV_GEN_STATUS_MANUAL) {
     display_prints("MANUAL");
-  } else if (value > 0 && value <= UV_GEN_STATUS_CHARGING) {
+  } else if (value & UV_GEN_STATUS_CHARGING) {
     display_prints("CH");
   } else {
     display_print8(value);

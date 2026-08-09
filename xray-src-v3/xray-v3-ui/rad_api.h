@@ -9,24 +9,24 @@
 #define RAD_DATA_MASK__ALERT                 0b01000000
 #define RAD_DATA_MASK__NODATA                0b11111111
 
-// bit0 = search duty
-// bit1 = duty found, running
 #define UV_GEN_STATUS_IDLE                0b00000000
-#define UV_GEN_STATUS_STARTING            0b00000001
-#define UV_GEN_STATUS_STARTING_CONTINUUS  0b00000011
-#define UV_GEN_STATUS_RUNNING             0b00000010
-#define UV_GEN_STATUS_CHARGING            0b00000111
 
-// bit4 = manual mode
-#define UV_GEN_STATUS_SEARCH              0b00010001
-#define UV_GEN_STATUS_SEARCH_RUN          0b00010000
+// bit0 = charging
+// bit1 = continuus
+#define UV_GEN_STATUS_CHARGING            0b00000001
+#define UV_GEN_STATUS_CHARGING_CONTINUUS  0b00000011
 
-// bit5 = stopped
-#define UV_GEN_STATUS_STOPPED             0b00110000
+// bit2 = manual mode
+#define UV_GEN_STATUS_MANUAL              0b00000100
+#define UV_GEN_STATUS_MANUAL_CONTINUUS    0b00000111
 
-// bit7 = error, no feedback
-#define UV_GEN_STATUS_SEARCH_NOFB         0b01010000
-#define UV_GEN_STATUS_NOFB                0b01000000
+// bit3 = manual - stopped
+#define UV_GEN_STATUS_STOPPED             0b00001000
+
+// bit4 = error bad voltage
+#define UV_GEN_STATUS_BAD_VOLTAGE         0b00010000
+// bit5 = no feedback
+#define UV_GEN_STATUS_NOFB                0b00100000
 
 #define UV_GEN_STATUS_ERROR               0b11111111
 

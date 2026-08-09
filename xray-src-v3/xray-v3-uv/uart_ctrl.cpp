@@ -103,9 +103,6 @@ void uart_process_command() {
         Serial.print(F("UV fb_counter : "));
         Serial.println(status.fb_counter);  
 
-        Serial.print(F("UV fb_int_calls : "));
-        Serial.println(status.fb_int_calls);  
-
         Serial.print(F("UV charge : "));
         Serial.println(status.charge_counter);  
 
@@ -127,15 +124,15 @@ void uart_process_command() {
         Serial.print(F("UV fb_counter : "));
         Serial.println(status.fb_counter);  
 
-        Serial.print(F("UV fb_int_calls : "));
-        Serial.println(status.fb_int_calls);  
-
         Serial.print(F("UV charge : "));
         Serial.println(status.charge_counter);  
+
+        Serial.print(F("UV supply : "));
+        Serial.println(status.supply);  
     } 
-    else if (strcmp(uart_buffer, "uv search") == 0) {
-        uv_gen_start_search();
-        Serial.println(F("Search started"));
+    else if (strcmp(uart_buffer, "uv cont") == 0) {
+        uv_gen_start_run();
+        Serial.println(F("UV manual/continuus"));
     } 
 #if NRAD_COMMAND_ACTIVE
     else if (strcmp(uart_buffer, "nrad") == 0) {

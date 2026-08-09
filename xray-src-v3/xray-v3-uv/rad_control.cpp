@@ -112,7 +112,7 @@ void rad_control_on_main_loop() {
     }
   }
 
-  if (!alert && isrcall__uv_get_getstatus() & UV_GEN_STATUS_RUNNING) {
+  if (!alert && isrcall__uv_get_getstatus() == UV_GEN_STATUS_CHARGING_CONTINUUS) {
     uv_gen_recharge(false);
   }
 
