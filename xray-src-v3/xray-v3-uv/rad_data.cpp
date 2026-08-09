@@ -19,12 +19,14 @@ typedef struct rad_data_struct_t {
 #define RAD_HISTORY_HALF_BUFFER_ELEMENT_SECONDS (30/2)
 #define RAD_HISTORY_FIXED_POINT (10)
 
-#define SBM20_PULSES_PER_MR (29)
+#define SBT9_MIN_COUNTER_TO_CALC (1)
+#define SBM20_MIN_COUNTER_TO_CALC (5)
+#define SBM20_TUBES_COUNT (2)
+#define SBM20_PULSES_PER_MR (29 * SBM20_TUBES_COUNT)
 #define SBT9_PULSES_PER_MR (15)
 
 #define RAD_CALC(counter, seconds, pmr) (((uint32_t)1000 * (counter) * RAD_HISTORY_FIXED_POINT) / ((seconds) * (pmr)))
 
-#define MIN_COUNTER_TO_CALC (15)
 #define MAX_COUNTER_VALUE (0xFFFFFFFF / 1000 / RAD_HISTORY_FIXED_POINT)
 #define RAD_HISTORY_ALLERT      (500 * RAD_HISTORY_FIXED_POINT)
 
@@ -42,7 +44,7 @@ volatile bool rad_data_initialized = false;
 volatile uint8_t rad_data_mask = 0;
 
 void isrcall__rad_data_recalc(uint32_t value, volatile rad_data_struct_t * data, bool reset);
-bool recalculate_buffer(const rad_data_struct_t * data, uint32_t* buffer, uint8_t pmr);
+bool recalculate_buffer(const rad_data_struct_t * data, uint32_t* buffer, uint8_t pmr, uint8_t min_counter);
 
 void rad_data_init() {
   pinMode(PIN_PB4, OUTPUT);
@@ -116,12 +118,11 @@ void rad_data_on_main_loop() {
     rad_data_reset_period = false;
     interrupts();
 
-    bool sbt9_updated = recalculate_buffer(&sbt9, rad_history_sbt9, SBT9_PULSES_PER_MR);
-    bool sbm20_updated = recalculate_buffer(&sbm20, rad_history_sbm20, SBM20_PULSES_PER_MR);
+    bool sbt9_updated = recalculate_buffer(&sbt9, rad_history_sbt9, SBT9_PULSES_PER_MR, SBT9_MIN_COUNTER_TO_CALC);
+    bool sbm20_updated = recalculate_buffer(&sbm20, rad_history_sbm20, SBM20_PULSES_PER_MR, SBM20_MIN_COUNTER_TO_CALC);
 
     bool wasAlert = rad_data_alert;
     rad_data_alert = 
-        (sbt9_updated && rad_history_sbt9[0] == 0) || 
         rad_history_sbt9[0] >= RAD_HISTORY_ALLERT ||
         (sbm20_updated && rad_history_sbm20[0] == 0) ||
         rad_history_sbm20[0] >= RAD_HISTORY_ALLERT;
@@ -156,15 +157,15 @@ void rad_data_on_main_loop() {
   }
 }
 
-bool recalculate_buffer(const rad_data_struct_t * data, uint32_t* buffer, uint8_t pmr) {
+bool recalculate_buffer(const rad_data_struct_t * data, uint32_t* buffer, uint8_t pmr, uint8_t min_counter) {
   bool success = true;
   if (data->total_counter > MAX_COUNTER_VALUE) {
     buffer[0] = 0xFFFFFFFF;
-  } else if (data->total_counter > MIN_COUNTER_TO_CALC) {
+  } else if (data->total_counter > min_counter) {
     buffer[0] = RAD_CALC(data->total_counter, data->total_seconds, pmr);
   } else if (data->prev_end_period_counter > MAX_COUNTER_VALUE) {
     buffer[0] = 0xFFFFFFFF;
-  } else if (data->prev_end_period_counter + data->total_counter > MIN_COUNTER_TO_CALC && data->prev_end_period_seconds + data->total_seconds > 0) {
+  } else if (data->prev_end_period_counter + data->total_counter > min_counter && data->prev_end_period_seconds + data->total_seconds > 0) {
     buffer[0] = RAD_CALC(data->prev_end_period_counter + data->total_counter, data->prev_end_period_seconds + data->total_seconds, pmr);
   } else if (rad_data_initialized) {
     buffer[0] = 0;

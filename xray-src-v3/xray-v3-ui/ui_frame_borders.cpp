@@ -11,8 +11,10 @@
 
 bool ui_borders_initialized = false;
 uint8_t ui_borders_uvstatus = UV_GEN_STATUS_ERROR;
+uint8_t ui_borders_radstatus = UV_GEN_STATUS_ERROR;
 
 void ui_botders_display_uv(uint8_t value, bool hide);
+void ui_botders_display_rad(uint8_t value, bool hide);
 
 void ui_borders_init() {
   ui_borders_initialized = false;
@@ -32,7 +34,42 @@ void ui_borders_refresh() {
     ui_borders_uvstatus = status;
   }
 
-  ui_borders_initialized = true;
+  status = rad_api_get_rad_status();
+  if (!ui_borders_initialized || status != ui_borders_radstatus) {
+    ui_botders_display_rad(ui_borders_radstatus, true);
+    ui_botders_display_rad(status, false);
+
+    ui_borders_radstatus = status;
+  }
+
+  if (!ui_borders_initialized) {
+    ui_borders_initialized = true;
+  }
+}
+
+void ui_botders_display_rad(uint8_t value, bool hide) {
+  if (hide) {
+    display_set_textcolor(DISPLAY_BLACK);
+  } else {
+    if (value == RAD_DATA_MASK__NODATA) {
+      display_set_textcolor(DISPLAY_RED);
+    }  else if (value & RAD_DATA_MASK__ALERT) {
+      display_set_textcolor(DISPLAY_RED);
+    } else {
+      display_set_textcolor(DISPLAY_WHITE);
+    }
+  }
+
+  display_set_cursor(120, 5);
+  display_set_textsize(2);
+
+  if (value == RAD_DATA_MASK__NODATA) {
+    display_prints("ERR");
+  }  else if (value & RAD_DATA_MASK__ALERT) {
+    display_prints("ALERT");
+  } else {
+    display_prints("OK");
+  }
 }
 
 void ui_botders_display_uv(uint8_t value, bool hide) {
@@ -54,11 +91,11 @@ void ui_botders_display_uv(uint8_t value, bool hide) {
     }
   }
 
-  display_set_cursor(10, 2);
+  display_set_cursor(10, 5);
   display_set_textsize(2);
 
   if (value == UV_GEN_STATUS_IDLE) {
-    display_prints("I");
+    display_prints("IDLE");
   } else if (value & UV_GEN_STATUS_NOFB) {
     display_prints("NOFB");
   } else if (value == UV_GEN_STATUS_STOPPED) {

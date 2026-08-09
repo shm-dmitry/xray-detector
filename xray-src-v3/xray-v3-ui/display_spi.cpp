@@ -188,7 +188,7 @@ void display_spi_write_color(uint16_t color, uint32_t count) {
   uint8_t lo = color;
 
   uint16_t blocks = count / 250;
-  uint8_t remainder = count & 250;
+  uint8_t remainder = count % 250;
 
   while (blocks--) {
     display_spi_write_block_fast(hi, lo, 250);
@@ -228,9 +228,9 @@ void display_spi_write_pixel(uint16_t x, uint16_t y, uint16_t color) {
 
 void display_spi_draw_line(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t color) {
   if (x0 == x1) {
-    display_spi_fill_rect(x0, y0, 1, y1 - y0 + 1, color);
+    display_spi_fill_rect(x0, y0, 1, y1 - y0 , color);
   } else if (y0 == y1) {
-    display_spi_fill_rect(x0, y0, x1 - x0 + 1, 1, color);
+    display_spi_fill_rect(x0, y0, x1 - x0, 1, color);
   } else {
     display_spi_write_line(x0, y0, x1, y1, color);
   }

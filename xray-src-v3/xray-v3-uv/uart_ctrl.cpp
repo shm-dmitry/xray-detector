@@ -180,10 +180,12 @@ void uart_process_command() {
 
 #if DEBUG__PRINT_IMPL
 void uart_ctrl_print_impl(uint32_t sbt9, uint32_t sbm20) {
-  Serial.print("ONIMPL: sbt9 = ");
-  Serial.print(sbt9);
-  Serial.print("; sbm20 = ");
-  Serial.println(sbm20);
+  if (uart_ctrl_enabled) {
+    Serial.print("ONIMPL: sbt9 = ");
+    Serial.print(sbt9);
+    Serial.print("; sbm20 = ");
+    Serial.println(sbm20);
+  }
 }
 #endif
 

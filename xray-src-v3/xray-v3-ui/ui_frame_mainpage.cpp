@@ -7,9 +7,18 @@ uint32_t ui_frame_mainpage_last_value_sbt9;
 uint32_t ui_frame_mainpage_last_value_sbm20;
 uint8_t ui_frame_mainpage_decimals;
 bool ui_frame_mainpage_lasterror;
+bool ui_frame_mainpage_initialized;
 
 void ui_frame_mainpage_printrad(uint32_t value, bool sbt9, bool hide);
 void ui_frame_mainpage_printerr(bool sbt9, bool hide);
+
+void ui_frame_mainpage_init() {
+  ui_frame_mainpage_last_value_sbt9 = 0;
+  ui_frame_mainpage_last_value_sbm20 = 0;
+  ui_frame_mainpage_decimals = 0;
+  ui_frame_mainpage_lasterror = false;
+  ui_frame_mainpage_initialized = false;
+}
 
 void ui_frame_mainpage_refresh() {
   if (ui_frame_mainpage_decimals == 0 || ui_frame_mainpage_decimals == RAD_DATA_MASK__NODATA) {
@@ -31,18 +40,22 @@ void ui_frame_mainpage_refresh() {
         ui_frame_mainpage_last_value_sbt9 = sbt9;
         ui_frame_mainpage_last_value_sbm20 = sbm20;
       } else {
-        if (sbt9 != ui_frame_mainpage_last_value_sbt9) {
+        if (!ui_frame_mainpage_initialized || sbt9 != ui_frame_mainpage_last_value_sbt9) {
           ui_frame_mainpage_printrad(ui_frame_mainpage_last_value_sbt9, true, true);
           ui_frame_mainpage_printrad(sbt9, true, false);
 
           ui_frame_mainpage_last_value_sbt9 = sbt9;
         } 
         
-         if (sbm20 != ui_frame_mainpage_last_value_sbm20) {
+         if (!ui_frame_mainpage_initialized || sbm20 != ui_frame_mainpage_last_value_sbm20) {
           ui_frame_mainpage_printrad(ui_frame_mainpage_last_value_sbm20, false, true);
           ui_frame_mainpage_printrad(sbm20, false, false);
 
           ui_frame_mainpage_last_value_sbm20 = sbm20;
+        }
+
+        if (!ui_frame_mainpage_initialized) {
+          ui_frame_mainpage_initialized = true;
         }
       }
     } else {
@@ -67,12 +80,6 @@ void ui_frame_mainpage_refresh() {
   }
 }
 
-void ui_frame_mainpage_init() {
-  ui_frame_mainpage_last_value_sbt9 = 0;
-  ui_frame_mainpage_last_value_sbm20 = 0;
-  ui_frame_mainpage_decimals = 0;
-}
-
 void ui_frame_mainpage_printrad(uint32_t value, bool sbt9, bool hide) {
   if (ui_frame_mainpage_decimals == 0 || ui_frame_mainpage_decimals == RAD_DATA_MASK__NODATA) {
     return;
@@ -85,17 +92,23 @@ void ui_frame_mainpage_printrad(uint32_t value, bool sbt9, bool hide) {
   }
 
   if (sbt9) {
-    display_set_cursor(20, 100);
+    display_set_cursor(10, 100);
   } else {
-    display_set_cursor(220, 100);
+    display_set_cursor(10, 150);
   }
 
   display_set_textsize(3);
 
+  if (sbt9) {
+    display_prints("SBT9 : ");
+  } else {
+    display_prints("SBM20: ");
+  }
+
   display_print16(value / ui_frame_mainpage_decimals);
   display_prints(".");
   display_print8(value % ui_frame_mainpage_decimals);
-  display_prints(" uR/H");
+  display_prints(" uR/h");
 }
 
 void ui_frame_mainpage_printerr(bool sbt9, bool hide) {

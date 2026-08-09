@@ -8,8 +8,8 @@
 
 #define PWM_FREQ_VALUE 210U
 #define PWM_FREQ_MIN_DUTY 25
-#define PWM_FREQ_MAX_DUTY 30
-#define INCREASE_DUTY_PERIODS 200U
+#define PWM_FREQ_MAX_DUTY 38
+#define INCREASE_DUTY_PERIODS 100U
 #define FB_MAX_COUNTER_BEFORE_OK 5
 
 #define UV_CHARING_MS 150
@@ -18,7 +18,7 @@
 volatile uint8_t uv_gen_status = UV_GEN_STATUS_IDLE;
 volatile uint8_t uv_gen_fb_counter = 0;
 volatile uint8_t uv_fb_int_calls = 0;
-volatile uint8_t uv_charging_counter = 0;
+volatile uint16_t uv_charging_counter = 0;
 
 void isrcall__uv_gen_stop();
 void uv_gen_raw_start(uint8_t tostatus, uint8_t initialduty);
@@ -32,7 +32,11 @@ ISR(TCB0_INT_vect) {
         uv_gen_status = UV_GEN_STATUS_IDLE;
     }
   } else if (uv_gen_status == UV_GEN_STATUS_SEARCH_RUN || uv_gen_status == UV_GEN_STATUS_STARTING_CONTINUUS) {
-    TCB0.CTRLA = 0;  
+    TCB0.CTRLA = 0;
+
+    // decrease duty before stopping timer 
+    uint16_t v = TCA0.SPLIT.HCMP1 - 1;
+    TCA0.SPLIT.HCMP1 = v;
   } else {
     uint16_t next_duty = TCA0.SPLIT.HCMP1 + 1;
 
