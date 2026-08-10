@@ -78,7 +78,7 @@ void ui_botders_display_uv(uint8_t value, bool hide) {
   } else {
     if (value == UV_GEN_STATUS_IDLE) {
       display_set_textcolor(DISPLAY_GRAY);
-    } else if (value == UV_GEN_STATUS_NOFB || value == UV_GEN_STATUS_BAD_VOLTAGE) {
+    } else if (value & UV_GEN_STATUS_NOFB || value & UV_GEN_STATUS_BAD_VOLTAGE || value & UV_GEN_STATUS_NOTIMER) {
       display_set_textcolor(DISPLAY_RED);
     } else if (value == UV_GEN_STATUS_STOPPED) {
       display_set_textcolor(DISPLAY_RED);
@@ -96,9 +96,11 @@ void ui_botders_display_uv(uint8_t value, bool hide) {
 
   if (value == UV_GEN_STATUS_IDLE) {
     display_prints("IDLE");
-  } else if (value == UV_GEN_STATUS_NOFB) {
+  } else if (value & UV_GEN_STATUS_NOTIMER) {
+    display_prints("NOTIMER");
+  } else if (value & UV_GEN_STATUS_NOFB) {
     display_prints("NOFB");
-  } else if (value == UV_GEN_STATUS_BAD_VOLTAGE) {
+  } else if (value & UV_GEN_STATUS_BAD_VOLTAGE) {
     display_prints("BAD V");
   } else if (value == UV_GEN_STATUS_STOPPED) {
     display_prints("STOP");

@@ -28,6 +28,8 @@ typedef struct {
 #define UV_GEN_STATUS_BAD_VOLTAGE         0b00010000
 // bit5 = no feedback
 #define UV_GEN_STATUS_NOFB                0b00100000
+// bit6 = no timer
+#define UV_GEN_STATUS_NOTIMER             0b01000000
 
 void uv_gen_init();
 bool uv_gen_recharge(bool continuus);

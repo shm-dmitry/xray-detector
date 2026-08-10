@@ -240,4 +240,8 @@ void uv_get_getstatus(t_uv_status_struct * status) {
   status->fb_counter = uv_gen_fb_counter;
   status->charge_counter = uv_charging_counter;
   status->supply = uv_supply;
+
+  if (!timerctrl_is_alive()) {
+    status->status = status->status | UV_GEN_STATUS_NOTIMER;
+  }
 }

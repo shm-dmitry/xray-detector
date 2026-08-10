@@ -5,6 +5,7 @@
 #include "i2c_ctrl.h"
 #include "rad_data.h"
 #include "powersave.h"
+#include "geigerlog.h"
 
 void setup() {
   uv_gen_init();
@@ -20,6 +21,10 @@ void loop() {
   uart_ctrl_on_main_loop();
   i2c_ctrl_on_main_loop();
   rad_control_on_main_loop();
+
+#if GEIGERLOG_ENABLED
+  geigerlog_on_main_loop();
+#endif
 
   powersave_on_main_loop();
 }

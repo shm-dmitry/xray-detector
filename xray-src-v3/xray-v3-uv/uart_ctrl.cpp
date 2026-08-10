@@ -194,3 +194,21 @@ void uart_ctrl_print_impl(uint32_t sbt9, uint32_t sbm20) {
 }
 #endif
 
+void uart_ctrl_printn(int n) {
+  if (uart_ctrl_enabled) {
+    Serial.print(n);
+  }
+}
+
+void uart_ctrl_print(const char * s) {
+  if (uart_ctrl_enabled) {
+    Serial.print(s);
+  }
+}
+
+void uart_ctrl_println(const char * s) {
+  if (uart_ctrl_enabled) {
+    Serial.println(s);
+  }
+}
+
