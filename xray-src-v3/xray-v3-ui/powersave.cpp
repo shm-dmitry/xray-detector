@@ -8,6 +8,7 @@
 #include "rad_api.h"
 #include "ui_manager.h"
 #include "i2c_ctrl.h"
+#include "bat_state.h"
 
 #define POWERSAVE_ALLOW_SLEEP (false)
 
@@ -47,6 +48,10 @@ bool powersave_can_sleep() {
     return false;
   }
 
+  if (!bat_state_can_sleep()) {
+    return false;
+  }
+
   return POWERSAVE_ALLOW_SLEEP;
 }
 
@@ -54,12 +59,14 @@ void powersave_wakeup() {
   i2c_ctrl_on_wake_up();
   rad_api_wakeup();
   ui_manager_wakeup();
+  bat_state_on_wake_up();
 }
 
 void powersave_prepare_sleep() {
   i2c_ctrl_on_go_sleep();
   rad_api_go_sleep();
   ui_manager_go_sleep();
+  bat_state_on_go_sleep();
 }
 
 void powersave_execute_sleep() {

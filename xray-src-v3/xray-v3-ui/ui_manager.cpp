@@ -1,6 +1,8 @@
+#include "ui_manager.h"
+
 #include "ui_frame_mainpage.h"
 #include "ui_frame_borders.h"
-#include "ui_manager.h"
+#include "ui_frame_batstate.h"
 
 #include "display.h"
 #include "user_input.h"
@@ -11,6 +13,7 @@
 
 uint32_t ui_manager_next_refresh = 0;
 bool ui_manager_active = false;
+uint8_t current_page = 0;
 
 void ui_manager_init() {
   display_init();
@@ -21,10 +24,27 @@ void ui_manager_on_main_loop() {
     return;
   }
 
+  bool pressed = user_input_pressed();
+  if (pressed) {
+    ui_manager_next_refresh = 0;
+    ui_frame_mainpage_init();
+    ui_frame_batstate_init();
+    ui_borders_cleanup_working_area();
+
+    current_page++;
+    if (current_page > 1) {
+      current_page = 0;
+    }
+  }
+
   uint32_t now = millis();
   if (now > ui_manager_next_refresh || ui_manager_next_refresh - now > UI_MANAGER_REFRESH_DELAY) {
     ui_borders_refresh();
-    ui_frame_mainpage_refresh();
+    if (current_page == 0) {
+      ui_frame_mainpage_refresh();
+    } else {
+      ui_frame_batstate_refresh();
+    }
 
     ui_manager_next_refresh = now + UI_MANAGER_REFRESH_DELAY;
   }
@@ -36,6 +56,7 @@ void ui_manager_wakeup() {
 
   ui_borders_init();
   ui_frame_mainpage_init();
+  ui_frame_batstate_init();
 
   ui_manager_next_refresh = 0;
   ui_manager_active = true;

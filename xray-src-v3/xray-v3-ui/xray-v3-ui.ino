@@ -11,11 +11,7 @@
 #include "ui_manager.h"
 
 void setup() {
-  delay(100);
-
-  while (!ext_clock_ctrl_init()) {
-    delay(100);
-  }
+  ext_clock_ctrl_init();
 
   ui_manager_init();
   rad_api_init();
@@ -26,6 +22,7 @@ void setup() {
 
 void loop() {
   uart_ctrl_on_main_loop();
+  bat_state_on_main_loop();
   ui_manager_on_main_loop();
 
   powersave_on_main_loop();

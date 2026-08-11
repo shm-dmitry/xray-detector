@@ -1,3 +1,3 @@
 #pragma once
 
-bool ext_clock_ctrl_init();
+void ext_clock_ctrl_init();

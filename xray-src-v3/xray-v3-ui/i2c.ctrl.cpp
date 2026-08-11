@@ -52,12 +52,18 @@ bool i2c_ctrl_read_buffer(uint8_t address, uint8_t reg, uint8_t * buffer, uint8_
   }
 }
 
-
 void i2c_ctrl_write_byte(uint8_t address, uint8_t reg, uint8_t value) {
   uint8_t buffer[2] = {reg, value};
 
   Wire.beginTransmission(address);
   Wire.write(buffer, 2);
+  Wire.endTransmission();
+}
+
+void i2c_ctrl_write_buffer(uint8_t address, uint8_t reg, const uint8_t * buffer, uint8_t len) {
+  Wire.beginTransmission(address);
+  Wire.write(reg);
+  Wire.write(buffer, len);
   Wire.endTransmission();
 }
 

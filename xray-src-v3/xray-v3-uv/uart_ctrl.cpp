@@ -6,6 +6,7 @@
 #include "uv_gen.h"
 #include "rad_data.h"
 #include "rad_control.h"
+#include "geigerlog.h"
 
 #define MAX_COMMAND_LENGTH 32
 
@@ -136,8 +137,11 @@ void uart_process_command() {
     } 
 #if NRAD_COMMAND_ACTIVE
     else if (strncmp(uart_buffer, "nrad", 4) == 0) {
-      bool reset = strcmp(uart_buffer, "reset") > 0;
-
+      bool reset = false;
+      if (strcmp(uart_buffer, "nrad reset") == 0) {
+        reset = true;
+      }
+      
       uint32_t sbt9 = 0;
       uint32_t sbm20 = 0;
 
@@ -150,6 +154,18 @@ void uart_process_command() {
       Serial.println(sbm20);
     }
 #endif
+    else if (strcmp(uart_buffer, "cpm") == 0) {
+      uint32_t sbt9 = 0;
+      uint32_t sbm20 = 0;
+
+      rad_data_getcpm(&sbt9, &sbm20);
+
+      Serial.print(F("SBT9: "));
+      Serial.println(sbt9);
+
+      Serial.print(F("SBM20: "));
+      Serial.println(sbm20);
+    }
     else if (strcmp(uart_buffer, "rad") == 0) {
         uint32_t sbt9 = 0;
         uint32_t sbm20 = 0;
@@ -181,6 +197,16 @@ void uart_process_command() {
       rad_data_alertcontrol(true);
       Serial.println("Alerts enabled");
     }
+#if GEIGERLOG_ENABLED
+    else if (strcmp(uart_buffer, "ggl off") == 0) {
+      geigerlog_enable(false);
+      Serial.println("GeiGerLog disabled");
+    }
+    else if (strcmp(uart_buffer, "ggl on") == 0) {
+      geigerlog_enable(true);
+      Serial.println("GeiGerLog enabled");
+    }
+#endif
 }
 
 #if DEBUG__PRINT_IMPL

@@ -4,7 +4,7 @@
 
 #define USER_INPUT_SLEEP_DELAY (20*1000L)
 
-volatile boolean user_input_button_pressed = false;
+volatile bool user_input_button_pressed = false;
 volatile uint32_t user_input_next_allow_sleep = 0; 
 
 void isrcall__on_user_input();
@@ -23,4 +23,10 @@ void isrcall__on_user_input() {
 
 bool user_input_can_sleep() {
   return user_input_next_allow_sleep > millis();
+}
+
+bool user_input_pressed() {
+  bool v = user_input_button_pressed;
+  user_input_button_pressed = false;
+  return v;
 }

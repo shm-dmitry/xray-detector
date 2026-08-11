@@ -1,51 +1,59 @@
+#include "rad_data.h"
+
 #include "Arduino.h"
 
-#include "rad_data.h"
 #include "rad_control.h"
 #include "string.h"
 
-typedef struct rad_data_struct_t {
-  uint32_t prev_end_period_counter;
-  uint32_t half_period_counter;
-  uint32_t total_counter;
-
-  uint8_t prev_end_period_seconds;
-  uint8_t half_period_seconds;
-  uint8_t total_seconds;
-} rad_data_struct_t;
+typedef struct rad_data_cpm_t {
+  volatile uint32_t * buffer;
+  uint8_t buffer_size;
+  uint8_t buffer_index;
+} rad_data_cpm_t;
 
 #define RAD_HISTORY_BUFFER_SIZE (20)
 #define RAD_HISTORY_BUFFER_ELEMENT_SECONDS (30)
 #define RAD_HISTORY_HALF_BUFFER_ELEMENT_SECONDS (30/2)
 #define RAD_HISTORY_FIXED_POINT (10)
 
-#define SBT9_MIN_COUNTER_TO_CALC (1)
-#define SBM20_MIN_COUNTER_TO_CALC (5)
+#define RAD_BUFFER_SECONDS (5)
+
+#define SBT9_ACCUMULATED_COUNTER_TO_CALC (30)
+#define SBM20_ACCUMULATED_COUNTER_TO_CALC (40)
+
+#define SBT9_BUFFER_SIZE (2 * 60 / RAD_BUFFER_SECONDS)
+#define SBT9_MIN_COUNTER_TO_CALC (5)
+#define SBM20_BUFFER_SIZE (1 * 60 / RAD_BUFFER_SECONDS)
+#define SBM20_MIN_COUNTER_TO_CALC (10)
 #define SBM20_TUBES_COUNT (2)
-#define SBM20_PULSES_PER_MR (29 * SBM20_TUBES_COUNT)
-#define SBT9_PULSES_PER_MR (15)
 
-#define RAD_CALC(counter, seconds, pmr) (((uint32_t)1000 * (counter) * RAD_HISTORY_FIXED_POINT) / ((seconds) * (pmr)))
+// 105 & 200 - from datasheet
+#define SBM20_PULSES_PER_UR (105 * SBM20_TUBES_COUNT)
+#define SBT9_PULSES_PER_UR (200)
 
-#define MAX_COUNTER_VALUE (0xFFFFFFFF / 1000 / RAD_HISTORY_FIXED_POINT)
+// TODO: потом проверить формулу
+#define RAD_CALC(counter, seconds, pur) (((counter) * 3600 * RAD_HISTORY_FIXED_POINT) / ((pur) * (seconds)))
+
+#define MAX_COUNTER_VALUE (0xFFFFFFFF / 3600 / RAD_HISTORY_FIXED_POINT)
 #define RAD_HISTORY_ALLERT      (500 * RAD_HISTORY_FIXED_POINT)
 
 uint32_t rad_history_sbm20[RAD_HISTORY_BUFFER_SIZE];
 uint32_t rad_history_sbt9[RAD_HISTORY_BUFFER_SIZE];
 
 volatile uint8_t rad_data_seconds = 0;
+volatile uint8_t rad_buffer_seconds = 0;
 volatile bool rad_data_alert = false;
 bool rad_data_alert_enabled = true;
 
-volatile rad_data_struct_t rad_data_sbt9;
-volatile rad_data_struct_t rad_data_sbm20;
+volatile rad_data_cpm_t rad_data_sbt9;
+volatile rad_data_cpm_t rad_data_sbm20;
 volatile bool rad_data_updated = false;
 volatile bool rad_data_reset_period = false;
 volatile bool rad_data_initialized = false;
 volatile uint8_t rad_data_mask = 0;
 
-void isrcall__rad_data_recalc(uint32_t value, volatile rad_data_struct_t * data, bool reset);
-bool recalculate_buffer(const rad_data_struct_t * data, uint32_t* buffer, uint8_t pmr, uint8_t min_counter);
+void isrcall__rad_data_recalc(uint32_t value, volatile rad_data_cpm_t * data, bool reset);
+bool rad_data_recalculate_buffer(uint32_t accumulated, uint8_t seconds, uint32_t* buffer, uint8_t pmr, uint32_t min_counter);
 
 void rad_data_init() {
   pinMode(PIN_PB4, OUTPUT);
@@ -53,17 +61,24 @@ void rad_data_init() {
 
   memset(rad_history_sbm20, 0, sizeof(uint32_t) * RAD_HISTORY_BUFFER_SIZE);
   memset(rad_history_sbt9, 0, sizeof(uint32_t) * RAD_HISTORY_BUFFER_SIZE);
-  memset((void *)&rad_data_sbt9, 0, sizeof(rad_data_struct_t));
-  memset((void *)&rad_data_sbm20, 0, sizeof(rad_data_struct_t));
+
+  rad_data_sbt9.buffer = (uint32_t *) malloc(SBT9_BUFFER_SIZE * sizeof(uint32_t));
+  rad_data_sbt9.buffer_size = SBT9_BUFFER_SIZE;
+  rad_data_sbt9.buffer_index = 0;
+
+  rad_data_sbm20.buffer = (uint32_t *) malloc(SBM20_BUFFER_SIZE * sizeof(uint32_t));
+  rad_data_sbm20.buffer_size = SBM20_BUFFER_SIZE;
+  rad_data_sbm20.buffer_index = 0;
 }
 
 void isrcall__rad_data_on_one_second() {
   rad_data_seconds++;
+  rad_buffer_seconds++;
 
   uint32_t sbt9 = 0;
   uint32_t sbm20 = 0;
 
-  bool reset = rad_data_seconds >= RAD_HISTORY_BUFFER_ELEMENT_SECONDS;
+  bool reset = rad_buffer_seconds > RAD_BUFFER_SECONDS;
 
   isrcall__rad_control_get_data(&sbt9, &sbm20, reset);
 
@@ -71,25 +86,25 @@ void isrcall__rad_data_on_one_second() {
   isrcall__rad_data_recalc(sbm20, &rad_data_sbm20, reset);
 
   rad_data_updated = true;
-  rad_data_reset_period = rad_data_reset_period || reset;
+  if (rad_data_seconds >= RAD_HISTORY_BUFFER_ELEMENT_SECONDS) {
+    rad_data_reset_period = true;
+    rad_data_seconds = 0;
+  }
 
   if (reset) {
-    rad_data_seconds = 0;
+    rad_buffer_seconds = 0;
   }
 }
 
-void isrcall__rad_data_recalc(uint32_t value, volatile rad_data_struct_t * data, bool reset) {
-  data->total_seconds = rad_data_seconds;
-  data->total_counter = value;
-  if (rad_data_seconds <= RAD_HISTORY_HALF_BUFFER_ELEMENT_SECONDS) {
-    data->half_period_counter = value;
-    data->half_period_seconds = rad_data_seconds;
+void isrcall__rad_data_recalc(uint32_t value, volatile rad_data_cpm_t * data, bool reset) {
+  if (reset) {
+    data->buffer_index++;
+    if (data->buffer_index >= data->buffer_size) {
+      data->buffer_index = 0;
+    }
   }
 
-  if (reset) {
-    data->prev_end_period_counter = data->total_counter - data->half_period_counter;
-    data->prev_end_period_seconds = data->total_seconds - data->half_period_seconds;
-  }
+  data->buffer[data->buffer_index] = value;
 }
 
 uint8_t isrcall__rad_data_get_mask() {
@@ -104,14 +119,59 @@ void isrcall__rad_data_set_mask(uint8_t mask) {
   rad_data_mask = mask & RAD_DATA_MASK;
 }
 
+void isrcall__rad_data_extract_counter(volatile rad_data_cpm_t * data, uint32_t * counter, uint8_t * seconds, uint32_t limitcounter) {
+  if (data->buffer[data->buffer_index] > 0) {
+    *counter = data->buffer[data->buffer_index];
+    *seconds = rad_data_seconds;
+  }
+
+
+  if (*counter >= MAX_COUNTER_VALUE) {
+    *counter = MAX_COUNTER_VALUE;
+    return;
+  }
+
+  if (data->buffer_index > 0) {
+    for (int8_t i = data->buffer_index - 1; i>=0; i--) {
+      *counter += data->buffer[i];
+      *seconds += RAD_BUFFER_SECONDS;
+
+      if (*counter >= MAX_COUNTER_VALUE) {
+        *counter = MAX_COUNTER_VALUE;
+        return;
+      }
+
+      if (*counter >= limitcounter) {
+        return;
+      }
+    }
+  }
+
+  for (int8_t i = data->buffer_size - 1; i > data->buffer_index; i--) {
+    *counter += data->buffer[i];
+    *seconds += RAD_BUFFER_SECONDS;
+
+    if (*counter >= MAX_COUNTER_VALUE) {
+      *counter = MAX_COUNTER_VALUE;
+      return;
+    }
+
+    if (*counter >= limitcounter) {
+      return;
+    }
+  }
+}
+
 void rad_data_on_main_loop() {
   if (rad_data_updated) {
-    rad_data_struct_t sbt9;
-    rad_data_struct_t sbm20;
+    uint32_t sbt9counter = 0;
+    uint8_t sbt9seconds = 0;
+    uint32_t sbm20counter = 0;
+    uint8_t sbm20seconds = 0;
 
     noInterrupts();
-    memcpy(&sbt9, (const void *)&rad_data_sbt9, sizeof(rad_data_struct_t));
-    memcpy(&sbm20, (const void *)&rad_data_sbm20, sizeof(rad_data_struct_t));
+    isrcall__rad_data_extract_counter(&rad_data_sbt9, &sbt9counter, &sbt9seconds, SBT9_ACCUMULATED_COUNTER_TO_CALC);
+    isrcall__rad_data_extract_counter(&rad_data_sbm20, &sbm20counter, &sbm20seconds, SBM20_ACCUMULATED_COUNTER_TO_CALC);
 
     bool reset_period = rad_data_reset_period;
 
@@ -119,8 +179,8 @@ void rad_data_on_main_loop() {
     rad_data_reset_period = false;
     interrupts();
 
-    bool sbt9_updated = recalculate_buffer(&sbt9, rad_history_sbt9, SBT9_PULSES_PER_MR, SBT9_MIN_COUNTER_TO_CALC);
-    bool sbm20_updated = recalculate_buffer(&sbm20, rad_history_sbm20, SBM20_PULSES_PER_MR, SBM20_MIN_COUNTER_TO_CALC);
+    bool sbt9_updated = rad_data_recalculate_buffer(sbt9counter, sbt9seconds, rad_history_sbt9, SBT9_PULSES_PER_UR, SBT9_MIN_COUNTER_TO_CALC);
+    bool sbm20_updated = rad_data_recalculate_buffer(sbm20counter, sbm20seconds, rad_history_sbm20, SBM20_PULSES_PER_UR, SBM20_MIN_COUNTER_TO_CALC);
 
     bool wasAlert = rad_data_alert;
     if (rad_data_alert_enabled) {
@@ -162,16 +222,16 @@ void rad_data_on_main_loop() {
   }
 }
 
-bool recalculate_buffer(const rad_data_struct_t * data, uint32_t* buffer, uint8_t pmr, uint8_t min_counter) {
+bool rad_data_recalculate_buffer(uint32_t accumulated, uint8_t seconds, uint32_t* buffer, uint8_t pmr, uint32_t min_counter) {
   bool success = true;
-  if (data->total_counter > MAX_COUNTER_VALUE) {
+  if (accumulated > MAX_COUNTER_VALUE) {
     buffer[0] = 0xFFFFFFFF;
-  } else if (data->total_counter > min_counter) {
-    buffer[0] = RAD_CALC(data->total_counter, data->total_seconds, pmr);
-  } else if (data->prev_end_period_counter > MAX_COUNTER_VALUE) {
-    buffer[0] = 0xFFFFFFFF;
-  } else if (data->prev_end_period_counter + data->total_counter > min_counter && data->prev_end_period_seconds + data->total_seconds > 0) {
-    buffer[0] = RAD_CALC(data->prev_end_period_counter + data->total_counter, data->prev_end_period_seconds + data->total_seconds, pmr);
+  } else if (accumulated >= min_counter) {
+    if (seconds > 0) {
+      buffer[0] = RAD_CALC(accumulated, seconds, pmr);
+    } else {
+      buffer[0] = 0;
+    }
   } else if (rad_data_initialized) {
     buffer[0] = 0;
   } else {
@@ -220,5 +280,54 @@ bool isrcall__rad_data_allow_sleep() {
 
 void rad_data_alertcontrol(bool enabled) {
   rad_data_alert_enabled = enabled;
+}
+
+void isrcall__calculate_cpm(volatile rad_data_cpm_t * data, uint32_t * counter) {
+  uint8_t seconds = 0;
+
+  noInterrupts();
+  *counter = data->buffer[data->buffer_index];
+  seconds = rad_buffer_seconds;
+
+  if (*counter >= MAX_COUNTER_VALUE) {
+    *counter = 0xFFFFFFFF;
+    return;
+  }
+
+  if (data->buffer_index > 0) {
+    for (int8_t i = data->buffer_index - 1; i >= 0; i--) {
+      *counter += data->buffer[i];
+      seconds += RAD_BUFFER_SECONDS;
+
+      if (*counter >= MAX_COUNTER_VALUE) {
+        *counter = 0xFFFFFFFF;
+        return;
+      }
+
+      if (seconds >= 60) {
+        return;
+      }
+    }
+  }
+
+  for (int8_t i = data->buffer_size - 1; i> data->buffer_index; i--) {
+    *counter += data->buffer[i];
+    seconds += RAD_BUFFER_SECONDS;
+
+    if (*counter >= MAX_COUNTER_VALUE) {
+      *counter = 0xFFFFFFFF;
+      return;
+    }
+
+    if (seconds >= 60) {
+      return;
+    }
+  }
+  interrupts();
+}
+
+void rad_data_getcpm(uint32_t * sbt9, uint32_t * sbm20) {
+  isrcall__calculate_cpm(&rad_data_sbt9, sbt9);
+  isrcall__calculate_cpm(&rad_data_sbm20, sbm20);
 }
 

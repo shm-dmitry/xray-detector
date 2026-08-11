@@ -20,6 +20,10 @@ void ui_borders_init() {
   ui_borders_initialized = false;
 }
 
+void ui_borders_cleanup_working_area() {
+  display_fill_rect(BORDER_X, BORDER_H + 1, BORDER_W, DISPLAY_HEIGHT - 1, DISPLAY_BLACK);
+}
+
 void ui_borders_refresh() {
   if (!ui_borders_initialized) {
     display_draw_line(BORDER_X, BORDER_H, BORDER_W, BORDER_H, DISPLAY_GREEN);
