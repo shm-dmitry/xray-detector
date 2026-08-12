@@ -3,6 +3,7 @@
 #include "display.h"
 
 #include "rad_api.h"
+#include "bat_state.h"
 
 #define BORDER_X (0)
 #define BORDER_Y (0)
@@ -12,9 +13,11 @@
 bool ui_borders_initialized = false;
 uint8_t ui_borders_uvstatus = UV_GEN_STATUS_ERROR;
 uint8_t ui_borders_radstatus = UV_GEN_STATUS_ERROR;
+uint8_t ui_borders_batpc = 0;
 
 void ui_botders_display_uv(uint8_t value, bool hide);
 void ui_botders_display_rad(uint8_t value, bool hide);
+void ui_botders_display_bat(uint8_t value, bool hide);
 
 void ui_borders_init() {
   ui_borders_initialized = false;
@@ -44,6 +47,14 @@ void ui_borders_refresh() {
     ui_botders_display_rad(status, false);
 
     ui_borders_radstatus = status;
+  }
+
+  status = bat_state_get_percent();
+  if (!ui_borders_initialized || status != ui_borders_batpc) {
+    ui_botders_display_bat(ui_borders_batpc, true);
+    ui_botders_display_bat(status, false);
+
+    ui_borders_batpc = status;
   }
 
   if (!ui_borders_initialized) {
@@ -117,4 +128,36 @@ void ui_botders_display_uv(uint8_t value, bool hide) {
     display_prints(" ??");
   }
 }
+
+void ui_botders_display_bat(uint8_t value, bool hide) {
+  uint16_t color;
+  if (hide) {
+    color = DISPLAY_BLACK;
+  } else if (value < 20) {
+    color = DISPLAY_RED;
+  } else if (value < 50) {
+    color = DISPLAY_YELLOW;
+  } else {
+    color = DISPLAY_GREEN;
+  }
+
+  if (value > 100) {
+    value = 100;
+  }
+
+  uint16_t filled = value / 4;
+  uint16_t max = 100 / 4;
+  display_fill_rect(220, 5, filled, 15, color);
+  if (filled < max) {
+    display_draw_rect(220+filled, 5, max-filled, 15, color);
+  }
+  display_fill_rect(220+max, 8, 5, 9, color);
+
+  display_set_cursor(220+max+5+20, 5);
+  display_set_textsize(2);
+  display_set_textcolor(color);
+  display_print8(value);
+  display_prints("%");
+}
+
 

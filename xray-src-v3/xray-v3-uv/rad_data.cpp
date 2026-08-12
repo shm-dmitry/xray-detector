@@ -63,10 +63,12 @@ void rad_data_init() {
   memset(rad_history_sbt9, 0, sizeof(uint32_t) * RAD_HISTORY_BUFFER_SIZE);
 
   rad_data_sbt9.buffer = (uint32_t *) malloc(SBT9_BUFFER_SIZE * sizeof(uint32_t));
+  memset((void *)rad_data_sbt9.buffer, 0, SBT9_BUFFER_SIZE * sizeof(uint32_t));
   rad_data_sbt9.buffer_size = SBT9_BUFFER_SIZE;
   rad_data_sbt9.buffer_index = 0;
 
   rad_data_sbm20.buffer = (uint32_t *) malloc(SBM20_BUFFER_SIZE * sizeof(uint32_t));
+  memset((void *)rad_data_sbm20.buffer, 0, SBM20_BUFFER_SIZE * sizeof(uint32_t));
   rad_data_sbm20.buffer_size = SBM20_BUFFER_SIZE;
   rad_data_sbm20.buffer_index = 0;
 }

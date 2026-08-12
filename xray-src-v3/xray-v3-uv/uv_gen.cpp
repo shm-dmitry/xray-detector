@@ -204,7 +204,13 @@ void uv_gen_start() {
 }
 
 uint8_t isrcall__uv_get_getstatus() {
-  return uv_gen_status;
+  uint8_t status = uv_gen_status;
+
+  if (!isrcall__timerctrl_is_alive()) {
+    status |= UV_GEN_STATUS_NOTIMER;
+  }
+
+  return status;
 }
 
 void uv_detect_current_supply() {
@@ -241,7 +247,7 @@ void uv_get_getstatus(t_uv_status_struct * status) {
   status->charge_counter = uv_charging_counter;
   status->supply = uv_supply;
 
-  if (!timerctrl_is_alive()) {
+  if (!isrcall__timerctrl_is_alive()) {
     status->status = status->status | UV_GEN_STATUS_NOTIMER;
   }
 }

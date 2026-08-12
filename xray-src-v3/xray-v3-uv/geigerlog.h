@@ -1,6 +1,6 @@
 #pragma once
 
-#define GEIGERLOG_ENABLED true
+#define GEIGERLOG_ENABLED false
 
 #if GEIGERLOG_ENABLED
 void geigerlog_on_main_loop();

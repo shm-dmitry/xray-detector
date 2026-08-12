@@ -16,13 +16,9 @@ bool ext_clock_test_eebusy_cleared();
 
 void ext_clock_ctrl_init() {
   i2c_ctrl_on_wake_up();
+  Serial.begin(9600);
 
-  uint32_t timeout = millis() + DEFAULT_INIT_TIMEOUT;
   while (!ext_clock_test_eebusy_cleared()) {
-    if (millis() > timeout) {
-      return;
-    }
-
     delay(10);
   }
 
@@ -36,6 +32,7 @@ void ext_clock_ctrl_init() {
   // control1 - enable TRPT + TE + TD=10
   i2c_ctrl_write_byte(RV_3028_C7_I2C_ADDR, RV_3028_C7_ADDR__CONTROL1, 0b10000110);
 
+  Serial.end();
   i2c_ctrl_on_go_sleep();
 }
 
@@ -45,5 +42,13 @@ bool ext_clock_test_eebusy_cleared() {
     return false;
   }
 
-  return (res & 0b10000000) > 0;
+  // test EEbusy
+  if ((res & 0b10000000) == 0) {
+    // ok, device ready.
+    // reset PORF, set UF and continue
+    i2c_ctrl_write_byte(RV_3028_C7_I2C_ADDR, RV_3028_C7_ADDR__STATUS, 0b00010000);
+    return true;
+  }
+
+  return false;
 }

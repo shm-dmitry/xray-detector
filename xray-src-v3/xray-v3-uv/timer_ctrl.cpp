@@ -24,6 +24,6 @@ void timerctrl_init() {
   attachInterrupt(digitalPinToInterrupt(PIN_PA1), isrcall__on_timer, FALLING);
 }
 
-bool timerctrl_is_alive() {
+bool isrcall__timerctrl_is_alive() {
   return timerctrl_alive;
 }

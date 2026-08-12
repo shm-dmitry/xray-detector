@@ -99,7 +99,7 @@ void rad_control_on_main_loop() {
   bool startGen = false;
 
   noInterrupts();
-  if (timerctrl_is_alive() && radcontrol_accumulated_drop >= RADCONTROL_VOLTAGE_DROP_THRESHOLD_MV) {
+  if (isrcall__timerctrl_is_alive() && radcontrol_accumulated_drop >= RADCONTROL_VOLTAGE_DROP_THRESHOLD_MV) {
     radcontrol_accumulated_drop = 0;
     startGen = true;
   }
