@@ -15,7 +15,6 @@
 #define I2C_REGISTER__RAD_LASTS_VALUE    (0x10)
 #define I2C_REGISTER__SBT9_DATA_BEGIN    (0x30)
 #define I2C_REGISTER__SBM20_DATA_BEGIN   (0x60)
-#define I2C_REGISTER__MAX_DATA_BEGIN     (0xA0)
 
 #define I2C_DATA_ONE_PORTION (5)
 
@@ -34,7 +33,6 @@ void isrcall__i2c_send_decimals();
 void isrcall__i2c_send_last_value();
 void isrcall__i2c_send_buffer_size();
 void isrcall__i2c_send_data(bool sbt9, uint8_t addr);
-void isrcall__i2c_send_max_data(uint8_t addr);
 
 void i2c_ctrl_init() {
   pinMode(PIN_PA5, INPUT);
@@ -103,10 +101,8 @@ void isrcall__i2c_onrequest() {
     isrcall__i2c_send_last_value();
   } else if (i2c_ctrl_request_register >= I2C_REGISTER__SBT9_DATA_BEGIN && i2c_ctrl_request_register < I2C_REGISTER__SBM20_DATA_BEGIN) {
     isrcall__i2c_send_data(true, i2c_ctrl_request_register - I2C_REGISTER__SBT9_DATA_BEGIN);
-  } else if (i2c_ctrl_request_register >= I2C_REGISTER__SBM20_DATA_BEGIN && i2c_ctrl_request_register < I2C_REGISTER__MAX_DATA_BEGIN) {
+  } else if (i2c_ctrl_request_register >= I2C_REGISTER__SBM20_DATA_BEGIN) {
     isrcall__i2c_send_data(false, i2c_ctrl_request_register - I2C_REGISTER__SBM20_DATA_BEGIN);
-  } else if (i2c_ctrl_request_register >= I2C_REGISTER__MAX_DATA_BEGIN) {
-    isrcall__i2c_send_max_data(i2c_ctrl_request_register - I2C_REGISTER__MAX_DATA_BEGIN);
   }
 }
 
@@ -150,21 +146,6 @@ void isrcall__i2c_send_data(bool sbt9, uint8_t addr) {
   if (size > 0 && buffer != NULL) {
     const uint8_t* data_ptr = (const uint8_t*)(const void*)buffer;
     Wire.write(data_ptr, size * sizeof(uint32_t));
-  }
-}
-
-void isrcall__i2c_send_max_data(uint8_t addr) {
-  uint32_t * bufferA = NULL;
-  uint8_t sizeA = isrcall__rad_data_buffer_pointer(true, addr, I2C_DATA_ONE_PORTION, &bufferA);
-  uint32_t * bufferB = NULL;
-  uint8_t sizeB = isrcall__rad_data_buffer_pointer(false, addr, I2C_DATA_ONE_PORTION, &bufferB);
-
-  if (sizeA == sizeB && sizeA > 0) {
-    uint32_t temp_buffer[I2C_DATA_ONE_PORTION];
-    for (uint8_t i = 0; i < sizeA; i++) {
-      temp_buffer[i] = (bufferA[i] > bufferB[i]) ? bufferA[i] : bufferB[i];
-    }
-    Wire.write((const uint8_t*)temp_buffer, sizeA * sizeof(uint32_t));
   }
 }
 

@@ -31,7 +31,7 @@ void ui_manager_on_main_loop() {
     ui_manager_next_refresh = 0;
 
     current_page++;
-    if (current_page > 3) {
+    if (current_page > 2) {
       current_page = 0;
     }
 
@@ -45,7 +45,7 @@ void ui_manager_on_main_loop() {
   uint32_t now = millis();
   if (now > ui_manager_next_refresh || ui_manager_next_refresh - now > UI_MANAGER_REFRESH_DELAY) {
     ui_borders_refresh();
-    if (current_page < 3) {
+    if (current_page < 2) {
       ui_frame_mainpage_refresh();
     } else {
       ui_frame_batstate_refresh();
@@ -74,13 +74,10 @@ void ui_manager_go_sleep() {
 
 bool ui_manager_init_radpage() {
   if (current_page == 0) {
-    ui_frame_mainpage_init_maxrad();
+    ui_frame_mainpage_init_gamma();
     return true;
   } else if (current_page == 1) {
-    ui_frame_mainpage_init_sbt9();
-    return true;
-  } else if (current_page == 2) {
-    ui_frame_mainpage_init_sbtm20();
+    ui_frame_mainpage_init_betta();
     return true;
   }
 

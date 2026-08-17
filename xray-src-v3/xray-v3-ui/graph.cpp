@@ -21,25 +21,25 @@ uint8_t graph_history_buffer[RAD_BUFFER_MAX_SIZE]      = { 0 };
 uint8_t graph_history_prev_buffer[RAD_BUFFER_MAX_SIZE] = { 0 };
 uint32_t graph_history_maxvalue;
 uint32_t graph_history_prev_maxvalue;
-uint8_t graph_buffer_type;
+uint8_t graph_sbt9;
 
 void graph_draw_one_column(uint8_t xbase, uint8_t ybase, uint8_t colwidth, uint8_t index, int8_t height, uint16_t color);
 void graph_correct_maxvalue(uint32_t & maxvalue);
 uint8_t graph_dose2level(uint32_t dose);
 
-void graph_init(uint8_t buffer_type) {
-  graph_buffer_type = buffer_type;
+void graph_init(bool sbt9) {
+  graph_sbt9 = sbt9;
   graph_reset();
 }
 
-uint8_t graph_get_type() {
-  return graph_buffer_type;
+bool graph_is_sbt9() {
+  return graph_sbt9;
 }
 
 void graph_refresh_from_history() {
   uint32_t buffer[RAD_BUFFER_MAX_SIZE];
   memset(buffer, 0xAB, RAD_BUFFER_MAX_SIZE);
-  if (!rad_api_read_buffer(graph_buffer_type, buffer, RAD_BUFFER_MAX_SIZE)) {
+  if (!rad_api_read_buffer(graph_sbt9, buffer, RAD_BUFFER_MAX_SIZE)) {
     //uart_ctrl_prints("Bad refresh ");
     return;
   }

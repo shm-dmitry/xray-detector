@@ -12,7 +12,6 @@
 #define I2C_REGISTER__RAD_LASTS_VALUE    (0x10)
 #define I2C_REGISTER__SBT9_DATA_BEGIN    (0x30)
 #define I2C_REGISTER__SBM20_DATA_BEGIN   (0x60)
-#define I2C_REGISTER__MAX_DATA_BEGIN     (0xA0)
 
 #define RAD_API_READ_BUFFER_PART         (5)
 
@@ -84,17 +83,8 @@ uint8_t rad_api_get_buffer_size() {
   }
 }
 
-bool rad_api_read_buffer(uint8_t buffer_type, uint32_t * buffer, uint8_t size) {
-  uint8_t base_reg;
-  if (buffer_type == RAD_BUFFER_TYPE__MAX) {
-    base_reg = I2C_REGISTER__MAX_DATA_BEGIN;
-  } else if (buffer_type == RAD_BUFFER_TYPE__SBT9) {
-    base_reg = I2C_REGISTER__SBT9_DATA_BEGIN;
-  } else if (buffer_type == RAD_BUFFER_TYPE__SBM20) {
-    base_reg = I2C_REGISTER__SBM20_DATA_BEGIN;
-  } else {
-    return false;
-  }
+bool rad_api_read_buffer(bool sbt9, uint32_t * buffer, uint8_t size) {
+  uint8_t base_reg  = sbt9 ? I2C_REGISTER__SBT9_DATA_BEGIN : I2C_REGISTER__SBM20_DATA_BEGIN;
 
   for (uint8_t i = 0; i < size; i += RAD_API_READ_BUFFER_PART) {
     uint8_t reg = base_reg + i;

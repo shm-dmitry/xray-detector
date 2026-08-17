@@ -32,9 +32,6 @@
 
 #define UV_GEN_STATUS_ERROR               0b11111111
 
-#define RAD_BUFFER_TYPE__MAX              (0)
-#define RAD_BUFFER_TYPE__SBT9             (1)
-#define RAD_BUFFER_TYPE__SBM20            (2)
 #define RAD_BUFFER_MAX_SIZE               (20)
 
 void rad_api_init();
@@ -49,4 +46,4 @@ uint8_t rad_api_get_decimals();
 uint8_t rad_api_get_buffer_size();
 
 bool rad_api_get_current(uint32_t * sbt9, uint32_t * stm20);
-bool rad_api_read_buffer(uint8_t buffer_type, uint32_t * buffer, uint8_t size);
+bool rad_api_read_buffer(bool sbt9, uint32_t * buffer, uint8_t size);
