@@ -6,16 +6,18 @@
 #include "uv_gen.h"
 #include "rad_data.h"
 
-#define I2C_DATA_ONE_PORTION 4
-
 #define I2C_SLAVE_ADDRESS    (0x12)
 
 #define I2C_REGISTER__UV_STATUS          (0x01)
 #define I2C_REGISTER__RAD_STATUS         (0x02)
 #define I2C_REGISTER__RAD_DECIMALS       (0x03)
+#define I2C_REGISTER__RAD_BUFFER_SIZE    (0x04)
 #define I2C_REGISTER__RAD_LASTS_VALUE    (0x10)
 #define I2C_REGISTER__SBT9_DATA_BEGIN    (0x30)
-#define I2C_REGISTER__SBM20_DATA_BEGIN   (0xA0)
+#define I2C_REGISTER__SBM20_DATA_BEGIN   (0x60)
+#define I2C_REGISTER__MAX_DATA_BEGIN     (0xA0)
+
+#define I2C_DATA_ONE_PORTION (5)
 
 volatile bool i2c_ctrl_pin_changed = false;
 bool i2c_ctrl_enabled = false;
@@ -30,7 +32,9 @@ void isrcall__i2c_send_uv_status();
 void isrcall__i2c_send_rad_status();
 void isrcall__i2c_send_decimals();
 void isrcall__i2c_send_last_value();
+void isrcall__i2c_send_buffer_size();
 void isrcall__i2c_send_data(bool sbt9, uint8_t addr);
+void isrcall__i2c_send_max_data(uint8_t addr);
 
 void i2c_ctrl_init() {
   pinMode(PIN_PA5, INPUT);
@@ -93,13 +97,21 @@ void isrcall__i2c_onrequest() {
     isrcall__i2c_send_rad_status();
   } else if (i2c_ctrl_request_register == I2C_REGISTER__RAD_DECIMALS) {
     isrcall__i2c_send_decimals();
+  } else if (i2c_ctrl_request_register == I2C_REGISTER__RAD_BUFFER_SIZE) {
+    isrcall__i2c_send_buffer_size();
   } else if (i2c_ctrl_request_register == I2C_REGISTER__RAD_LASTS_VALUE) {
     isrcall__i2c_send_last_value();
   } else if (i2c_ctrl_request_register >= I2C_REGISTER__SBT9_DATA_BEGIN && i2c_ctrl_request_register < I2C_REGISTER__SBM20_DATA_BEGIN) {
     isrcall__i2c_send_data(true, i2c_ctrl_request_register - I2C_REGISTER__SBT9_DATA_BEGIN);
-  } else if (i2c_ctrl_request_register >= I2C_REGISTER__SBM20_DATA_BEGIN) {
+  } else if (i2c_ctrl_request_register >= I2C_REGISTER__SBM20_DATA_BEGIN && i2c_ctrl_request_register < I2C_REGISTER__MAX_DATA_BEGIN) {
     isrcall__i2c_send_data(false, i2c_ctrl_request_register - I2C_REGISTER__SBM20_DATA_BEGIN);
+  } else if (i2c_ctrl_request_register >= I2C_REGISTER__MAX_DATA_BEGIN) {
+    isrcall__i2c_send_max_data(i2c_ctrl_request_register - I2C_REGISTER__MAX_DATA_BEGIN);
   }
+}
+
+void isrcall__i2c_send_buffer_size() {
+  Wire.write(isrcall__rad_data_buffer_size());
 }
 
 void isrcall__i2c_send_decimals() {
@@ -140,3 +152,19 @@ void isrcall__i2c_send_data(bool sbt9, uint8_t addr) {
     Wire.write(data_ptr, size * sizeof(uint32_t));
   }
 }
+
+void isrcall__i2c_send_max_data(uint8_t addr) {
+  uint32_t * bufferA = NULL;
+  uint8_t sizeA = isrcall__rad_data_buffer_pointer(true, addr, I2C_DATA_ONE_PORTION, &bufferA);
+  uint32_t * bufferB = NULL;
+  uint8_t sizeB = isrcall__rad_data_buffer_pointer(false, addr, I2C_DATA_ONE_PORTION, &bufferB);
+
+  if (sizeA == sizeB && sizeA > 0) {
+    uint32_t temp_buffer[I2C_DATA_ONE_PORTION];
+    for (uint8_t i = 0; i < sizeA; i++) {
+      temp_buffer[i] = (bufferA[i] > bufferB[i]) ? bufferA[i] : bufferB[i];
+    }
+    Wire.write((const uint8_t*)temp_buffer, sizeA * sizeof(uint32_t));
+  }
+}
+

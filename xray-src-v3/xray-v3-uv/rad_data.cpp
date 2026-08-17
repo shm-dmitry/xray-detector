@@ -13,28 +13,27 @@ typedef struct rad_data_cpm_t {
 
 #define RAD_HISTORY_BUFFER_SIZE (20)
 #define RAD_HISTORY_BUFFER_ELEMENT_SECONDS (30)
-#define RAD_HISTORY_HALF_BUFFER_ELEMENT_SECONDS (30/2)
 #define RAD_HISTORY_FIXED_POINT (10)
 
-#define RAD_BUFFER_SECONDS (5)
+#define RAD_RINGBUFFER_SECONDS (5)
 
 #define SBT9_ACCUMULATED_COUNTER_TO_CALC (30)
 #define SBM20_ACCUMULATED_COUNTER_TO_CALC (40)
 
-#define SBT9_BUFFER_SIZE (2 * 60 / RAD_BUFFER_SECONDS)
-#define SBT9_MIN_COUNTER_TO_CALC (5)
-#define SBM20_BUFFER_SIZE (1 * 60 / RAD_BUFFER_SECONDS)
-#define SBM20_MIN_COUNTER_TO_CALC (10)
-#define SBM20_TUBES_COUNT (2)
+#define SBT9_RINGBUFFER_SIZE (2 * 60 / RAD_RINGBUFFER_SECONDS)
+#define SBT9_MIN_COUNTER_TO_CALC (15)
+#define SBM20_RINGBUFFER_SIZE (1 * 60 / RAD_RINGBUFFER_SECONDS)
+#define SBM20_MIN_COUNTER_TO_CALC (20)
 
 // 105 & 200 - from datasheet
-#define SBM20_PULSES_PER_UR (105 * SBM20_TUBES_COUNT)
-#define SBT9_PULSES_PER_UR (200)
+#define SBM20_TUBES_COUNT (2)
+#define SBM20_PULSES_PER_UR (63 * SBM20_TUBES_COUNT)
+#define SBT9_PULSES_PER_UR (15)
 
 // TODO: потом проверить формулу
 #define RAD_CALC(counter, seconds, pur) (((counter) * 3600 * RAD_HISTORY_FIXED_POINT) / ((pur) * (seconds)))
 
-#define MAX_COUNTER_VALUE (0xFFFFFFFF / 3600 / RAD_HISTORY_FIXED_POINT)
+#define MAX_COUNTER_VALUE       (0xFFFFFFFF / 3600 / RAD_HISTORY_FIXED_POINT)
 #define RAD_HISTORY_ALLERT      (500 * RAD_HISTORY_FIXED_POINT)
 
 uint32_t rad_history_sbm20[RAD_HISTORY_BUFFER_SIZE];
@@ -62,14 +61,14 @@ void rad_data_init() {
   memset(rad_history_sbm20, 0, sizeof(uint32_t) * RAD_HISTORY_BUFFER_SIZE);
   memset(rad_history_sbt9, 0, sizeof(uint32_t) * RAD_HISTORY_BUFFER_SIZE);
 
-  rad_data_sbt9.buffer = (uint32_t *) malloc(SBT9_BUFFER_SIZE * sizeof(uint32_t));
-  memset((void *)rad_data_sbt9.buffer, 0, SBT9_BUFFER_SIZE * sizeof(uint32_t));
-  rad_data_sbt9.buffer_size = SBT9_BUFFER_SIZE;
+  rad_data_sbt9.buffer = (uint32_t *) malloc(SBT9_RINGBUFFER_SIZE * sizeof(uint32_t));
+  memset((void *)rad_data_sbt9.buffer, 0, SBT9_RINGBUFFER_SIZE * sizeof(uint32_t));
+  rad_data_sbt9.buffer_size = SBT9_RINGBUFFER_SIZE;
   rad_data_sbt9.buffer_index = 0;
 
-  rad_data_sbm20.buffer = (uint32_t *) malloc(SBM20_BUFFER_SIZE * sizeof(uint32_t));
-  memset((void *)rad_data_sbm20.buffer, 0, SBM20_BUFFER_SIZE * sizeof(uint32_t));
-  rad_data_sbm20.buffer_size = SBM20_BUFFER_SIZE;
+  rad_data_sbm20.buffer = (uint32_t *) malloc(SBM20_RINGBUFFER_SIZE * sizeof(uint32_t));
+  memset((void *)rad_data_sbm20.buffer, 0, SBM20_RINGBUFFER_SIZE * sizeof(uint32_t));
+  rad_data_sbm20.buffer_size = SBM20_RINGBUFFER_SIZE;
   rad_data_sbm20.buffer_index = 0;
 }
 
@@ -80,7 +79,7 @@ void isrcall__rad_data_on_one_second() {
   uint32_t sbt9 = 0;
   uint32_t sbm20 = 0;
 
-  bool reset = rad_buffer_seconds > RAD_BUFFER_SECONDS;
+  bool reset = rad_buffer_seconds > RAD_RINGBUFFER_SECONDS;
 
   isrcall__rad_control_get_data(&sbt9, &sbm20, reset);
 
@@ -136,7 +135,7 @@ void isrcall__rad_data_extract_counter(volatile rad_data_cpm_t * data, uint32_t 
   if (data->buffer_index > 0) {
     for (int8_t i = data->buffer_index - 1; i>=0; i--) {
       *counter += data->buffer[i];
-      *seconds += RAD_BUFFER_SECONDS;
+      *seconds += RAD_RINGBUFFER_SECONDS;
 
       if (*counter >= MAX_COUNTER_VALUE) {
         *counter = MAX_COUNTER_VALUE;
@@ -151,7 +150,7 @@ void isrcall__rad_data_extract_counter(volatile rad_data_cpm_t * data, uint32_t 
 
   for (int8_t i = data->buffer_size - 1; i > data->buffer_index; i--) {
     *counter += data->buffer[i];
-    *seconds += RAD_BUFFER_SECONDS;
+    *seconds += RAD_RINGBUFFER_SECONDS;
 
     if (*counter >= MAX_COUNTER_VALUE) {
       *counter = MAX_COUNTER_VALUE;
@@ -259,17 +258,17 @@ uint8_t isrcall__rad_data_decimals() {
 }
 
 uint8_t isrcall__rad_data_buffer_pointer(bool sbt9, uint8_t index, uint8_t maxelements, uint32_t ** ptr) {
-  if (index >= RAD_HISTORY_BUFFER_SIZE) {
+  if (ptr == NULL) {
+    return 0;
+  }
+
+  if (index >= RAD_HISTORY_BUFFER_SIZE || maxelements == 0) {
     *ptr = NULL;
     return 0;
   }
 
   if (index + maxelements > RAD_HISTORY_BUFFER_SIZE) {
     maxelements = RAD_HISTORY_BUFFER_SIZE - index;
-  }
-  if (maxelements == 0 || maxelements > RAD_HISTORY_BUFFER_SIZE) {
-    *ptr = NULL;
-    return 0;
   }
 
   *ptr = (sbt9 ? rad_history_sbt9 : rad_history_sbm20) + index;
@@ -299,7 +298,7 @@ void isrcall__calculate_cpm(volatile rad_data_cpm_t * data, uint32_t * counter) 
   if (data->buffer_index > 0) {
     for (int8_t i = data->buffer_index - 1; i >= 0; i--) {
       *counter += data->buffer[i];
-      seconds += RAD_BUFFER_SECONDS;
+      seconds += RAD_RINGBUFFER_SECONDS;
 
       if (*counter >= MAX_COUNTER_VALUE) {
         *counter = 0xFFFFFFFF;
@@ -314,7 +313,7 @@ void isrcall__calculate_cpm(volatile rad_data_cpm_t * data, uint32_t * counter) 
 
   for (int8_t i = data->buffer_size - 1; i> data->buffer_index; i--) {
     *counter += data->buffer[i];
-    seconds += RAD_BUFFER_SECONDS;
+    seconds += RAD_RINGBUFFER_SECONDS;
 
     if (*counter >= MAX_COUNTER_VALUE) {
       *counter = 0xFFFFFFFF;
@@ -333,3 +332,6 @@ void rad_data_getcpm(uint32_t * sbt9, uint32_t * sbm20) {
   isrcall__calculate_cpm(&rad_data_sbm20, sbm20);
 }
 
+uint8_t isrcall__rad_data_buffer_size() {
+  return RAD_HISTORY_BUFFER_SIZE;
+}

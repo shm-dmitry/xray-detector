@@ -7,7 +7,7 @@
 #include <avr/io.h>
 
 #define PWM_FREQ_VALUE 210U
-#define FB_MAX_COUNTER_BEFORE_OK 5
+#define FB_MAX_COUNTER_BEFORE_OK 50
 #define DUTY_USE_TABLE 0xFF
 #define UV_CONTROL_TIMER_PERIODS 200U
 

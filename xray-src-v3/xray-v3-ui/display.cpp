@@ -77,16 +77,8 @@ void display_println(const char * text) {
   display_spi_println(text);
 }
 
-void display_print8(uint8_t value) {
-  display_spi_print8(value);
-}
-
-void display_print16(uint16_t value) {
-  display_spi_print16(value);
-}
-
-void display_print32(uint32_t value) {
-  display_spi_print32(value);
+void display_printn(int value) {
+  display_spi_printn(value);
 }
 
 uint16_t display_get_cursor_x() {

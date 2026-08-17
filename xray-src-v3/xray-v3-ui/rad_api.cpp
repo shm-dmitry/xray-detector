@@ -3,16 +3,18 @@
 #include "Arduino.h"
 #include "i2c_ctrl.h"
 
-#define I2C_TIMEOUT 1000
-
 #define I2C_SLAVE_ADDRESS    (0x12)
 
 #define I2C_REGISTER__UV_STATUS          (0x01)
 #define I2C_REGISTER__RAD_STATUS         (0x02)
 #define I2C_REGISTER__RAD_DECIMALS       (0x03)
+#define I2C_REGISTER__RAD_BUFFER_SIZE    (0x04)
 #define I2C_REGISTER__RAD_LASTS_VALUE    (0x10)
 #define I2C_REGISTER__SBT9_DATA_BEGIN    (0x30)
-#define I2C_REGISTER__SBM20_DATA_BEGIN   (0xA0)
+#define I2C_REGISTER__SBM20_DATA_BEGIN   (0x60)
+#define I2C_REGISTER__MAX_DATA_BEGIN     (0xA0)
+
+#define RAD_API_READ_BUFFER_PART         (5)
 
 void isrcall__on_high_rad();
 
@@ -73,10 +75,44 @@ uint8_t rad_api_get_decimals() {
   }
 }
 
+uint8_t rad_api_get_buffer_size() {
+  uint8_t value = 0;
+  if (i2c_ctrl_read_byte(I2C_SLAVE_ADDRESS, I2C_REGISTER__RAD_BUFFER_SIZE, &value)) {
+    return value;
+  } else {
+    return UV_GEN_STATUS_ERROR;
+  }
+}
+
+bool rad_api_read_buffer(uint8_t buffer_type, uint32_t * buffer, uint8_t size) {
+  uint8_t base_reg;
+  if (buffer_type == RAD_BUFFER_TYPE__MAX) {
+    base_reg = I2C_REGISTER__MAX_DATA_BEGIN;
+  } else if (buffer_type == RAD_BUFFER_TYPE__SBT9) {
+    base_reg = I2C_REGISTER__SBT9_DATA_BEGIN;
+  } else if (buffer_type == RAD_BUFFER_TYPE__SBM20) {
+    base_reg = I2C_REGISTER__SBM20_DATA_BEGIN;
+  } else {
+    return false;
+  }
+
+  for (uint8_t i = 0; i < size; i += RAD_API_READ_BUFFER_PART) {
+    uint8_t reg = base_reg + i;
+    uint8_t count = ((i + RAD_API_READ_BUFFER_PART) >= size) ? (size - i) : RAD_API_READ_BUFFER_PART; 
+
+    count *= sizeof(uint32_t);
+
+    uint8_t * temp = ((uint8_t *) buffer) + (i * sizeof(uint32_t));
+    if (!i2c_ctrl_read_buffer(I2C_SLAVE_ADDRESS, reg, temp, count)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 bool rad_api_get_current(uint32_t * sbt9, uint32_t * stm20) {
   uint8_t buffer[8];
-  memset(buffer, 0xFF, 8);
-
   if (i2c_ctrl_read_buffer(I2C_SLAVE_ADDRESS, I2C_REGISTER__RAD_LASTS_VALUE, buffer, 8)) {
     uint32_t * temp = (uint32_t *) buffer;
     *sbt9 = temp[0];

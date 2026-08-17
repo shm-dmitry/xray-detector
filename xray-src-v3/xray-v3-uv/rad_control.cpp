@@ -18,7 +18,7 @@
 volatile uint32_t radcontrol_sbm20_counter = 0;
 volatile uint32_t radcontrol_sbt9_counter = 0;
 
-volatile uint16_t radcontrol_accumulated_drop = 0;
+volatile uint16_t radcontrol_accumulated_drop = RADCONTROL_DROP_ALLOW_INCREMENT;
 
 #if DEBUG__PRINT_IMPL
 uint32_t radcontrol_last_sbt9 = 0;

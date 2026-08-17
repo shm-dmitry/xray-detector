@@ -19,6 +19,7 @@ uint8_t isrcall__rad_data_buffer_pointer(bool sbt9, uint8_t index, uint8_t maxel
 uint8_t isrcall__rad_data_get_mask();
 void isrcall__rad_data_set_mask(uint8_t mask);
 bool isrcall__rad_data_allow_sleep();
+uint8_t isrcall__rad_data_buffer_size();
 
 void rad_data_getlast(uint32_t * sbt9, uint32_t * sbm20, uint8_t * decimals);
 void rad_data_alertcontrol(bool enabled);

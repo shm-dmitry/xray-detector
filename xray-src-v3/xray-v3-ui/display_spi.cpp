@@ -314,15 +314,7 @@ void display_spi_println(const char * text) {
   display_spi_cursor_y += display_spi_cursor_size*8;
 }
 
-void display_spi_print8(uint8_t value) {
-  display_spi_print32((uint32_t) value);
-}
-
-void display_spi_print16(uint16_t value) {
-  display_spi_print32((uint32_t) value);
-}
-
-void display_spi_print32(uint32_t value) {
+void display_spi_printn(int value) {
   char buffer[10] = {0};
   itoa(value, buffer, 10);
   display_spi_prints(buffer);

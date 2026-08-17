@@ -1,6 +1,6 @@
 #pragma once
 
-#define DEBUG__PRINT_IMPL false
+#define DEBUG__PRINT_IMPL true
 
 #if DEBUG__PRINT_IMPL
 #include "stdint.h"

@@ -4,16 +4,16 @@
 #include "display.h"
 
 uint16_t ui_frame_batstate_voltage = 0;
-uint16_t ui_frame_batstate_current = 0;
+int16_t ui_frame_batstate_current = 0;
 uint8_t ui_frame_batstate_percent = 0;
 
 void ui_frame_batstate_write_voltage(uint16_t value, bool hide);
-void ui_frame_batstate_write_current(uint16_t value, bool hide);
+void ui_frame_batstate_write_current(int16_t value, bool hide);
 void ui_frame_batstate_write_percent(uint8_t value, bool hide);
 
 void ui_frame_batstate_refresh() {
   uint16_t v = bat_state_get_voltage();
-  uint16_t a = bat_state_get_current();
+  int16_t a = bat_state_get_current();
   uint8_t pc = bat_state_get_percent();
 
   if (v != ui_frame_batstate_voltage) {
@@ -54,12 +54,12 @@ void ui_frame_batstate_write_voltage(uint16_t value, bool hide) {
   if (value == 0xFFFF) {
     display_prints("No data");
   } else {
-    display_print16(value);
+    display_printn(value);
     display_prints("mV");
   }
 }
 
-void ui_frame_batstate_write_current(uint16_t value, bool hide) {
+void ui_frame_batstate_write_current(int16_t value, bool hide) {
   if (hide) {
     display_set_textcolor(DISPLAY_BLACK);
   } else {
@@ -69,10 +69,10 @@ void ui_frame_batstate_write_current(uint16_t value, bool hide) {
   display_set_textsize(2);
   display_set_cursor(10, 80);
   display_prints("A  = ");
-  if (value == 0xFFFF) {
+  if (value == (int16_t)0xFFFF) {
     display_prints("No data");
   } else {
-    display_print16(value);
+    display_printn(value);
     display_prints("mA");
   }
 }
@@ -90,7 +90,7 @@ void ui_frame_batstate_write_percent(uint8_t value, bool hide) {
   if (value == 0xFF) {
     display_prints("No data");
   } else {
-    display_print8(value);
+    display_printn(value);
     display_prints("%");
   }
 }

@@ -72,12 +72,12 @@ uint16_t bat_state_get_voltage() {
   return bat_state_i2c_read(BATSTATE_COMMAND_VOLTAGE);
 }
 
-uint16_t bat_state_get_current() {
+int16_t bat_state_get_current() {
   if (!batstate_initialized) {
-    return 0xFFFF;
+    return (int16_t) 0xFFFF;
   }
 
-  return bat_state_i2c_read(BATSTATE_COMMAND_AVG_CURRENT);
+  return (int16_t) bat_state_i2c_read(BATSTATE_COMMAND_AVG_CURRENT);
 }
 
 uint8_t bat_state_get_percent() {

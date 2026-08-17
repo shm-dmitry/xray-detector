@@ -91,3 +91,19 @@ bool uart_ctrl_can_go_sleep() {
   return !uart_ctrl_pin_changed && !uart_ctrl_enabled;
 }
 
+void uart_ctrl_print_buffer(uint32_t * buffer, uint8_t size) {
+  if (uart_ctrl_enabled) {
+    for (uint8_t i = 0; i<size; i++) {
+      Serial.print(buffer[i], HEX);
+      Serial.print(", ");
+    }
+    Serial.println();
+  } 
+}
+
+void uart_ctrl_prints(const char * text) {
+  if (uart_ctrl_enabled) {
+    Serial.println(text);
+  }
+}
+

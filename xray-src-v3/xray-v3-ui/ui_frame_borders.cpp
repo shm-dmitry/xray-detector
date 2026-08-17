@@ -124,7 +124,7 @@ void ui_botders_display_uv(uint8_t value, bool hide) {
   } else if (value & UV_GEN_STATUS_CHARGING) {
     display_prints("CH");
   } else {
-    display_print8(value);
+    display_printn(value);
     display_prints(" ??");
   }
 }
@@ -156,7 +156,7 @@ void ui_botders_display_bat(uint8_t value, bool hide) {
   display_set_cursor(220+max+5+20, 5);
   display_set_textsize(2);
   display_set_textcolor(color);
-  display_print8(value);
+  display_printn(value);
   display_prints("%");
 }
 

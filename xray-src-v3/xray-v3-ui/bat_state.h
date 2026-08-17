@@ -10,6 +10,6 @@ void bat_state_on_wake_up();
 void bat_state_on_go_sleep();
 
 uint16_t bat_state_get_voltage();
-uint16_t bat_state_get_current();
+int16_t bat_state_get_current();
 uint8_t bat_state_get_percent();
 
