@@ -6,6 +6,7 @@
 #include "rad_data.h"
 #include "powersave.h"
 #include "geigerlog.h"
+#include "rad_alert.h"
 
 void setup() {
   uv_gen_init();
@@ -13,6 +14,7 @@ void setup() {
   uart_ctrl_init();
   i2c_ctrl_init();
   rad_data_init();
+  rad_alert_init();
   rad_control_init();
 }
 

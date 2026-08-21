@@ -3,6 +3,7 @@
 
 #include "display.h"
 #include "graph.h"
+#include "alert_manager.h"
 
 #define GRAPH_BASE_X (2)
 #define GRAPH_BASE_Y (100)
@@ -25,6 +26,7 @@ bool ui_frame_mainpage_initialized;
 void ui_frame_mainpage_printrad(uint32_t value, bool hide);
 void ui_frame_mainpage_printadd(uint32_t value, bool hide);
 void ui_frame_mainpage_printgraphmax(uint32_t value, bool hide);
+uint16_t ui_frame_rad2color(uint32_t value);
 
 void ui_frame_mainpage_init(bool sbt9) {
   ui_frame_mainpage_last_value = 0;
@@ -120,12 +122,11 @@ void ui_frame_mainpage_printrad(uint32_t value, bool hide) {
 
   display_set_cursor(180, MAIN_RAD_Y);
   display_set_textsize(3);
-  display_set_textcolor(DISPLAY_WHITE);
 
   if (hide) {
     display_set_textcolor(DISPLAY_BLACK);
   } else {
-    display_set_textcolor(DISPLAY_WHITE);
+    display_set_textcolor(ui_frame_rad2color(value));
   }
 
   display_printn(value / ui_frame_mainpage_decimals);
@@ -141,12 +142,11 @@ void ui_frame_mainpage_printadd(uint32_t value, bool hide) {
 
   display_set_cursor(ADD_VALUE_X + 25, ADD_VALUE_Y + 30);
   display_set_textsize(2);
-  display_set_textcolor(DISPLAY_WHITE);
 
   if (hide) {
     display_set_textcolor(DISPLAY_BLACK);
   } else {
-    display_set_textcolor(DISPLAY_WHITE);
+    display_set_textcolor(ui_frame_rad2color(value));
   }
 
   display_printn(value / ui_frame_mainpage_decimals);
@@ -165,7 +165,7 @@ void ui_frame_mainpage_printgraphmax(uint32_t value, bool hide) {
   if (hide) {
     display_set_textcolor(DISPLAY_BLACK);
   } else {
-    display_set_textcolor(DISPLAY_WHITE);
+    display_set_textcolor(ui_frame_rad2color(value));
   }
 
   display_printn(value / ui_frame_mainpage_decimals);
@@ -182,5 +182,13 @@ void ui_frame_mainpage_init_betta() {
   ui_frame_mainpage_init(true);
 }
 
-
-
+uint16_t ui_frame_rad2color(uint32_t value) {
+  uint8_t level = alert_manager_getlevel(value);
+  if (level == 0) {
+    return DISPLAY_WHITE;
+  } else if (level == 1) {
+    return DISPLAY_YELLOW;
+  } else {
+    return DISPLAY_RED;
+  }
+}

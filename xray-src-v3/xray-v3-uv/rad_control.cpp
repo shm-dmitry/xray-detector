@@ -15,8 +15,10 @@
 
 #define RADCONTROL_DROP_TO_RECHARGE_WHEN_STOPPED (RADCONTROL_VOLTAGE_DROP_THRESHOLD_MV - 5 * RADCONTROL_DROP_PER_SECOND_MV)
 
-volatile uint32_t radcontrol_sbm20_counter = 0;
-volatile uint32_t radcontrol_sbt9_counter = 0;
+#define RADCONTROL_COUNTER_MAXVALUE          (0xFFFF)
+
+volatile uint16_t radcontrol_sbm20_counter = 0;
+volatile uint16_t radcontrol_sbt9_counter = 0;
 
 volatile uint16_t radcontrol_accumulated_drop = RADCONTROL_DROP_ALLOW_INCREMENT;
 
@@ -42,7 +44,7 @@ void rad_control_init() {
 }
 
 void isrcall__rad_control_sbm20_onimpuls() {
-  if (radcontrol_sbm20_counter != 0xFFFFFFFF) {
+  if (radcontrol_sbm20_counter != RADCONTROL_COUNTER_MAXVALUE) {
     radcontrol_sbm20_counter++;
   }
   if (radcontrol_accumulated_drop < RADCONTROL_DROP_ALLOW_INCREMENT) {
@@ -54,7 +56,7 @@ void isrcall__rad_control_sbm20_onimpuls() {
 }
 
 void isrcall__rad_control_sbt9_onimpuls() {
-  if (radcontrol_sbt9_counter != 0xFFFFFFFF) {
+  if (radcontrol_sbt9_counter != RADCONTROL_COUNTER_MAXVALUE) {
     radcontrol_sbt9_counter++;
   }
   if (radcontrol_accumulated_drop < RADCONTROL_DROP_ALLOW_INCREMENT) {
@@ -71,7 +73,7 @@ void isrcall__rad_control_on_one_second() {
   }
 }
 
-void isrcall__rad_control_get_data(uint32_t * sbt9, uint32_t * sbm20, bool reset) {
+void isrcall__rad_control_get_data(uint16_t * sbt9, uint16_t * sbm20, bool reset) {
   *sbt9 = radcontrol_sbt9_counter;
   *sbm20 = radcontrol_sbm20_counter;
 
@@ -82,7 +84,7 @@ void isrcall__rad_control_get_data(uint32_t * sbt9, uint32_t * sbm20, bool reset
 }
 
 #if NRAD_COMMAND_ACTIVE
-void rad_control_get_total_counters(uint32_t * sbt9, uint32_t * sbm20, bool reset) {
+void rad_control_get_total_counters(uint16_t * sbt9, uint16_t * sbm20, bool reset) {
   noInterrupts();
   *sbt9 = radcontrol_total_sbt9;
   *sbm20 = radcontrol_total_sbm20;

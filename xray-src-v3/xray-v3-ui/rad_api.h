@@ -34,6 +34,11 @@
 
 #define RAD_BUFFER_MAX_SIZE               (20)
 
+#define RAD_ALERT_MASK__SBT9_ALERTZER0_EN       (0b00000001)
+#define RAD_ALERT_MASK__SBT9_ALERTHIGH_EN       (0b00000010)
+#define RAD_ALERT_MASK__SBM20_ALERTZER0_EN      (0b00000100)
+#define RAD_ALERT_MASK__SBM20_ALERTHIGH_EN      (0b00001000)
+
 void rad_api_init();
 bool rad_api_can_go_sleep();
 
@@ -47,3 +52,6 @@ uint8_t rad_api_get_buffer_size();
 
 bool rad_api_get_current(uint32_t * sbt9, uint32_t * stm20);
 bool rad_api_read_buffer(bool sbt9, uint32_t * buffer, uint8_t size);
+
+void rad_api_alert_setmask(uint8_t mask);
+void rad_api_alert_set_high_value(bool sbt9, uint32_t value);

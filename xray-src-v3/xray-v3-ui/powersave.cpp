@@ -9,6 +9,7 @@
 #include "ui_manager.h"
 #include "i2c_ctrl.h"
 #include "bat_state.h"
+#include "alert_manager.h"
 
 #define POWERSAVE_ALLOW_SLEEP (false)
 
@@ -60,6 +61,7 @@ void powersave_wakeup() {
   rad_api_wakeup();
   ui_manager_wakeup();
   bat_state_on_wake_up();
+  alert_manager_on_wakeup();
 }
 
 void powersave_prepare_sleep() {

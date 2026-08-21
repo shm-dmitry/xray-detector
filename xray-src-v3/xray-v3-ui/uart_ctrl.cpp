@@ -1,5 +1,7 @@
-#include "rad_api.h"
 #include "uart_ctrl.h"
+
+#include "rad_api.h"
+#include "alert_manager.h"
 
 #include "Arduino.h"
 
@@ -84,6 +86,45 @@ void uart_process_command() {
     } else {
       Serial.println("Get last error");
     }
+  }
+  else if (strncmp(uart_buffer, "am ", 3) == 0) {
+    uint8_t decimals = rad_api_get_decimals();
+
+    char *endptr;
+
+    uint32_t level1 = strtoul(uart_buffer + 3, &endptr, 10);
+    uint32_t level2 = 0;
+    if (endptr != (uart_buffer + 3) && *endptr == ' ') {
+      char *start2 = endptr + 1;
+      level2 = strtoul(start2, &endptr, 10);
+      if (endptr != start2) {
+        alert_manager_set_level_value(level1, level2);
+      }
+    }
+
+    alert_manager_get_level_value(&level1, &level2);
+    Serial.print("LV1 = ");
+    Serial.print(level1 / decimals);
+    Serial.print(".");
+    Serial.print((uint8_t)(level1 % decimals));
+    Serial.print("; LV1 = ");
+    Serial.print(level2 / decimals);
+    Serial.print(".");
+    Serial.println((uint8_t)(level2 % decimals));
+  }
+  else if (strncmp(uart_buffer, "am", 3) == 0) {
+    uint8_t decimals = rad_api_get_decimals();
+    uint32_t level1 = 0;
+    uint32_t level2 = 0;
+    alert_manager_get_level_value(&level1, &level2);
+    Serial.print("LV1 = ");
+    Serial.print(level1 / decimals);
+    Serial.print(".");
+    Serial.print((uint8_t)(level1 % decimals));
+    Serial.print("; LV1 = ");
+    Serial.print(level2 / decimals);
+    Serial.print(".");
+    Serial.println((uint8_t)(level2 % decimals));
   }
 }
 

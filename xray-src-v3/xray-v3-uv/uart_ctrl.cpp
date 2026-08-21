@@ -7,6 +7,7 @@
 #include "rad_data.h"
 #include "rad_control.h"
 #include "geigerlog.h"
+#include "rad_alert.h"
 
 #define MAX_COMMAND_LENGTH 32
 
@@ -142,8 +143,8 @@ void uart_process_command() {
         reset = true;
       }
       
-      uint32_t sbt9 = 0;
-      uint32_t sbm20 = 0;
+      uint16_t sbt9 = 0;
+      uint16_t sbm20 = 0;
 
       rad_control_get_total_counters(&sbt9, &sbm20, reset);
 
@@ -190,12 +191,27 @@ void uart_process_command() {
         Serial.println(" uR/H");
     }
     else if (strcmp(uart_buffer, "alert off") == 0) {
-      rad_data_alertcontrol(false);
+      isrcall__rad_alert_setmask(0);
       Serial.println("Alerts disabled");
     }
     else if (strcmp(uart_buffer, "alert on") == 0) {
-      rad_data_alertcontrol(true);
+      isrcall__rad_alert_setmask(RAD_ALERT_MASK__SBM20_ALERTHIGH_EN | RAD_ALERT_MASK__SBM20_ALERTZER0_EN | RAD_ALERT_MASK__SBT9_ALERTHIGH_EN | RAD_ALERT_MASK__SBT9_ALERTZER0_EN);
       Serial.println("Alerts enabled");
+    }
+    else if (strcmp(uart_buffer, "alert get") == 0) {
+      Serial.print("Alerts mask = ");
+      Serial.println(isrcall__rad_alert_getmask(), BIN);
+
+      uint8_t decimals = isrcall__rad_data_decimals();
+      uint32_t v = isrcall__rad_alert_get_high_value(true);
+      Serial.print("Alerts sbt9 max = ");
+      Serial.print(v / decimals);
+      Serial.print(".");
+      Serial.print((uint8_t)(v % decimals));
+      Serial.print("; Alerts sbm20 max = ");
+      Serial.print(v / decimals);
+      Serial.print(".");
+      Serial.println((uint8_t)(v % decimals));
     }
 #if GEIGERLOG_ENABLED
     else if (strcmp(uart_buffer, "ggl off") == 0) {

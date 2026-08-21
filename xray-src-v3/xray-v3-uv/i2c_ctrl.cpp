@@ -1,3 +1,4 @@
+#include "rad_alert.h"
 #include "i2c_ctrl.h"
 
 #include "Arduino.h"
@@ -12,6 +13,9 @@
 #define I2C_REGISTER__RAD_STATUS         (0x02)
 #define I2C_REGISTER__RAD_DECIMALS       (0x03)
 #define I2C_REGISTER__RAD_BUFFER_SIZE    (0x04)
+#define I2C_REGISTER__RAD_ALERT_MASK     (0x05)
+#define I2C_REGISTER__RAD_ALERT_SBT9_V   (0x06)
+#define I2C_REGISTER__RAD_ALERT_SBM20_V  (0x07)
 #define I2C_REGISTER__RAD_LASTS_VALUE    (0x10)
 #define I2C_REGISTER__SBT9_DATA_BEGIN    (0x30)
 #define I2C_REGISTER__SBM20_DATA_BEGIN   (0x60)
@@ -33,6 +37,9 @@ void isrcall__i2c_send_decimals();
 void isrcall__i2c_send_last_value();
 void isrcall__i2c_send_buffer_size();
 void isrcall__i2c_send_data(bool sbt9, uint8_t addr);
+void isrcall__i2c_send_rad_alert_mask();
+void isrcall__i2c_send_rad_alert_value(bool sbt9);
+
 
 void i2c_ctrl_init() {
   pinMode(PIN_PA5, INPUT);
@@ -79,7 +86,21 @@ void isrcall__i2c_onreceive(int length) {
     if (length > 1 && Wire.available()) {
       if (i2c_ctrl_request_register == I2C_REGISTER__RAD_STATUS) {
         isrcall__rad_data_set_mask(Wire.read());
-      }
+      } else if (i2c_ctrl_request_register == I2C_REGISTER__RAD_ALERT_MASK) {
+        isrcall__rad_alert_setmask(Wire.read());
+      } else if (i2c_ctrl_request_register == I2C_REGISTER__RAD_ALERT_SBM20_V || i2c_ctrl_request_register == I2C_REGISTER__RAD_ALERT_SBT9_V) {
+        uint8_t buffer[4];
+        for (uint8_t i = 0; i<4; i++) {
+          if (!Wire.available()) {
+            return;
+          }
+
+          buffer[i] = Wire.read();
+        }
+
+        const uint32_t * v = (const uint32_t *) (buffer);
+        isrcall__rad_alert_set_high_value(i2c_ctrl_request_register == I2C_REGISTER__RAD_ALERT_SBT9_V, *v);
+      } 
 
       while(Wire.available()) {
         Wire.read();
@@ -99,11 +120,27 @@ void isrcall__i2c_onrequest() {
     isrcall__i2c_send_buffer_size();
   } else if (i2c_ctrl_request_register == I2C_REGISTER__RAD_LASTS_VALUE) {
     isrcall__i2c_send_last_value();
+  } else if (i2c_ctrl_request_register == I2C_REGISTER__RAD_ALERT_MASK) {
+    isrcall__i2c_send_rad_alert_mask();
+  } else if (i2c_ctrl_request_register == I2C_REGISTER__RAD_ALERT_SBM20_V) {
+    isrcall__i2c_send_rad_alert_value(false);
+  } else if (i2c_ctrl_request_register == I2C_REGISTER__RAD_ALERT_SBT9_V) {
+    isrcall__i2c_send_rad_alert_value(true);
   } else if (i2c_ctrl_request_register >= I2C_REGISTER__SBT9_DATA_BEGIN && i2c_ctrl_request_register < I2C_REGISTER__SBM20_DATA_BEGIN) {
     isrcall__i2c_send_data(true, i2c_ctrl_request_register - I2C_REGISTER__SBT9_DATA_BEGIN);
   } else if (i2c_ctrl_request_register >= I2C_REGISTER__SBM20_DATA_BEGIN) {
     isrcall__i2c_send_data(false, i2c_ctrl_request_register - I2C_REGISTER__SBM20_DATA_BEGIN);
   }
+}
+
+void isrcall__i2c_send_rad_alert_mask() {
+  Wire.write(isrcall__rad_alert_getmask());
+}
+
+void isrcall__i2c_send_rad_alert_value(bool sbt9) {
+  uint32_t value = isrcall__rad_alert_get_high_value(sbt9);
+  const uint8_t * data_ptr = (const uint8_t *) (&value);
+  Wire.write(data_ptr, sizeof(uint32_t));
 }
 
 void isrcall__i2c_send_buffer_size() {

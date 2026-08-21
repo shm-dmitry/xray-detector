@@ -4,6 +4,7 @@
 #include "display.h"
 #include "rad_api.h"
 #include "uart_ctrl.h"
+#include "alert_manager.h"
 
 #define GRAPH_HISTORY_COLOR1_MASK 0b01000000
 #define GRAPH_HISTORY_COLOR2_MASK 0b10000000
@@ -38,7 +39,6 @@ bool graph_is_sbt9() {
 
 void graph_refresh_from_history() {
   uint32_t buffer[RAD_BUFFER_MAX_SIZE];
-  memset(buffer, 0xAB, RAD_BUFFER_MAX_SIZE);
   if (!rad_api_read_buffer(graph_sbt9, buffer, RAD_BUFFER_MAX_SIZE)) {
     //uart_ctrl_prints("Bad refresh ");
     return;
@@ -81,7 +81,7 @@ void graph_refresh_from_history() {
       graph_history_buffer[i] = 1;
     }
 
-    uint8_t level = graph_dose2level(dose);
+    uint8_t level = alert_manager_getlevel(dose);
     if (level == 0) {
       graph_history_buffer[i] |= GRAPH_HISTORY_COLOR1_MASK;
     } else if (level == 1) {
@@ -97,17 +97,6 @@ void graph_reset() {
   memset(graph_history_prev_buffer, 0, RAD_BUFFER_MAX_SIZE);
   graph_history_maxvalue = 0;
   graph_history_prev_maxvalue = 0;
-}
-
-uint8_t graph_dose2level(uint32_t dose) {
-  // TODO: FIX! USE POINTS!
-  if (dose > 10000) {
-    return 2;
-  } else if (dose > 300) {
-    return 1;
-  } else {
-    return 1;
-  }
 }
 
 void graph_write_delta(uint8_t xbase, uint8_t ybase, uint8_t colwidth, uint16_t color1, uint16_t color2, uint16_t color3, uint16_t bgcolor) {

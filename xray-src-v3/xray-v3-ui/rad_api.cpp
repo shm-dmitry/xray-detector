@@ -9,6 +9,9 @@
 #define I2C_REGISTER__RAD_STATUS         (0x02)
 #define I2C_REGISTER__RAD_DECIMALS       (0x03)
 #define I2C_REGISTER__RAD_BUFFER_SIZE    (0x04)
+#define I2C_REGISTER__RAD_ALERT_MASK     (0x05)
+#define I2C_REGISTER__RAD_ALERT_SBT9_V   (0x06)
+#define I2C_REGISTER__RAD_ALERT_SBM20_V  (0x07)
 #define I2C_REGISTER__RAD_LASTS_VALUE    (0x10)
 #define I2C_REGISTER__SBT9_DATA_BEGIN    (0x30)
 #define I2C_REGISTER__SBM20_DATA_BEGIN   (0x60)
@@ -38,13 +41,19 @@ void rad_api_wakeup() {
 
   // give time to wakeup
   delay(50);
-
-//  Wire.begin();
 }
 
 void rad_api_go_sleep() {
   digitalWrite(PIN_PA7, LOW);
-//  Wire.end();
+}
+
+void rad_api_alert_setmask(uint8_t mask) {
+  i2c_ctrl_write_buffer(I2C_SLAVE_ADDRESS, I2C_REGISTER__RAD_ALERT_MASK, &mask, 1);
+}
+
+void rad_api_alert_set_high_value(bool sbt9, uint32_t value) {
+  const uint8_t * buffer = (const uint8_t *) (&value);
+  i2c_ctrl_write_buffer(I2C_SLAVE_ADDRESS, (sbt9 ? I2C_REGISTER__RAD_ALERT_SBT9_V : I2C_REGISTER__RAD_ALERT_SBM20_V), buffer, 4);
 }
 
 uint8_t rad_api_get_uv_status() {

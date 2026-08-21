@@ -22,5 +22,4 @@ bool isrcall__rad_data_allow_sleep();
 uint8_t isrcall__rad_data_buffer_size();
 
 void rad_data_getlast(uint32_t * sbt9, uint32_t * sbm20, uint8_t * decimals);
-void rad_data_alertcontrol(bool enabled);
 void rad_data_getcpm(uint32_t * sbt9, uint32_t * sbm20);
