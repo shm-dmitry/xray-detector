@@ -22,7 +22,7 @@ void isrcall__on_high_rad();
 
 void rad_api_init() {
   pinMode(PIN_PA4, INPUT);
-  attachInterrupt(digitalPinToInterrupt(PIN_PA4), isrcall__on_high_rad, FALLING);
+  attachInterrupt(digitalPinToInterrupt(PIN_PA4), isrcall__on_high_rad, CHANGE);
 
   pinMode(PIN_PA7, OUTPUT);
   rad_api_go_sleep();

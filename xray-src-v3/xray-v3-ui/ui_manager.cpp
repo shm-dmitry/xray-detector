@@ -6,6 +6,7 @@
 
 #include "display.h"
 #include "user_input.h"
+#include "ext_clock_ctrl.h"
 
 #include "Arduino.h"
 
@@ -42,7 +43,7 @@ void ui_manager_on_main_loop() {
     }    
   }
 
-  uint32_t now = millis();
+  uint32_t now = ext_clock_millis();
   if (now > ui_manager_next_refresh || ui_manager_next_refresh - now > UI_MANAGER_REFRESH_DELAY) {
     ui_borders_refresh();
     if (current_page < 2) {

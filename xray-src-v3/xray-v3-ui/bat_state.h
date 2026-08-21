@@ -5,6 +5,7 @@
 void bat_state_init();
 bool bat_state_can_sleep();
 void bat_state_on_main_loop();
+bool bat_state_is_low();
 
 void bat_state_on_wake_up();
 void bat_state_on_go_sleep();

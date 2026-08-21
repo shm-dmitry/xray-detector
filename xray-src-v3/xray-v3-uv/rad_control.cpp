@@ -17,6 +17,8 @@
 
 #define RADCONTROL_COUNTER_MAXVALUE          (0xFFFF)
 
+volatile bool radcontrol_sbm20_first_isr = false;
+volatile bool radcontrol_sbt9_first_isr = false;
 volatile uint16_t radcontrol_sbm20_counter = 0;
 volatile uint16_t radcontrol_sbt9_counter = 0;
 
@@ -39,11 +41,16 @@ void rad_control_init() {
   pinMode(PIN_PA2, INPUT);
   pinMode(PIN_PA3, INPUT);
 
-  attachInterrupt(digitalPinToInterrupt(PIN_PA2), isrcall__rad_control_sbm20_onimpuls, FALLING);
-  attachInterrupt(digitalPinToInterrupt(PIN_PA3), isrcall__rad_control_sbt9_onimpuls, FALLING);
+  attachInterrupt(digitalPinToInterrupt(PIN_PA2), isrcall__rad_control_sbm20_onimpuls, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(PIN_PA3), isrcall__rad_control_sbt9_onimpuls, CHANGE);
 }
 
 void isrcall__rad_control_sbm20_onimpuls() {
+  radcontrol_sbm20_first_isr = !radcontrol_sbm20_first_isr;
+  if (!radcontrol_sbm20_first_isr) {
+    return;
+  }
+
   if (radcontrol_sbm20_counter != RADCONTROL_COUNTER_MAXVALUE) {
     radcontrol_sbm20_counter++;
   }
@@ -56,6 +63,11 @@ void isrcall__rad_control_sbm20_onimpuls() {
 }
 
 void isrcall__rad_control_sbt9_onimpuls() {
+  radcontrol_sbt9_first_isr = !radcontrol_sbt9_first_isr;
+  if (!radcontrol_sbt9_first_isr) {
+    return;
+  }
+
   if (radcontrol_sbt9_counter != RADCONTROL_COUNTER_MAXVALUE) {
     radcontrol_sbt9_counter++;
   }

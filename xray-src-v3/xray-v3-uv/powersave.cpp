@@ -9,7 +9,7 @@
 #include "i2c_ctrl.h"
 #include "rad_data.h"
 
-#define POWERSAVE_ENABLED false
+#define POWERSAVE_ENABLED true
 
 void powersave_on_main_loop() {
   #if POWERSAVE_ENABLED
@@ -30,7 +30,7 @@ void powersave_on_main_loop() {
     interrupts();
     return;
   }
-\
+
   if (!isrcall__rad_data_allow_sleep()) {
     interrupts();
     return;

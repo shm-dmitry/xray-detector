@@ -7,8 +7,14 @@
 #include "geigerlog.h"
 
 volatile bool timerctrl_alive = false;
+volatile bool timerctrl_on_first_call = false;
 
 void isrcall__on_timer() {
+  timerctrl_on_first_call = !timerctrl_on_first_call;
+  if (!timerctrl_on_first_call) {
+    return;
+  }
+
   isrcall__rad_data_on_one_second();
   isrcall__rad_control_on_one_second();
 
@@ -21,7 +27,7 @@ void isrcall__on_timer() {
 
 void timerctrl_init() {
   pinMode(PIN_PA1, INPUT);
-  attachInterrupt(digitalPinToInterrupt(PIN_PA1), isrcall__on_timer, FALLING);
+  attachInterrupt(digitalPinToInterrupt(PIN_PA1), isrcall__on_timer, CHANGE);
 }
 
 bool isrcall__timerctrl_is_alive() {
