@@ -2,7 +2,7 @@
 
 #include "rad_api.h"
 
-#define ALERT_MANAGER_ALERT_SBT9_ZERO  true
+#define ALERT_MANAGER_ALERT_SBT9_ZERO  false
 #define ALERT_MANAGER_ALERT_SBM20_ZERO true
 
 #define ALERT_MANAGER_LEVEL1 (100)
