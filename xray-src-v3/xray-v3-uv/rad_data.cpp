@@ -32,7 +32,7 @@ typedef struct rad_data_cpm_t {
 // TODO: check tau!
 #define SBT9_CORRECTION_TAU (150)
 #define SBM20_RINGBUFFER_SIZE (1 * 60 / RAD_RINGBUFFER_SECONDS)
-#define SBM20_MIN_COUNTER_TO_CALC (20)
+#define SBM20_MIN_COUNTER_TO_CALC (10)
 // TODO: check tau!
 #define SBM20_CORRECTION_TAU (200 / SBM20_TUBES_COUNT)
 
@@ -145,7 +145,7 @@ void isrcall__rad_data_set_mask(uint8_t mask) {
 void isrcall__rad_data_extract_counter(volatile rad_data_cpm_t * data, uint32_t * counter, uint8_t * seconds, uint32_t limitcounter) {
   if (data->buffer[data->buffer_index] > 0) {
     *counter = data->buffer[data->buffer_index];
-    *seconds = rad_data_seconds;
+    *seconds = rad_buffer_seconds;
   }
 
 
